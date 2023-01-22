@@ -1,0 +1,110 @@
+[
+    {
+        "title": "producto de prueba 1",
+        "description": "Este es un producto prueba",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc123",
+        "stock": 25,
+        "id": 1
+    },
+    {
+        "title": "producto 2",
+        "description": "2",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1232",
+        "stock": 25,
+        "id": 2
+    },
+    {
+        "title": "producto 3",
+        "description": "3",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1233",
+        "stock": 25,
+        "id": 3
+    },
+    {
+        "title": "producto 4",
+        "description": "4",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1234",
+        "stock": 25,
+        "id": 4
+    },
+    {
+        "title": "producto de prueba 5",
+        "description": "Este es un producto prueba",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1235",
+        "stock": 25,
+        "id": 5
+    },
+    {
+        "title": "producto 6",
+        "description": "2",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1236",
+        "stock": 25,
+        "id": 6
+    },
+    {
+        "title": "producto 7",
+        "description": "3",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1233",
+        "stock": 25,
+        "id": 7
+    },
+    {
+        "title": "producto 8",
+        "description": "4",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1234",
+        "stock": 25,
+        "id": 8
+    },
+    {
+        "title": "producto de prueba 9",
+        "description": "Este es un producto prueba",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc123",
+        "stock": 25,
+        "id": 9
+    },
+    {
+        "title": "producto 10",
+        "description": "2",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1232",
+        "stock": 25,
+        "id": 10
+    },
+    {
+        "title": "producto 11",
+        "description": "3",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1233",
+        "stock": 25,
+        "id": 11
+    },
+    {
+        "title": "producto 12",
+        "description": "4",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "abc1234",
+        "stock": 25,
+        "id": 12
+    }
+]
