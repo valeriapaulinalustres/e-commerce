@@ -99,8 +99,9 @@ console.log(products)
             if (productToDeleteIndex == -1) {
                 console.log('Product not found');
             } else {
-                productsFromFile.splice(productToDeleteIndex, 1)
+                const deletedProduct = productsFromFile.splice(productToDeleteIndex, 1)
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFromFile))
+                return deletedProduct
             }
 
         } catch (error) {

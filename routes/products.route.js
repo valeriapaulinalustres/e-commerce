@@ -35,4 +35,10 @@ const newTitle = req.body.title
     res.json({mensaje: "Producto actualizado con éxito", producto: updatedProduct})
 })
 
+router.delete('/:pid', async(req, res)=>{
+    const pid = parseInt(req.params.pid)  
+    const deletedProduct = await productManager.deleteProduct(pid)
+    res.json({mensaje: "Producto borrado con éxito", producto: deletedProduct})
+})
+
 export default router
