@@ -9,9 +9,9 @@ export default class ProductManager {
     async addProduct(products) {
         try {
             const productsFromFile = await this.getProducts()
-
-            const { title, description, price, thumbnail, code, stock } = products
-            if (!title || !description || !price || !thumbnail || !code || !stock) {
+console.log(products)
+            const { title, description, price, thumbnails, code, stock, status, category } = products
+            if (!title   || !description || !price || !thumbnails || !code || !stock || !status || !category) {
                 console.log('Falta completar datos del producto');
             } else {
                 const nuevoProducto = await this.#evaluarSiExisteProducto(code);
@@ -22,9 +22,11 @@ export default class ProductManager {
                         title,
                         description,
                         price,
-                        thumbnail,
+                        thumbnails,
                         code,
                         stock,
+                        status,
+                        category,
                         id: await this.#generarId(),
                     })
                     await fs.promises.writeFile(this.path, JSON.stringify(productsFromFile))

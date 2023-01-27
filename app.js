@@ -15,11 +15,11 @@ app.listen(8080, () => {
   console.log('Servidor escuchando en el puerto 8080');
 })
 
-//dos grupos de rutas: /products /carts
+//dos grupos de rutas: /products /carts *
 
-// api/products 
-//get / listar todos con el limit
-//get /:pid
+// api/products *
+//get / listar todos con el limit *
+//get /:pid *
 //post / agregar nuevo producto con id autogenerable, title, description, code, price, status: true, stock, category, thumbnails : [],
 // put /:pid modifica producto sin cambiar el id
 //delete /:pid
