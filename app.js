@@ -2,14 +2,14 @@ import express from 'express'
 const app = express()
 
  import productsRouter from './routes/products.route.js'
-// import cartsRouter from './routes/carts.router.js'
+import cartsRouter from './routes/carts.router.js'
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 //rutas
 app.use('/products', productsRouter)
-//app.use('/carts', cartsRouter)
+app.use('/carts', cartsRouter)
 
 app.listen(8080, () => {
   console.log('Servidor escuchando en el puerto 8080');
@@ -20,9 +20,9 @@ app.listen(8080, () => {
 // api/products *
 //get / listar todos con el limit *
 //get /:pid *
-//post / agregar nuevo producto con id autogenerable, title, description, code, price, status: true, stock, category, thumbnails : [],
-// put /:pid modifica producto sin cambiar el id
-//delete /:pid
+//post / agregar nuevo producto con id autogenerable, title, description, code, price, status: true, stock, category, thumbnails : [], *
+// put /:pid modifica producto sin cambiar el id *
+//delete /:pid *
 
 
 // api/carts dos rutas

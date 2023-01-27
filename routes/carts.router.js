@@ -1,14 +1,16 @@
-// import { Router } from "express";
-// const router = Router;
+import { Router } from "express";
+const router = Router()
+import CartManager from "../CartManager.js";
 
 
-// const productManager = new ProductManager()
+const cartManager = new CartManager()
 
-// router.get('/', async (req, res) => {
-//   // console.log("query", req.query);
-//   let products = await productManager.getProducts(req.query)
-//   res.json({ mensaje: "Usuarios encontrados", productos: products })
-//   // res.send('funciona')
-// })
 
-// export default router
+router.post('/', async (req, res) => {
+    const cart = req.body
+    //console.log(cart)
+const addedCart = await cartManager.addCart(cart)
+res.json({mensaje: "Carrito agregado", carrito: addedCart })
+})
+
+export default router

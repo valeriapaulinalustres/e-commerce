@@ -9,7 +9,7 @@ export default class ProductManager {
     async addProduct(products) {
         try {
             const productsFromFile = await this.getProducts()
-console.log(products)
+
             const { title, description, price, thumbnails, code, stock, status, category } = products
             if (!title   || !description || !price || !thumbnails || !code || !stock || !status || !category) {
                 console.log('Falta completar datos del producto');
