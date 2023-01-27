@@ -57,6 +57,7 @@ console.log(products)
     }
 
     async getProductById(productoId) {
+
         try {
             const productsFromFile = await this.getProducts()
             const productoEncontradoPorId = productsFromFile.find(el => productoId === el.id)
@@ -81,6 +82,8 @@ console.log(products)
             if (productToUpdate) {
                 productsFromFile[productToUpdateIndex].title = newTitle
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFromFile))
+                console.log(`New title ${productToUpdate.title}`)
+                return productToUpdate
             } else {
                 console.log('This product does not exist');
             }

@@ -27,4 +27,12 @@ router.post('/', async (req, res)=>{
     res.json({mensage: "Producto creado con éxito", producto: newProductCreated})
 })
 
+router.put('/:pid', async(req,res)=>{
+    const pid = parseInt(req.params.pid)  
+const newTitle = req.body.title
+//console.log(pid)
+    const updatedProduct = await productManager.updateProduct(pid, newTitle)
+    res.json({mensaje: "Producto actualizado con éxito", producto: updatedProduct})
+})
+
 export default router
