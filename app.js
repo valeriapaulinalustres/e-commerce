@@ -26,7 +26,7 @@ app.listen(8080, () => {
 
 
 // api/carts dos rutas
-//post / crea carrito con id, products=[{}]
+//post / crea carrito con id, products=[{}] *
 //get /:cid lista
 //post /:cid/product/:pid agrega producto al carrito, sólo con id y quantity. si ya existe, aumentará cantidad
 //productos.json y carrito.json

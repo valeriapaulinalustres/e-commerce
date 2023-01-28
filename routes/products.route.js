@@ -16,7 +16,7 @@ router.get('/',  async (req, res) => {
 router.get('/:pid', async (req, res) => {
   const pid = parseInt(req.params.pid)
   const product = await productManager.getProductById(pid)
-  res.json({ mensage: "producto encontrado", producto: product })
+  res.json({ mensage: "Producto encontrado por id", producto: product })
 })
 
 router.post('/', async (req, res)=>{
