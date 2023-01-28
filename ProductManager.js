@@ -11,7 +11,7 @@ export default class ProductManager {
             const productsFromFile = await this.getProducts()
 
             const { title, description, price, thumbnails, code, stock, status, category } = products
-            if (!title   || !description || !price || !thumbnails || !code || !stock || !status || !category) {
+            if (!title || !description || !price || !thumbnails || !code || !stock || !status || !category) {
                 console.log('Falta completar datos del producto');
             } else {
                 const nuevoProducto = await this.#evaluarSiExisteProducto(code);

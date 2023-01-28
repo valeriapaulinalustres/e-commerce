@@ -1,4 +1,3 @@
-import { timeStamp } from 'console'
 import fs from 'fs'
 
 export default class CartManager {
@@ -7,10 +6,8 @@ export default class CartManager {
     }
 
     async addCart(cart) {
-        //console.log(cart)
         try {
             const cartsFromFile = await this.getCarts()
-            //console.log('aqui', cartsFromFile)
             cartsFromFile.push({
                 id: await this.#generarId(),
                 products: cart
@@ -37,43 +34,38 @@ export default class CartManager {
         }
     }
 
-    async getCartById (cid) {
+    async getCartById(cid) {
         try {
             const cartsFromFile = await this.getCarts()
-            const cartFoundById = cartsFromFile.find(el=> el.id === cid)
+            const cartFoundById = cartsFromFile.find(el => el.id === cid)
             if (cartFoundById) {
                 return cartFoundById
             } else {
                 console.log("El id del carrito es inexistente")
-            } 
+            }
         } catch (error) {
             console.log(error)
-        }     
+        }
     }
 
-    async addProductToCart (cid, pid) {
+    async addProductToCart(cid, pid) {
         try {
             const cartsFromFile = await this.getCarts()
             const cartFoundById = await this.getCartById(cid)
-           const productInCart = cartFoundById.products.find(el=>el.id === pid)
-           const cartIndex = cartsFromFile.findIndex(el=>el.id === cid)
-           const productIndex = cartsFromFile[cartIndex].products.findIndex(el=>el.id === pid)
-        //    console.log(cartsFromFile);
-        //    console.log(cartIndex);
-        //    console.log(productIndex);
-           
-if (productInCart) { 
+            const productInCart = cartFoundById.products.find(el => el.id === pid)
+            const cartIndex = cartsFromFile.findIndex(el => el.id === cid)
+            const productIndex = cartsFromFile[cartIndex].products.findIndex(el => el.id === pid)
+            if (productInCart) {
 
-    cartsFromFile[cartIndex].products[productIndex].quantity ++
-    await fs.promises.writeFile(this.path, JSON.stringify(cartsFromFile))
-    return cartsFromFile[cartIndex]
-} else { 
-    cartsFromFile[cartIndex].products.push({id:pid, quantity:1})
-    await fs.promises.writeFile(this.path, JSON.stringify(cartsFromFile))
-    console.log(cartsFromFile);
-    return cartsFromFile[cartIndex]
-}
-
+                cartsFromFile[cartIndex].products[productIndex].quantity++
+                await fs.promises.writeFile(this.path, JSON.stringify(cartsFromFile))
+                return cartsFromFile[cartIndex]
+            } else {
+                cartsFromFile[cartIndex].products.push({ id: pid, quantity: 1 })
+                await fs.promises.writeFile(this.path, JSON.stringify(cartsFromFile))
+                console.log(cartsFromFile);
+                return cartsFromFile[cartIndex]
+            }
         } catch (error) {
             console.log(error)
         }
