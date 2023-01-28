@@ -1,3 +1,4 @@
+import { timeStamp } from 'console'
 import fs from 'fs'
 
 export default class CartManager {
@@ -48,6 +49,31 @@ export default class CartManager {
         } catch (error) {
             console.log(error)
         }     
+    }
+
+    async addProductToCart (cid, pid) {
+        try {
+            const cartsFromFile = await this.getCarts()
+            const cartFoundById = await this.getCartById(cid)
+           const productInCart = cartFoundById.products.find(el=>el.id === pid)
+           const cartIndex = cartsFromFile.findIndex(el=>el.id === cid)
+           const productIndex = cartsFromFile[cartIndex].products.findIndex(el=>el.id === pid)
+        //    console.log(cartsFromFile);
+        //    console.log(cartIndex);
+        //    console.log(productIndex);
+           
+if (productInCart) { 
+
+    cartsFromFile[cartIndex].products[productIndex].quantity ++
+    await fs.promises.writeFile(this.path, JSON.stringify(cartsFromFile))
+    return cartsFromFile[cartIndex]
+} else { 
+    console.log("no");
+}
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     async #generarId() {
