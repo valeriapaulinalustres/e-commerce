@@ -68,7 +68,10 @@ if (productInCart) {
     await fs.promises.writeFile(this.path, JSON.stringify(cartsFromFile))
     return cartsFromFile[cartIndex]
 } else { 
-    console.log("no");
+    cartsFromFile[cartIndex].products.push({id:pid, quantity:1})
+    await fs.promises.writeFile(this.path, JSON.stringify(cartsFromFile))
+    console.log(cartsFromFile);
+    return cartsFromFile[cartIndex]
 }
 
         } catch (error) {
