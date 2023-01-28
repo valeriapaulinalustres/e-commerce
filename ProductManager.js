@@ -25,7 +25,7 @@ export default class ProductManager {
                         thumbnails,
                         code,
                         stock,
-                        status,
+                        status: true,
                         category,
                         id: await this.#generarId(),
                     })
