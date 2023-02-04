@@ -1,0 +1,33 @@
+<h4>Ingresar Producto</h4>
+
+<form id="formulario" >
+<input type="text" name="title" id="title" placeholder="Título">
+<input type="text" name="description" id="description" placeholder="Descripción">
+<input type="number" name="price" id="price" placeholder="Precio">
+<input type="number" name="stock" id="stock" placeholder="Stock">
+<input type="submit" value="ENVIAR">
+</form>
+
+<div id="newProducts"></div>
+
+<h2>Productos</h2>
+{{#if products.length}}
+{{#each products}}
+<div class="product-container">
+<h3>{{title}}</h3>
+<p>{{description}}</p>
+<h4>$ {{price}}</h4>
+<h5>Cantidad en stock: {{stock}}</h5>
+</div>
+
+
+{{/each}}
+
+{{else}}
+<h2>NO HAY PRODUCTOS</h2>
+
+{{/if}}
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../index.js"></script>

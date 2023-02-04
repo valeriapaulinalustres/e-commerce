@@ -8,7 +8,8 @@ const productManager = new ProductManager()
 
 router.get('/', async (req, res) => {
     let products = await productManager.getProducts(req.query)
-    res.json({ mensaje: "Productos encontrados encontrados", productos: products })
+   // res.json({ mensaje: "Productos encontrados encontrados", productos: products })
+   res.render('home', {products})
 })
 
 router.get('/:pid', async (req, res) => {

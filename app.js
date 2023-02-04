@@ -3,6 +3,10 @@ const app = express()
 
 import productsRouter from './routes/products.route.js'
 import cartsRouter from './routes/carts.router.js'
+import viewsRouter from './routes/views/views.router.js'
+import { __dirname } from './src/utils.js'
+import handlebars from 'express-handlebars'
+import {Server} from 'socket.io'
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -10,9 +14,39 @@ app.use(express.urlencoded({ extended: true }))
 //rutas
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
+app.use('/api/realtimeproducts', viewsRouter)
 
-app.listen(8080, () => {
+// archivos estaticos
+app.use(express.static(__dirname+'/public'))
+
+// motores de plantilla
+app.engine('handlebars',handlebars.engine())
+app.set('view engine', 'handlebars')
+app.set('views',__dirname+'/views')
+
+
+
+const httpServer = app.listen(8080, () => {
   console.log('Servidor escuchando en el puerto 8080');
 })
 
+//websocket
+const socketServer = new Server(httpServer)
+
+const newProductsArray = []
+
+socketServer.on('connection',socket=>{
+    console.log(`Usuario conectado: ${socket.id}`)
+ 
+    socket.on('disconnect',()=>{
+        console.log('Usuario desconectado')
+    })
+
+    socket.on('newProduct',newProduct=>{
+      console.log(newProduct)
+      newProductsArray.push(newProduct)
+      socketServer.emit('newProductsArray',newProductsArray)
+    } )
+
+})
 
