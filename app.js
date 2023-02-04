@@ -36,10 +36,10 @@ const socketServer = new Server(httpServer)
 const newProductsArray = []
 
 socketServer.on('connection',socket=>{
-    console.log(`Usuario conectado: ${socket.id}`)
+    console.log(`Cliente conectado: ${socket.id}`)
  
     socket.on('disconnect',()=>{
-        console.log('Usuario desconectado')
+        console.log(`Cliente desconectado: ${socket.id}`)
     })
 
     socket.on('newProduct',newProduct=>{

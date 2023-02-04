@@ -23,19 +23,26 @@ formulario.onsubmit = (e) => {
     description.value ='',
     price.value= '',
     stock.value= ''
-  //  console.log(newProduct)
+
   }
 
-  
+  const productsArray = []
   socketClient.on('newProductsArray', newProductsArray=>{
       console.log(newProductsArray)
-  
-      const newProductsRender = newProductsArray.map(elem=>{
-          return `<h3>Producto: ${elem.title}</h3>
+
+  productsArray.push(newProductsArray)
+
+      const newProductsRender = newProductsArray.map((elem, index)=>{
+          return `<div class="newProductContainer">
+          <h3>Producto: ${elem.title}</h3>
           <h4>Precio: ${elem.price}</h4>
           <p>${elem.description}</p>
           <h5>Cantidad en stock: ${elem.stock}</h5>
+          </div>
+          
           `
+          
       }).join(' ')
       newProducts.innerHTML = newProductsRender
+     
   })
