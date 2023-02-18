@@ -72,15 +72,32 @@ export default class ProductManager {
         }
     }
 
-    async updateProduct(id, newTitle) {
+    async updateProduct(id, newProduct)
+ //   newTitle, newDescription, newPrice, newStock, newCode, newCategory, newThumbnails) 
+    {
         try {
-
+console.log('aca',newProduct.title);
             const productsFromFile = await this.getProducts()
 
             const productToUpdate = await this.getProductById(id)
             const productToUpdateIndex = productsFromFile.findIndex(el => el.id === id)
             if (productToUpdate) {
-                productsFromFile[productToUpdateIndex].title = newTitle
+              newProduct.title && (productsFromFile[productToUpdateIndex].title = newProduct.title) 
+               newProduct.description && (productsFromFile[productToUpdateIndex].description = newProduct.description)
+               newProduct.price && (productsFromFile[productToUpdateIndex].price = newProduct.price)
+               newProduct.stock && (productsFromFile[productToUpdateIndex].stock = newProduct.stock)
+               newProduct.code && (productsFromFile[productToUpdateIndex].code = newProduct.code)
+               newProduct.category && (productsFromFile[productToUpdateIndex].category = newProduct.category)
+              newProduct.thumbnails &&  (productsFromFile[productToUpdateIndex].thumbnails = newProduct.thumbnails)
+
+                // productsFromFile[productToUpdateIndex].title = newTitle
+                // productsFromFile[productToUpdateIndex].description = newDescription
+                // productsFromFile[productToUpdateIndex].price = newPrice
+                // productsFromFile[productToUpdateIndex].stock = newStock
+                // productsFromFile[productToUpdateIndex].code = newCode
+                // productsFromFile[productToUpdateIndex].category = newCategory
+                // productsFromFile[productToUpdateIndex].thumbnails = newThumbnails
+
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFromFile))
                 console.log(`New title ${productToUpdate.title}`)
                 return productToUpdate
@@ -124,6 +141,50 @@ export default class ProductManager {
         return id
     }
 }
+
+// async updateProduct(prod){
+//     const prodToUpdate = await this.getProductsById(parseInt(prod.id))
+//     const newProd = {
+//         title: prod.title ? prod.title : prodToUpdate.title,
+//         description: prod.description ? prod.description : prodToUpdate.description,
+//         price: prod.price ? prod.price : prodToUpdate.price,
+//         stock: prod.stock ? prod.stock : prodToUpdate.stock,
+//         code: prod.code ? prod.code : prodToUpdate.code,
+//         category: prod.category ? prod.category : prodToUpdate.category,
+//         status: true,
+//         thumbnails: prod.thumbnails ? prod.thumbnails : prodToUpdate.thumbnails || " ",
+//         id: parseInt(prod.id)
+//     }
+//     this.products.push(newProd)
+//     const indexProdToUpdate = this.products.indexOf(prodToUpdate)
+//     this.products.splice(indexProdToUpdate, 1)
+//     await fs.promises.writeFile(this.path, JSON.stringify(this.products))
+//     return newProd
+// }
+
+// async addProducts(prod){
+
+//     try {
+    
+//     const prodsFile = await this.getProducts()
+//     const productCode = this.#validateCodeProduct(prod.code)
+
+//     const product = {
+//         id: this.#generateId(),
+//         status: true,
+//         ...prod
+//     }
+
+//     if(productCode === undefined && prod.title && prod.description && prod.price && prod.stock && prod.code && prod.category){
+
+//         prodsFile.push(product)
+//         await fs.promises.writeFile(this.path, JSON.stringify(prodsFile))}}
+
+//     catch(error){
+//         console.log("error")
+//     }
+
+// }
 
 
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router()
-import ProductManager from '../ProductManager.js'
+import ProductManager from '../dao/fileManagers/ProductManager.js'
 
 
 const productManager = new ProductManager()
@@ -27,8 +27,18 @@ router.post('/', async (req, res) => {
 
 router.put('/:pid', async (req, res) => {
     const pid = parseInt(req.params.pid)
-    const newTitle = req.body.title
-    const updatedProduct = await productManager.updateProduct(pid, newTitle)
+    const newProduct = req.body
+  
+    // const newTitle = req.body.title
+    // const newDescription = req.body.description
+    // const newPrice = req.body.price
+    // const newStock = req.body.stock
+    // const newCode = req.body.code
+    // const newCategory = req.body.category
+    // const newThumbnails = req.body.thumbnails
+    const updatedProduct = await productManager.updateProduct(pid, 
+        // newTitle, newDescription, newPrice, newStock, newCode, newCategory, newThumbnails,
+        newProduct)
     res.json({ mensaje: "Producto actualizado con éxito", producto: updatedProduct })
 })
 

@@ -1,10 +1,10 @@
 import express from 'express'
 const app = express()
 
-import productsRouter from './routes/products.route.js'
+import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views/views.router.js'
-import { __dirname } from './src/utils.js'
+import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
 
@@ -19,10 +19,11 @@ app.use('/api/realtimeproducts', viewsRouter)
 // archivos estaticos
 app.use(express.static(__dirname+'/public'))
 
-// motores de plantilla
+//motores de plantilla
 app.engine('handlebars',handlebars.engine())
 app.set('view engine', 'handlebars')
 app.set('views',__dirname+'/views')
+
 
 
 
