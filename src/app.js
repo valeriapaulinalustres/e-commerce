@@ -7,6 +7,7 @@ import viewsRouter from './routes/views/views.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
+import './dao/dbConfig.js'
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

@@ -60,7 +60,7 @@ export default class ProductManager {
 
         try {
             const productsFromFile = await this.getProducts()
-            const productoEncontradoPorId = productsFromFile.find(el => productoId === el.id)
+            const productoEncontradoPorId = productsFromFile.find(el => parseInt(productoId) === el.id)
             if (productoEncontradoPorId) {
                 console.log('Product found', productoEncontradoPorId);
                 return productoEncontradoPorId

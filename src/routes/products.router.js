@@ -1,6 +1,8 @@
 import { Router } from "express";
 const router = Router()
-import ProductManager from '../dao/fileManagers/ProductManager.js'
+//import ProductManager from '../dao/fileManagers/ProductManager.js'
+import ProductManager from '../dao/mongoManagers/ProductManager.js'
+
 
 
 const productManager = new ProductManager()
@@ -8,13 +10,13 @@ const productManager = new ProductManager()
 
 router.get('/', async (req, res) => {
     let products = await productManager.getProducts(req.query)
+
    // res.json({ mensaje: "Productos encontrados encontrados", productos: products })
    res.render('home', {products})
 })
 
-router.get('/:pid', async (req, res) => {
-    const pid = parseInt(req.params.pid)
-    const product = await productManager.getProductById(pid)
+router.get('/:pid', async (req, res) => { 
+    const product = await productManager.getProductById(req.params.pid)
     res.json({ mensage: "Producto encontrado por id", producto: product })
 })
 
