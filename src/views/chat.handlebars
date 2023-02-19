@@ -1,0 +1,25 @@
+<h2>Ingresar Mensaje</h2>
+<form id="formularioChat">
+    <input type="text" name="message" id="message" placeholder="Escribe tu mensaje">
+   <input type="submit" value="Enviar">
+</form>
+
+
+{{#if chat.length}}
+<h2>Mensajes</h2>
+{{#each chat}}
+<div class="product-container">
+<h3>{{user}}</h3>
+<p>{{message}}</p>
+</div>
+
+{{/each}}
+
+{{else}}
+<h2>NO HAY MENSAJES</h2>
+
+{{/if}}
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../index.js"></script>

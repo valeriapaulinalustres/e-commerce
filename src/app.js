@@ -4,6 +4,7 @@ const app = express()
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views/views.router.js'
+import chatRouter from './routes/views/chat.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/realtimeproducts', viewsRouter)
+app.use('/api/chat', chatRouter)
 
 // archivos estaticos
 app.use(express.static(__dirname+'/public'))
@@ -35,20 +37,36 @@ const httpServer = app.listen(8080, () => {
 //websocket
 const socketServer = new Server(httpServer)
 
-const newProductsArray = []
+// const newProductsArray = []
+
+// socketServer.on('connection',socket=>{
+//     console.log(`Cliente conectado: ${socket.id}`)
+ 
+//     socket.on('disconnect',()=>{
+//         console.log(`Cliente desconectado: ${socket.id}`)
+//     })
+
+//     socket.on('newProduct',newProduct=>{
+//       console.log(newProduct)
+//       newProductsArray.push(newProduct)
+//       socketServer.emit('newProductsArray',newProductsArray)
+//     } )
+
+// })
+
+const newMessagesArray = []
 
 socketServer.on('connection',socket=>{
-    console.log(`Cliente conectado: ${socket.id}`)
- 
-    socket.on('disconnect',()=>{
-        console.log(`Cliente desconectado: ${socket.id}`)
-    })
+  console.log(`Cliente conectado: ${socket.id}`)
 
-    socket.on('newProduct',newProduct=>{
-      console.log(newProduct)
-      newProductsArray.push(newProduct)
-      socketServer.emit('newProductsArray',newProductsArray)
-    } )
+  socket.on('disconnect',()=>{
+      console.log(`Cliente desconectado: ${socket.id}`)
+  })
+
+  socket.on('newMessage',newMessage=>{
+    console.log(newMessage)
+    newMessagesArray.push(newMessage)
+    socketServer.emit('newMessagesArray',newMessagesArray)
+  } )
 
 })
-
