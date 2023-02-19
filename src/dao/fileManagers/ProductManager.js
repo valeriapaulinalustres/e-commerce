@@ -72,15 +72,12 @@ export default class ProductManager {
         }
     }
 
-    async updateProduct(id, newProduct)
- //   newTitle, newDescription, newPrice, newStock, newCode, newCategory, newThumbnails) 
-    {
+    async updateProduct(id, newProduct){
         try {
-console.log('aca',newProduct.title);
             const productsFromFile = await this.getProducts()
 
-            const productToUpdate = await this.getProductById(id)
-            const productToUpdateIndex = productsFromFile.findIndex(el => el.id === id)
+            const productToUpdate = await this.getProductById(parseInt(id))
+            const productToUpdateIndex = productsFromFile.findIndex(el => el.id === parseInt(id))
             if (productToUpdate) {
               newProduct.title && (productsFromFile[productToUpdateIndex].title = newProduct.title) 
                newProduct.description && (productsFromFile[productToUpdateIndex].description = newProduct.description)
@@ -90,13 +87,6 @@ console.log('aca',newProduct.title);
                newProduct.category && (productsFromFile[productToUpdateIndex].category = newProduct.category)
               newProduct.thumbnails &&  (productsFromFile[productToUpdateIndex].thumbnails = newProduct.thumbnails)
 
-                // productsFromFile[productToUpdateIndex].title = newTitle
-                // productsFromFile[productToUpdateIndex].description = newDescription
-                // productsFromFile[productToUpdateIndex].price = newPrice
-                // productsFromFile[productToUpdateIndex].stock = newStock
-                // productsFromFile[productToUpdateIndex].code = newCode
-                // productsFromFile[productToUpdateIndex].category = newCategory
-                // productsFromFile[productToUpdateIndex].thumbnails = newThumbnails
 
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFromFile))
                 console.log(`New title ${productToUpdate.title}`)
@@ -112,7 +102,7 @@ console.log('aca',newProduct.title);
     async deleteProduct(id) {
         try {
             const productsFromFile = await this.getProducts()
-            const productToDeleteIndex = productsFromFile.findIndex(el => el.id === id)
+            const productToDeleteIndex = productsFromFile.findIndex(el => el.id === parseInt(id))
             if (productToDeleteIndex == -1) {
                 console.log('Product not found');
             } else {
