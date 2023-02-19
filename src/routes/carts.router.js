@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router()
-import CartManager from "../dao/fileManagers/CartManager.js";
-
+//import CartManager from "../dao/fileManagers/CartManager.js";
+import CartManager from "../dao/mongoManagers/CartManager.js";
 
 const cartManager = new CartManager()
 
@@ -12,15 +12,20 @@ router.post('/', async (req, res) => {
     res.json({ mensaje: "Carrito agregado", carrito: addedCart })
 })
 
+router.get('/', async (req,res)=>{
+    const carts = await cartManager.getCarts()
+    res.json({mensaje: 'carritos encontrados', carritos: carts})
+})
+
 router.get('/:cid', async (req, res) => {
-    const cid = parseInt(req.params.cid)
+    const cid = req.params.cid
     const cartFoundById = await cartManager.getCartById(cid)
     res.json({ mensaje: "Carrito encontrado por id", carrito: cartFoundById })
 })
 
 router.post('/:cid/product/:pid', async (req, res) => {
-    const cid = parseInt(req.params.cid)
-    const pid = parseInt(req.params.pid)
+    const cid = req.params.cid
+    const pid = req.params.pid
     const addedProduct = await cartManager.addProductToCart(cid, pid)
     res.json({ mensaje: `Producto agregado a carrito ${cid}`, carrito: addedProduct })
 })
