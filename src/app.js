@@ -1,5 +1,6 @@
 import express from 'express'
 const app = express()
+import path from 'path'
 
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
@@ -22,10 +23,12 @@ app.use('/api/carts', cartsRouter)
 app.use('/api/realtimeproducts', viewsRouter)
 app.use('/api/chat', chatRouter)
 
-
+console.log(__dirname)
 
 // archivos estaticos
-app.use(express.static(__dirname+'/public'))
+//OJO QUE DETRÁS DE PUBLIC NO HAY BARRA, POR LO QUE DONDE SE NECESITE SEGUIR CON LA URL (EJEMPLO STYLE.CSS) HAY QUE PONERLE LA BARRA DELANTE
+app.use(express.static(path.join(__dirname, '/public')))
+
 
 //motores de plantilla
 app.engine('handlebars',handlebars.engine())
@@ -68,18 +71,18 @@ socketServer.on('connection',socket=>{
   })
   
 
-  // const emitNotes = async () => {
-  //   const notes = await messageManager.getMessages();
-  //   console.log('aca', notes)
-  //   socketServer.emit("mensajes", notes);
-  // };
-  // emitNotes();
+  const emitNotes = async () => {
+    const notes = await messageManager.getMessages();
+    console.log('aca', notes)
+    socketServer.emit("mensajes", notes);
+  };
+  emitNotes();
 
   socket.on('newMessage',  async (newMessage) =>{
     const mensaje = await messageManager.addMessage({...newMessage, user: socket.id})
     console.log(mensaje)
 
-  //  emitNotes();
+   emitNotes();
   
    
   } )

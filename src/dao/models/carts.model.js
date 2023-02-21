@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const cartsSchema = new mongoose.Schema({
     cart: {
-        type: Array,
+        type: [{id:String, quantity:Number}],
         required: true,
         unique: true
     }
