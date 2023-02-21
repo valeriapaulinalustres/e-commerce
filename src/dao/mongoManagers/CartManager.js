@@ -33,13 +33,50 @@ try {
     }
 
    async addProductToCart (cid, pid) {
+    
     try {
-        const cart = await cartsModel.findOneAndUpdate({_id: cid}, {$push: {id: pid}},  { upsert: true })
-        return cart
+    //     const cart = await cartsModel.findOneAndUpdate({_id: cid}, {$push: {id: pid}},  { upsert: true })
+    
+    // console.log(cart)
+         const cart = await cartsModel.findOne({_id: cid}) 
+     console.log('aca', cart)
+      if(!cart) return console.log('carrito no encontrado')
+
+      console.log('here', cart.cart.findIndex(el=> el.id == pid))//0
+     
+     if (cart.cart.findIndex(el=> el.id == pid) !== -1 ) {
+        cart.cart[cart.cart.findIndex(el=> el.id == pid)].quantity +=1
+        console.log('nuevo', cart)
+    }else {
+        cart.cart.push({id: pid, quantity:1})
+     }
+  
+      await cart.save()
+     
+      return cart
     } catch (error) {
         console.log(error)
         return error
     }
    }
+
+//  async addProductToCart(id, producto) {
+//         try {
+
+//             const cart = await CarritosModel.findOne({ _id: id });
+
+//             if (!cart) return { error: 'carrito no encontrado' }
+
+//             cart.productos.push(producto);
+
+//             await cart.save();
+
+//             return { message: `Se agregó el producto: '${producto.nombre}' al carrito ID: ${id}` };
+//         } catch (err) {
+//             loggerError.error(err);
+//         }
+//     }
+
+
 
 }

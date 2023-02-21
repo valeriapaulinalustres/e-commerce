@@ -1,6 +1,6 @@
 import { messagesModel } from "../models/messages.model.js";
 
-export default class MessagesModel {
+export default class MessageManager {
     async  addMessage (message) {
         try {
             const newMessage = await messagesModel.create(message) 

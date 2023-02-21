@@ -10,6 +10,9 @@ import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
 import './dao/dbConfig.js'
 
+import MessageManager from './dao/mongoManagers/MessageManager.js'
+const messageManager = new MessageManager()
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -18,6 +21,8 @@ app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/realtimeproducts', viewsRouter)
 app.use('/api/chat', chatRouter)
+
+
 
 // archivos estaticos
 app.use(express.static(__dirname+'/public'))
@@ -53,8 +58,7 @@ const socketServer = new Server(httpServer)
 //     } )
 
 // })
-
-const newMessagesArray = []
+//************chat*************** */
 
 socketServer.on('connection',socket=>{
   console.log(`Cliente conectado: ${socket.id}`)
@@ -62,11 +66,23 @@ socketServer.on('connection',socket=>{
   socket.on('disconnect',()=>{
       console.log(`Cliente desconectado: ${socket.id}`)
   })
+  
 
-  socket.on('newMessage',newMessage=>{
-    console.log(newMessage)
-    newMessagesArray.push(newMessage)
-    socketServer.emit('newMessagesArray',newMessagesArray)
+  // const emitNotes = async () => {
+  //   const notes = await messageManager.getMessages();
+  //   console.log('aca', notes)
+  //   socketServer.emit("mensajes", notes);
+  // };
+  // emitNotes();
+
+  socket.on('newMessage',  async (newMessage) =>{
+    const mensaje = await messageManager.addMessage({...newMessage, user: socket.id})
+    console.log(mensaje)
+
+  //  emitNotes();
+  
+   
   } )
+
 
 })

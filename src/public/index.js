@@ -10,14 +10,14 @@ const formulario = document.getElementById('formulario')
 
 // formulario.onsubmit = (e) => {
 //     e.preventDefault()
-  
+
 //     const newProduct = {
 //     title: title.value,
 //       description: description.value,
 //       price: price.value,
 //       stock: stock.value,
 //     }
-  
+
 //     socketClient.emit('newProduct', newProduct)
 
 //     title.value=''
@@ -40,18 +40,18 @@ const formulario = document.getElementById('formulario')
 //           <p>${elem.description}</p>
 //           <h5>Cantidad en stock: ${elem.stock}</h5>
 //           </div>
-          
+
 //           `
-          
+
 //       }).join(' ')
 //       newProducts.innerHTML = newProductsRender
-     
+
 //   })
 
-  //**********CHAT**************** */
+//**********CHAT**************** */
 
-  const messageInput = document.getElementById('message')
-  const formularioChat = document.getElementById('formularioChat')
+const messageInput = document.getElementById('message')
+const formularioChat = document.getElementById('formularioChat')
 
 //   formularioChat.addEventListener('submit', submit)
 
@@ -60,24 +60,18 @@ const formulario = document.getElementById('formulario')
 //     console.log(e.target.value)
 // }
 
-  formularioChat.onsubmit = (e) => {
-    e.preventDefault()
+formularioChat.onsubmit = (e) => {
+  e.preventDefault()
   console.log(messageInput.value)
-    const newMessage = {
+  const newMessage = {
     message: messageInput.value,
-    }
+  }
   console.log(newMessage)
-    socketClient.emit('newMessage', newMessage)
+  socketClient.emit('newMessage', newMessage)
 
-    messageInput.value=''
+  messageInput.value = ''
 
-  }
+}
 
-  const messagesArray = []
-  socketClient.on('newMessagesArray', newMessagesArray=>{
-      console.log(newMessagesArray)
 
-  messagesArray.push(newMessagesArray)
-  }
-  ) 
-  
+

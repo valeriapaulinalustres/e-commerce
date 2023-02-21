@@ -48,15 +48,7 @@ export default class ProductManager {
         }
     }
 
-    async deleteProduct (id) {
-try {
-   const deletedProduct = await productsModel.findByIdAndDelete(id)
-   return deletedProduct
-} catch (error) {
-    console.log(error)
-    return error
-}
-    }
+    
 
     async updateProduct (id, newProduct) {
         try {
