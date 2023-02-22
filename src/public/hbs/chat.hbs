@@ -1,0 +1,46 @@
+
+
+{{#if chat.length}}
+<h2>Mensajes</h2>
+{{#each chat}}
+<div class="product-container">
+    <h4>{{user}} dice: <span>{{message}}</span></h4>
+
+</div>
+
+{{/each}}
+
+{{else}}
+<h2>NO HAY MENSAJES</h2>
+
+{{/if}}
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+        integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="../index.js"></script>
+
+
+{{!-- <div class="container mt-3">
+    <div class="jumbotron">
+        <h1>Centro de Mensajes</h1>
+        <br>
+
+
+        <form id="form-chat">
+
+            Correo: <input id="chat-mail" class="form-chat-input" type="email" name="mail" required>
+
+            <hr>
+            <div id="chat">
+            </div>
+
+            <input id="chat-msg" class="form-chat-input" type="text" name="msg" required>
+
+            <button class="btn btn-primary"> Enviar </button>
+        </form>
+
+
+    </div>
+</div> --}}

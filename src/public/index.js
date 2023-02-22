@@ -52,6 +52,8 @@ const formulario = document.getElementById('formulario')
 
 const messageInput = document.getElementById('message')
 const formularioChat = document.getElementById('formularioChat')
+const alias = document.getElementById('alias')
+
 
 //   formularioChat.addEventListener('submit', submit)
 
@@ -63,15 +65,67 @@ const formularioChat = document.getElementById('formularioChat')
 formularioChat.onsubmit = (e) => {
   e.preventDefault()
   console.log(messageInput.value)
-  const newMessage = {
+  const chat = {
+    user: alias.value,
     message: messageInput.value,
+
   }
-  console.log(newMessage)
-  socketClient.emit('newMessage', newMessage)
+  console.log(chat)
+  socketClient.emit('update-chat', chat)
 
   messageInput.value = ''
 
 }
+// render-chat
+socketClient.on('chat', manejarEventoChat);
+async function manejarEventoChat(chat) {
+    console.log(chat)
+
+    const recursoRemoto = await fetch('/hbs/chat.hbs')
+    const textoPlantilla = await recursoRemoto.text()
+    const functionTemplate = Handlebars.compile(textoPlantilla)
+
+    const html = functionTemplate({ chat })
+    document.getElementById('chat').innerHTML = html
+}
 
 
+/*
+
+// update-chat
+const formChat = document.getElementById('form-chat')
+formChat.addEventListener('submit', e => {
+    e.preventDefault()
+
+    const hora = new Date()
+
+    const chat = {
+        mail: document.getElementById('chat-mail').value,
+        msg: document.getElementById('chat-msg').value,
+        hora: '[' + hora.toLocaleString() + ']'
+    }
+    
+    socket.emit('update-chat', chat);
+    document.getElementById('chat-msg').value = ''
+})
+
+// render-chat
+socket.on('chat', manejarEventoChat);
+async function manejarEventoChat(chat) {
+    console.log(chat)
+
+    const recursoRemoto = await fetch('hbs/chat.hbs')
+    const textoPlantilla = await recursoRemoto.text()
+    const functionTemplate = Handlebars.compile(textoPlantilla)
+
+    const html = functionTemplate({ chat })
+    document.getElementById('chat').innerHTML = html
+}
+
+
+
+
+
+
+*/
 

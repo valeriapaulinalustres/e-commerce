@@ -8,7 +8,6 @@ message: {
 },
 user: {
     type: String,
-    unique: true,
     require: true
 },
 })

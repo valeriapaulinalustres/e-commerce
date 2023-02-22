@@ -1,0 +1,91 @@
+<!-- <!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Ingreso de Productos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+        integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1>Ingrese Producto</h1>
+            <br>
+
+            <form id="form-producto">
+                <div class="form-group">
+                    <label for="nombre"><b>Nombre</b></label>
+                    <input id="producto-nombre" class="form-control" type="text" name="nombre">
+                </div>
+
+                <div class="form-group">
+                    <label for="precio"><b>Precio</b></label>
+                    <input id="producto-precio" class="form-control" type="number" name="precio">
+                </div>
+
+                <div class="form-group">
+                    <label for="url"><b>Foto URL*</b></label>
+                    <input id="producto-url" class="form-control" type="url" name="url">
+                </div>
+
+                <details>
+                    <summary>*Click Aqui para ver algunos ejemplos de url de imagenes</summary>
+                    <lu>
+                        <li> https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png
+                        </li>
+                        <li> https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-256.png
+                        </li>
+                        <li> https://cdn3.iconfinder.com/data/icons/education-209/64/book-note-paper-school-256.png
+                        </li>
+                        <li> https://cdn3.iconfinder.com/data/icons/education-209/64/clock-stopwatch-timer-time-256.png
+                        </li>
+                    </lu>
+                </details>
+
+                <button class="btn btn-success mt-3">Enviar</button>
+            </form>
+            <br>
+            <div id="productos"></div>
+        </div>
+    </div>
+
+
+
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1>Centro de Mensajes</h1>
+            <br>
+
+            
+            <form id="form-chat">
+
+                Correo: <input id="chat-mail" class="form-chat-input" type="email" name="mail" required>
+                
+                <hr>
+                <div id="chat">
+                </div>
+
+                <input id="chat-msg" class="form-chat-input" type="text" name="msg" required>
+
+                <button class="btn btn-primary"> Enviar </button>
+            </form>
+
+
+        </div>
+    </div>
+
+    <script src="js/index.js"></script>
+
+</body>
+
+</html> -->

@@ -45,25 +45,25 @@ const httpServer = app.listen(8080, () => {
 //websocket
 const socketServer = new Server(httpServer)
 
-// const newProductsArray = []
-
-// socketServer.on('connection',socket=>{
-//     console.log(`Cliente conectado: ${socket.id}`)
- 
-//     socket.on('disconnect',()=>{
-//         console.log(`Cliente desconectado: ${socket.id}`)
-//     })
-
-//     socket.on('newProduct',newProduct=>{
-//       console.log(newProduct)
-//       newProductsArray.push(newProduct)
-//       socketServer.emit('newProductsArray',newProductsArray)
-//     } )
-
-// })
-//************chat*************** */
+const newProductsArray = []
 
 socketServer.on('connection',socket=>{
+    console.log(`Cliente conectado: ${socket.id}`)
+ 
+    socket.on('disconnect',()=>{
+        console.log(`Cliente desconectado: ${socket.id}`)
+    })
+
+    socket.on('newProduct',newProduct=>{
+      console.log(newProduct)
+      newProductsArray.push(newProduct)
+      socketServer.emit('newProductsArray',newProductsArray)
+    } )
+
+})
+//************chat*************** */
+
+socketServer.on('connection', async (socket) =>{
   console.log(`Cliente conectado: ${socket.id}`)
 
   socket.on('disconnect',()=>{
@@ -71,21 +71,11 @@ socketServer.on('connection',socket=>{
   })
   
 
-  const emitNotes = async () => {
-    const notes = await messageManager.getMessages();
-    console.log('aca', notes)
-    socketServer.emit("mensajes", notes);
-  };
-  emitNotes();
-
-  socket.on('newMessage',  async (newMessage) =>{
-    const mensaje = await messageManager.addMessage({...newMessage, user: socket.id})
-    console.log(mensaje)
-
-   emitNotes();
-  
-   
-  } )
+  socket.emit('chat', await messageManager.getMessages()); //chat
+  socket.on('update-chat', async (newMessage) => {//update-chat
+    await messageManager.addMessage(newMessage)
+      socketServer.sockets.emit('chat', await messageManager.getMessages());
+  })
 
 
 })
