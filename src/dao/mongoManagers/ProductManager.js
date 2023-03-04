@@ -2,9 +2,12 @@ import { productsModel } from '../models/products.model.js'
 
 export default class ProductManager {
 
-    async getProducts(query) {
-        let limit
-        query && (limit = query.limit)
+    async getProducts(limit) {
+
+       
+
+    
+       // query && (limit = query.limit)
         try {
             //.lean() para que devuelva en json y lo muestre handlebars
             const allProductsDB = await productsModel.find().lean()

@@ -9,8 +9,8 @@ const productManager = new ProductManager()
 
 
 router.get('/', async (req, res) => {
-    //const {limit} = req.query
-    let products = await productManager.getProducts(req.query)
+    const {limit=1} = req.query
+    let products = await productManager.getProducts(limit)
 
    // res.json({ mensaje: "Productos encontrados encontrados", productos: products })
    res.render('home', {products})
