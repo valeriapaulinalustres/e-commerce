@@ -9,6 +9,7 @@ const productManager = new ProductManager()
 
 
 router.get('/', async (req, res) => {
+    //const {limit} = req.query
     let products = await productManager.getProducts(req.query)
 
    // res.json({ mensaje: "Productos encontrados encontrados", productos: products })

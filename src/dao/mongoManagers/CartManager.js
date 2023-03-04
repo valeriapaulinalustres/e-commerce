@@ -24,7 +24,7 @@ export default class CartManager {
 
     async getCartById(cid) {
         try {
-            const cart = await cartsModel.findById(cid).lean()
+            const cart = await cartsModel.findById(cid).populate({path:'cart.id'}).lean()
             return cart
         } catch (error) {
             console.log(error)
@@ -39,10 +39,10 @@ export default class CartManager {
 
             // console.log(cart)
             const cart = await cartsModel.findOne({ _id: cid })
-          //  console.log('aca', cart)
+            //  console.log('aca', cart)
             if (!cart) return console.log('carrito no encontrado')
 
-         //   console.log('here', cart.cart.findIndex(el => el.id == pid))//0
+            //   console.log('here', cart.cart.findIndex(el => el.id == pid))//0
 
             if (cart.cart.findIndex(el => el.id == pid) !== -1) {
                 cart.cart[cart.cart.findIndex(el => el.id == pid)].quantity += 1
@@ -60,94 +60,73 @@ export default class CartManager {
         }
     }
 
-async deleteProductFromCart(cid, pid) {
+    async deleteProductFromCart(cid, pid) {
 
-    try {
-        const cart = await cartsModel.findOne({ _id: cid })
-        if (!cart) return console.log('carrito no encontrado')
+        try {
+            const cart = await cartsModel.findOne({ _id: cid })
+            if (!cart) return console.log('carrito no encontrado')
 
-let productIndex = cart.cart.findIndex(el => el.id == pid)
+            let productIndex = cart.cart.findIndex(el => el.id == pid)
 
-        if (cart.cart[productIndex].quantity > 1) {
-            cart.cart[productIndex].quantity -= 1
-           
-        } else {
-            cart.cart.splice(productIndex,1)
+            if (cart.cart[productIndex].quantity > 1) {
+                cart.cart[productIndex].quantity -= 1
+            } else {
+                cart.cart.splice(productIndex, 1)
+            }
+
+            await cart.save()
+            return cart
+
+        } catch (error) {
+            console.log(error)
         }
-
-
-        await cart.save()
-
-        return cart
-
-    } catch (error) {
-        console.log(error)
     }
-}
 
-async emptyCart(cid) {
-    try {
-        const cart = await cartsModel.findOne({ _id: cid })
-        if (!cart) return console.log('carrito no encontrado')
+    async emptyCart(cid) {
+        try {
+            const cart = await cartsModel.findOne({ _id: cid })
+            if (!cart) return console.log('carrito no encontrado')
 
-    cart.cart = []
-  // console.log(cart.cart)
+            cart.cart = []
+            
+            await cart.save()
 
-        await cart.save()
-    } catch (error) {
-        console.log(error)
+        } catch (error) {
+            console.log(error)
+        }
     }
-}
 
-async editProductQty (cid, pid, quantity) {
-    try {
-        const cart = await cartsModel.findOne({ _id: cid })
-        if (!cart) return console.log('carrito no encontrado')
+    async editProductQty(cid, pid, quantity) {
+        try {
+            const cart = await cartsModel.findOne({ _id: cid })
+            if (!cart) return console.log('carrito no encontrado')
 
-let productIndex = cart.cart.findIndex(el => el.id === pid)
-console.log(productIndex)
-cart.cart[productIndex].quantity = quantity
+            let productIndex = cart.cart.findIndex(el => el.id === pid)
+            console.log(productIndex)
+            cart.cart[productIndex].quantity = quantity
 
-await cart.save()
-return cart.cart[productIndex]
-    } catch (error) {
-console.log(error)
+            await cart.save()
+            return cart.cart[productIndex]
+
+        } catch (error) {
+            console.log(error)
+        }
     }
-}
 
-async editCart (cid, newCart) {
-    try {
-const cart = await cartsModel.findOne({_id: cid})
-if (!cart) return console.log('carrito no encontrado')
+    async editCart(cid, newCart) {
+        try {
+            const cart = await cartsModel.findOne({ _id: cid })
+            if (!cart) return console.log('carrito no encontrado')
 
-cart.cart = newCart
+            cart.cart = newCart
 
-await cart.save()
+            await cart.save()
+            return cart.cart
 
-return cart.cart
-
-    } catch (error){
-        console.log(error)
+        } catch (error) {
+            console.log(error)
+        }
     }
-}
-    
-
-    //  async addProductToCart(id, producto) {
-    //         try {
-
-    //             const cart = await CarritosModel.findOne({ _id: id });
-
-    //             if (!cart) return { error: 'carrito no encontrado' }
-
-    //             cart.productos.push(producto);
-
-    //             await cart.save();
-
-    //             return { message: `Se agregó el producto: '${producto.nombre}' al carrito ID: ${id}` };
-    //         } catch (err) {
-    //             loggerError.error(err);
-    //         }
-    //     }
 
 
 
