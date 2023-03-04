@@ -30,4 +30,27 @@ router.post('/:cid/product/:pid', async (req, res) => {
     res.json({ mensaje: `Producto agregado a carrito ${cid}`, carrito: addedProduct })
 })
 
+router.delete('/:cid/product/:pid', async (req,res)=>{
+    const cid = req.params.cid
+    const pid = req.params.pid
+    const deletedProduct = await cartManager.deleteProductFromCart(cid, pid)
+    res.json({ mensaje: `Producto eliminado del carrito ${cid}`, carrito: deletedProduct })
+  
+})
+
+router.delete('/:cid', async(req,res)=>{
+    const cid = req.params.cid
+    const emptyCart = await cartManager.emptyCart(cid)
+    res.json({ mensaje: `Carrito ${cid} vaciado` })
+})
+
+router.put('/:cid/product/:pid', async (req,res)=>{
+    const cid = req.params.cid
+    const pid = req.params.pid
+    const quantity = req.body.quantity
+    //console.log('aca',quantity)
+    const editedProductQty = await cartManager.editProductQty(cid,pid,quantity)
+    res.json({mensaje: `Producto editado: ${editedProductQty}`})
+})
+
 export default router
