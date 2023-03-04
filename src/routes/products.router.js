@@ -9,11 +9,14 @@ const productManager = new ProductManager()
 
 
 router.get('/', async (req, res) => {
-    const {limit=1} = req.query
-    let products = await productManager.getProducts(limit)
+    const {limit=1, page=1} = req.query
+    let products = await productManager.getProducts(limit,page)
 
-   // res.json({ mensaje: "Productos encontrados encontrados", productos: products })
-   res.render('home', {products})
+
+
+   //res.json({ mensaje: response })
+ //  res.render('home', {products})
+ res.send(products)
 })
 
 router.get('/:pid', async (req, res) => { 

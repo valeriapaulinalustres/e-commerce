@@ -2,18 +2,39 @@ import { productsModel } from '../models/products.model.js'
 
 export default class ProductManager {
 
-    async getProducts(limit) {
+    async getProducts(limit,page) {
 
-       
+//        const options = {
+// limit: limit,
+// page: page,
+
+//        }
 
     
        // query && (limit = query.limit)
         try {
             //.lean() para que devuelva en json y lo muestre handlebars
-            const allProductsDB = await productsModel.find().lean()
-            if (limit) {
-                return allProductsDB.slice(0, limit)
-            } else { return allProductsDB }
+            const allProductsDB = await productsModel.paginate({},{limit,page})
+
+const response = {
+    status: 'success',
+    payload: allProductsDB.docs,
+    totalPages: allProductsDB.totalPages,
+    prevPage: allProductsDB.prevPage,
+    nextPage: allProductsDB.nextPage,
+    hasPrevPage: allProductsDB.hasPrevPage,
+    hasNextPage: allProductsDB.hasNextPage,
+    prevLink: allProductsDB.prevPage ? `https://localhost8080/api/products?page=${allProductsDB.prevPage}` : null,
+    nextLink: allProductsDB.nextPage ? `https://localhost8080/api/products?page=${allProductsDB.nextPage}` : null,
+}
+console.log(allProductsDB.docs)
+
+
+            return allProductsDB.docs
+
+            // if (limit) {
+            //     return allProductsDB.slice(0, limit)
+            // } else { return allProductsDB }
         } catch (error) {
             console.log(error)
             return error
