@@ -53,4 +53,12 @@ router.put('/:cid/product/:pid', async (req,res)=>{
     res.json({mensaje: `Producto editado: ${editedProductQty}`})
 })
 
+router.put('/:cid', async(req,res)=>{
+    const cid = req.params.cid
+    const newCart = req.body.cart
+    console.log(newCart)
+    const editedCart = await cartManager.editCart(cid, newCart)
+    res.json({mensaje: `Carrito editado: ${editedCart}`})
+})
+
 export default router

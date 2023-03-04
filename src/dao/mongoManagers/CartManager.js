@@ -109,12 +109,27 @@ console.log(productIndex)
 cart.cart[productIndex].quantity = quantity
 
 await cart.save()
-
+return cart.cart[productIndex]
     } catch (error) {
 console.log(error)
     }
 }
 
+async editCart (cid, newCart) {
+    try {
+const cart = await cartsModel.findOne({_id: cid})
+if (!cart) return console.log('carrito no encontrado')
+
+cart.cart = newCart
+
+await cart.save()
+
+return cart.cart
+
+    } catch (error){
+        console.log(error)
+    }
+}
     
 
     //  async addProductToCart(id, producto) {
