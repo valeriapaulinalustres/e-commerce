@@ -14,8 +14,7 @@ router.get('/', async (req, res) => {
     let products = await productManager.getProducts(limit, page, sort, category) //category en la url va sin comillas
 
     //res.json({ mensaje: response })
-    //  res.render('products', {products})
-    res.send(products)
+     res.render('products', {products})
 })
 
 router.get('/:pid', async (req, res) => {

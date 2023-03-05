@@ -7,17 +7,36 @@ export default class ProductManager {
         const filter = {};
         if (category) filter.category = category;
 
-        console.log(filter)
+    //    console.log(filter)
         const options = {
             limit: limit,
             page: page,
             sort: { price: sort },
             category: category
         }
-        
+
         try {
             //.lean() para que devuelva en json y lo muestre handlebars
             const allProductsDB = await productsModel.paginate(filter, options)
+
+
+//-----allProductsDB trae el array de productos y la info de paginación. En allProductsDB.docs está el array de productos. Esto de crear un nuevo objeto llamado products que es igual a allProductsDB.docs se hace a cambio de .loan(), porque con paginate no sirve .lean() y hay que hacer algo para que handlebars funcione.---------------------------
+            let oldProducts = allProductsDB.docs
+           
+            let products = oldProducts.map(el => {
+                return {
+                    title: el.title,
+                    description: el.description,
+                    price: el.price,
+                    category: el.category,
+                    thumbnails: el.thumbnails,
+                    code: el.code,
+                    stock: el.stock,
+                    status: el.status
+                }
+            })
+            
+//-------------------------fin artilugio para que funcione handlebars--------------------
 
             const response = {
                 status: 'success',
@@ -32,7 +51,7 @@ export default class ProductManager {
             }
             console.log(response)
 
-            return allProductsDB.docs
+            return products
 
         } catch (error) {
             console.log(error)
