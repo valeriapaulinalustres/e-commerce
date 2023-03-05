@@ -9,8 +9,9 @@ const productManager = new ProductManager()
 
 
 router.get('/', async (req, res) => {
-    const {limit=10, page=1, sort, ...query} = req.query
-    let products = await productManager.getProducts(limit,page,sort)
+    const {limit=10, page=1, sort=1, category} = req.query 
+
+    let products = await productManager.getProducts(limit,page,sort,category)
 
 
 

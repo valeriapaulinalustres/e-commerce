@@ -2,13 +2,20 @@ import { productsModel } from '../models/products.model.js'
 
 export default class ProductManager {
 
-    async getProducts(limit,page, sort, ...query) {
+    async getProducts(limit,page, sort, category) {
 
+      
+
+        const filter = {};
+    if (category) filter.category = category;
+    //{ $regex: `.*${category}.*` }
+
+    console.log(filter)
        const options = {
 limit: limit,
 page: page,
-//sort: sort ? {price: sort} : {} //por query pasar 1 ó -1
-sort: {price: sort}
+sort: {price: sort},
+category: category
        }
 
 
@@ -16,7 +23,7 @@ sort: {price: sort}
        // query && (limit = query.limit)
         try {
             //.lean() para que devuelva en json y lo muestre handlebars
-            const allProductsDB = await productsModel.paginate({},options)
+            const allProductsDB = await productsModel.paginate(filter,options)
 
 const response = {
     status: 'success',
