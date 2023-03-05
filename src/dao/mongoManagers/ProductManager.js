@@ -2,48 +2,38 @@ import { productsModel } from '../models/products.model.js'
 
 export default class ProductManager {
 
-    async getProducts(limit,page, sort, category) {
-
-      
+    async getProducts(limit, page, sort, category) {
 
         const filter = {};
-    if (category) filter.category = category;
-    //{ $regex: `.*${category}.*` }
+        if (category) filter.category = category;
 
-    console.log(filter)
-       const options = {
-limit: limit,
-page: page,
-sort: {price: sort},
-category: category
-       }
-
-
-    
-       // query && (limit = query.limit)
+        console.log(filter)
+        const options = {
+            limit: limit,
+            page: page,
+            sort: { price: sort },
+            category: category
+        }
+        
         try {
             //.lean() para que devuelva en json y lo muestre handlebars
-            const allProductsDB = await productsModel.paginate(filter,options)
+            const allProductsDB = await productsModel.paginate(filter, options)
 
-const response = {
-    status: 'success',
-    payload: allProductsDB.docs,
-    totalPages: allProductsDB.totalPages,
-    prevPage: allProductsDB.prevPage,
-    nextPage: allProductsDB.nextPage,
-    hasPrevPage: allProductsDB.hasPrevPage,
-    hasNextPage: allProductsDB.hasNextPage,
-    prevLink: allProductsDB.prevPage ? `https://localhost8080/api/products?page=${allProductsDB.prevPage}` : null,
-    nextLink: allProductsDB.nextPage ? `https://localhost8080/api/products?page=${allProductsDB.nextPage}` : null,
-}
-console.log(allProductsDB.docs)
-
+            const response = {
+                status: 'success',
+                payload: allProductsDB.docs,
+                totalPages: allProductsDB.totalPages,
+                prevPage: allProductsDB.prevPage,
+                nextPage: allProductsDB.nextPage,
+                hasPrevPage: allProductsDB.hasPrevPage,
+                hasNextPage: allProductsDB.hasNextPage,
+                prevLink: allProductsDB.prevPage ? `https://localhost8080/api/products?page=${allProductsDB.prevPage}` : null,
+                nextLink: allProductsDB.nextPage ? `https://localhost8080/api/products?page=${allProductsDB.nextPage}` : null,
+            }
+            console.log(response)
 
             return allProductsDB.docs
 
-            // if (limit) {
-            //     return allProductsDB.slice(0, limit)
-            // } else { return allProductsDB }
         } catch (error) {
             console.log(error)
             return error
@@ -81,9 +71,9 @@ console.log(allProductsDB.docs)
         }
     }
 
-    
 
-    async updateProduct (id, newProduct) {
+
+    async updateProduct(id, newProduct) {
         try {
             const updatedProduct = await productsModel.findByIdAndUpdate(id, {
                 title: newProduct.title,
@@ -91,7 +81,7 @@ console.log(allProductsDB.docs)
                 price: newProduct.price,
                 code: newProduct.code,
                 stock: newProduct.stock,
-            }, {new: true})
+            }, { new: true })
             return updatedProduct
         } catch (error) {
             console.log(error)

@@ -9,18 +9,16 @@ const productManager = new ProductManager()
 
 
 router.get('/', async (req, res) => {
-    const {limit=10, page=1, sort=1, category} = req.query 
+    const { limit = 10, page = 1, sort, category } = req.query
 
-    let products = await productManager.getProducts(limit,page,sort,category)
+    let products = await productManager.getProducts(limit, page, sort, category) //category en la url va sin comillas
 
-
-
-   //res.json({ mensaje: response })
- //  res.render('products', {products})
- res.send(products)
+    //res.json({ mensaje: response })
+    //  res.render('products', {products})
+    res.send(products)
 })
 
-router.get('/:pid', async (req, res) => { 
+router.get('/:pid', async (req, res) => {
     const product = await productManager.getProductById(req.params.pid)
     res.json({ mensage: "Producto encontrado por id", producto: product })
 })
