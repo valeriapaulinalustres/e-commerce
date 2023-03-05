@@ -2,13 +2,15 @@ import { productsModel } from '../models/products.model.js'
 
 export default class ProductManager {
 
-    async getProducts(limit,page, sort) {
+    async getProducts(limit,page, sort, ...query) {
 
        const options = {
 limit: limit,
 page: page,
-sort: sort ? {price: sort} : {}
+//sort: sort ? {price: sort} : {} //por query pasar 1 ó -1
+sort: {price: sort}
        }
+
 
     
        // query && (limit = query.limit)
