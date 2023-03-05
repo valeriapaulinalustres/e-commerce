@@ -1,0 +1,21 @@
+{{>nav}}
+<h2>Carrito</h2>
+{{#if cart.length}}
+{{#each cart}}
+<div class="product-container">
+<h3></h3>
+<p>{{id.title}}</p>
+<h4>Precio unitario: $ {{id.price}}</h4>
+<h5>Cantidad: {{quantity}}</h5>
+<h5>Total: </h5>
+</div>
+
+
+{{/each}}
+
+<h2>Monto total del carrito: </h2>
+
+{{else}}
+<h2>Carrito vacío</h2>
+
+{{/if}}

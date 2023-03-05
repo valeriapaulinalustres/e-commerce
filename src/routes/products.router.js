@@ -9,13 +9,13 @@ const productManager = new ProductManager()
 
 
 router.get('/', async (req, res) => {
-    const {limit=1, page=1} = req.query
+    const {limit=1, page=1, sort, ...query} = req.query
     let products = await productManager.getProducts(limit,page)
 
 
 
    //res.json({ mensaje: response })
- //  res.render('home', {products})
+ //  res.render('products', {products})
  res.send(products)
 })
 

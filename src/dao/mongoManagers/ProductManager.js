@@ -2,19 +2,19 @@ import { productsModel } from '../models/products.model.js'
 
 export default class ProductManager {
 
-    async getProducts(limit,page) {
+    async getProducts(limit,page, sort) {
 
-//        const options = {
-// limit: limit,
-// page: page,
-
-//        }
+       const options = {
+limit: limit,
+page: page,
+sort: sort ? {price: sort} : {}
+       }
 
     
        // query && (limit = query.limit)
         try {
             //.lean() para que devuelva en json y lo muestre handlebars
-            const allProductsDB = await productsModel.paginate({},{limit,page})
+            const allProductsDB = await productsModel.paginate({},options)
 
 const response = {
     status: 'success',
