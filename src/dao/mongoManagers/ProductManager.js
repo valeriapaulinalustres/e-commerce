@@ -12,7 +12,8 @@ export default class ProductManager {
             limit: limit,
             page: page,
             sort: { price: sort },
-            category: category
+            category: category,
+            //lean: true //este sirve para que ande handlebars en lugar de hacer el artilugio del ProductManaer.
         }
 
         try {
