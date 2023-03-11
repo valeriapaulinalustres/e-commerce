@@ -27,6 +27,7 @@ router.post('/registro', async (req, res) => {
     const { email, password } = req.body
     const user = await usersManager.loginUser(req.body)
     if (user) {
+        req.session.name = user[0].first_name
       req.session.email = email
       req.session.password = password
       res.redirect('/api/products')
@@ -42,7 +43,7 @@ router.get('/logout', (req, res) => {
       console.log(error)
       res.json({ message: error })
     } else {
-      res.json({ message: 'Sesion eliminada con exito' })
+      res.redirect('/api/views/login')
     }
   })
 })

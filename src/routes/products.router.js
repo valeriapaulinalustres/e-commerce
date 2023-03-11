@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
     const { limit = 10, page = 1, sort, category } = req.query
 
     let products = await productManager.getProducts(limit, page, sort, category) //category en la url va sin comillas
-
+let user = req.session.name
     //res.json({ mensaje: response })
-     res.render('products', {products})
+     res.render('products', {products, user})
 })
 
 router.get('/:pid', async (req, res) => {
