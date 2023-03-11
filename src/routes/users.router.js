@@ -7,13 +7,22 @@ const usersManager = new UsersManager()
 
 
 router.post('/registro', async (req, res) => {
+   if (req.body.password === req.body.repeatPassword) {
     const newUser = await usersManager.createUser(req.body)
     if (newUser) {
       res.redirect('/api/views/login')
     } else {
-      res.redirect('/api/views/errorRegistro')
+        let mensaje = 'Este usuario ya existe. Vaya a login por favor'
+        res.render('errorLogin', {mensaje})
     }
+   } else {
+    let mensaje = 'No coinciden las contraseñas'  
+    res.render('errorRegistro', {mensaje})
+   }
+   
   })
+
+  
   router.post('/login', async (req, res) => {
     const { email, password } = req.body
     const user = await usersManager.loginUser(req.body)
