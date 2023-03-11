@@ -35,4 +35,16 @@ router.post('/registro', async (req, res) => {
       res.redirect('/api/views/errorLogin')
     }
   })
+
+router.get('/logout', (req, res) => {
+  req.session.destroy((error) => {
+    if (error) {
+      console.log(error)
+      res.json({ message: error })
+    } else {
+      res.json({ message: 'Sesion eliminada con exito' })
+    }
+  })
+})
+
   export default router
