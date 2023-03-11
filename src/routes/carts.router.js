@@ -21,7 +21,6 @@ router.get('/:cid', async (req, res) => {
     const cid = req.params.cid
     const cartFoundById = await cartManager.getCartById(cid)
     //res.json({ mensaje: "Carrito encontrado por id", carrito: cartFoundById })
-    console.log(cartFoundById.cart)
     let cart = cartFoundById.cart
     res.render('cart', {cart})
 })

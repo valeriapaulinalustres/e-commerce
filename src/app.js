@@ -1,29 +1,55 @@
 import express from 'express'
-const app = express()
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+
 import path from 'path'
 
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views/views.router.js'
 import chatRouter from './routes/views/chat.router.js'
+import usersRouter from './routes/users.router.js'
+import usersViewRouter from './routes/views/usersView.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
 import './dao/dbConfig.js'
 
+import mongoStore from 'connect-mongo'
+
 import MessageManager from './dao/mongoManagers/MessageManager.js'
 const messageManager = new MessageManager()
 
+const app = express()
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+//cookie parser (para guardar id de session)
+app.use(cookieParser())
+
+// Session con Mongo
+app.use(
+  session({
+    secret: 'sessionKey',
+    resave: false,
+    saveUninitialized: true,
+    store: new mongoStore({
+      mongoUrl: 'mongodb+srv://valeriapaulinalustres:Artemisa37@cluster0.knm2ak6.mongodb.net/ecommerce?retryWrites=true&w=majority'
+    }),
+  })
+)
+
 
 //rutas
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/realtimeproducts', viewsRouter)
 app.use('/api/chat', chatRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/views', usersViewRouter )
 
-console.log(__dirname)
+//console.log(__dirname)
 
 // archivos estaticos
 //OJO QUE DETRÁS DE PUBLIC NO HAY BARRA, POR LO QUE DONDE SE NECESITE SEGUIR CON LA URL (EJEMPLO STYLE.CSS) HAY QUE PONERLE LA BARRA DELANTE
