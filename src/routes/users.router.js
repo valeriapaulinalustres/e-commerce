@@ -27,12 +27,12 @@ router.post('/registro', async (req, res) => {
     const { email, password } = req.body
     const user = await usersManager.loginUser(req.body)
     if (user) {
-        console.log('existe', user)
       req.session.email = email
       req.session.password = password
       res.redirect('/api/products')
     } else {
-      res.redirect('/api/views/errorLogin')
+        let mensaje = 'Usuario o contraseña inválidos'
+      res.render('errorLogin',{mensaje})
     }
   })
 
