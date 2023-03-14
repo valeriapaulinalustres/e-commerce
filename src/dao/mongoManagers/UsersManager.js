@@ -9,9 +9,12 @@ export default class UsersManager {
     const { email, password } = user
     try {
       const existeUsuario = await userModel.find({email})
+     
       if (existeUsuario.length === 0) {
+        
         const hashNewPassword = await hashPassword(password)
-        const newUser = { ...user, password: hashNewPassword }
+        let newUser = { ...user, password: hashNewPassword }
+        if (email === 'adminCoder@coder.com') {newUser = {...newUser, admin: true }}
         await userModel.create(newUser)    
         return newUser
       } else {
@@ -32,6 +35,7 @@ export default class UsersManager {
             return usuario
           }
     } else {
+        //si no coinciden las contraseñas o si no encuentra el usuario:
       return null
     }
   }

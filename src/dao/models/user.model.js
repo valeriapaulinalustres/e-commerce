@@ -1,7 +1,12 @@
-
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const usersSchema = new mongoose.Schema({
+
+  admin: {
+    type: Boolean,
+    default: false,
+  },
+
   first_name: {
     type: String,
     required: true,
@@ -23,6 +28,6 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-})
+});
 
-export const userModel = mongoose.model('Users',usersSchema)
+export const userModel = mongoose.model("Users", usersSchema);
