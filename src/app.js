@@ -19,14 +19,19 @@ import mongoStore from 'connect-mongo'
 
 import MessageManager from './dao/mongoManagers/MessageManager.js'
 const messageManager = new MessageManager()
+//passport
+import passport from 'passport'
+import './passport/passportStrategies.js'
 
 const app = express()
 
+
+// MIDDLEWARES
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
 //cookie parser (para guardar id de session)
 app.use(cookieParser())
+
 
 // Session con Mongo
 app.use(
@@ -40,6 +45,11 @@ app.use(
   })
 )
 
+// passport
+//inicializar passport
+app.use(passport.initialize())
+// passport va a guardar la informacion de session
+app.use(passport.session())
 
 //rutas
 app.use('/api/products', productsRouter)
