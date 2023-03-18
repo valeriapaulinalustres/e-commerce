@@ -76,4 +76,15 @@ router.get('/logout', (req, res) => {
   })
 })
 
+//------registro con Github
+
+router.get(
+  '/registroGithub',
+  passport.authenticate('github', { scope: ['user:email'] })
+)
+router.get('/github', passport.authenticate('github'),(req,res)=>{
+  req.session.email = req.user.email
+  res.redirect('/api/products')
+})
+
   export default router
