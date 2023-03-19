@@ -1,6 +1,7 @@
+<div class="registro-pageContainer">
 <h1>REGISTRO</h1>
-
-<form action='/api/users/registro' method="post">
+<div class="registro-container">
+<form action='/api/users/registro' method="post" class="form-registro">
   FirstName: <input type='text' name='first_name' id='first_name' />
   LastName: <input type='text' name='last_name' id='last_name' />
   Email: <input type='email' name='email' id='email' />
@@ -9,6 +10,10 @@
     Repeat Password: <input type='password' name='repeatPassword' id='repeatPassword' />
   <input type='submit' value='CREAR' />
 </form>
+<div>
+<button onclick="location.href='../../api/users/registroGithub'">Registrarme con GITHUB</button>
+</div>
+</div>
 
-<h2>REGISTRO CON GITHUB</h2>
-<button onclick="location.href='../../api/users/registroGithub'">GITHUB</button>
+</div>
+
