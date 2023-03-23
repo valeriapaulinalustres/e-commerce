@@ -10,6 +10,7 @@ import viewsRouter from './routes/views/views.router.js'
 import chatRouter from './routes/views/chat.router.js'
 import usersRouter from './routes/users.router.js'
 import usersViewRouter from './routes/views/usersView.router.js'
+import jwtRouter from './routes/jwt.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
@@ -58,6 +59,7 @@ app.use('/api/realtimeproducts', viewsRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/views', usersViewRouter )
+app.use('/api/jwt',jwtRouter)
 
 //console.log(__dirname)
 

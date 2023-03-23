@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const usersSchema = new mongoose.Schema({
 
-  admin: {
-    type: Boolean,
-    default: false,
+  role: {
+    type: String,
+    default: "user",
   },
 
   first_name: {
@@ -28,6 +28,14 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  cartId:{
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'Carts',        
+          },
+
+  required:false
+  
+
 });
 
 export const userModel = mongoose.model("Users", usersSchema);

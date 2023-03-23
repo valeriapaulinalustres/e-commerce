@@ -27,8 +27,10 @@ export default class UsersManager {
   }
 
   async loginUser(user){
-    const {email,password} = user
-    const usuario = await userModel.find({email})
+    console.log(user)
+    const {username,password} = user
+    const usuario = await userModel.find({email: username})
+    console.log(usuario)
     if(usuario){
         const isPassword = await comparePasswords(password, usuario[0].password)
         if (isPassword) {
