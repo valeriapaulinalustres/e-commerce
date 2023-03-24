@@ -23,8 +23,24 @@ router.post('/login', async (req, res) => {
 
   // ----- ruta para validar token -----
   router.get('/login', jwtValidation, (req, res) => {
-    console.log('TOKEN VALIDADO')
-    res.send('PROBANDO JWT')
+    console.log('Token validado')
+    res.send('Token validado')
+  })
+
+
+  // ----- ruta para devolver usuario si existe el token -------------
+  router.get('/current', (req,res)=>{
+    let token = req.cookies.token
+    let user = req.cookies.user.user
+
+    if (token) {
+        res.json({tokenFromCookie: token, userFromCookie: user })
+        console.log(req.cookies) 
+    } else {
+        console.log('error, no hay token')
+    }
+  
+   
   })
   
 

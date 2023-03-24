@@ -34,6 +34,7 @@ JWT:
 
 '/api/jwt/login' POST genera token
 '/api/jwt/login' GET valida token
+'/api/jwt/current' GET devuelve usuario desde cookies si existe el token
 
 
 Chat:
