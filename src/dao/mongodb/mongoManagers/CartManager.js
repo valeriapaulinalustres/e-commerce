@@ -90,7 +90,7 @@ export default class CartManager {
             cart.cart = []
             
             await cart.save()
-
+return cart.cart
         } catch (error) {
             console.log(error)
         }

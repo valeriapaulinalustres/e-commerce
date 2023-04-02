@@ -23,8 +23,6 @@ Carts:
 
 Users:
 
-'/api/users/registro' POST registra usuarios
-'/api/users/login' POST loguea usuarios
 '/api/users/logout' GET cierra sessión de usuarios
 '/api/users/registroGithub' GET registra usuarios por Github
 '/api/users/' GET recibe datos del usuario desde Github

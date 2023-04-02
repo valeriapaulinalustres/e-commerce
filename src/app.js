@@ -1,4 +1,5 @@
 import express from 'express'
+import config from './config.js'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 
@@ -7,25 +8,24 @@ import path from 'path'
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views/views.router.js'
-import chatRouter from './routes/views/chat.router.js'
+import chatRouter from './routes/views/messages.router.js'
 import usersRouter from './routes/users.router.js'
 import usersViewRouter from './routes/views/usersView.router.js'
 import jwtRouter from './routes/jwt.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
-import './dao/dbConfig.js'
+import './dao/mongodb/dbConfig.js'
 
 import mongoStore from 'connect-mongo'
 
-import MessageManager from './dao/mongoManagers/MessageManager.js'
+import MessageManager from './dao/mongodb/mongoManagers/MessageManager.js'
 const messageManager = new MessageManager()
 //passport
 import passport from 'passport'
 import './passport/passportStrategies.js'
 
 const app = express()
-
 
 // MIDDLEWARES
 app.use(express.json())
@@ -74,9 +74,9 @@ app.set('view engine', 'handlebars')
 app.set('views',__dirname+'/views')
 
 
+const PORT = config.PORT
 
-
-const httpServer = app.listen(8080, () => {
+const httpServer = app.listen(PORT, () => {
   console.log('Servidor escuchando en el puerto 8080');
 })
 

@@ -1,6 +1,6 @@
 
 import { userModel } from '../models/user.model.js'
-import { hashPassword, comparePasswords } from '../../utils.js'
+import { hashPassword, comparePasswords } from '../../../utils.js'
 
 
 export default class UsersManager {
