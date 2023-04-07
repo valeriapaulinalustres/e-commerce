@@ -107,8 +107,8 @@ export default class CartManager {
     try {
       const cart = await cartsModel.findOne({ _id: cid });
       if (!cart) return console.log("carrito no encontrado");
-
-      let productIndex = cart.products.findIndex((el) => el.id === pid);
+console.log(cart)
+      let productIndex = cart.products.findIndex((el) => el.id == pid);
       console.log(productIndex);
       cart.products[productIndex].quantity = quantity;
 
