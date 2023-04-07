@@ -7,11 +7,9 @@ import {
   getCartByIdController,
   getCartsController,
   addProductToCartController,
+  deleteProductFromCartController,
 } from "../controllers/carts.controller.js";
-import {
 
-  deleteProductController,
-} from "../controllers/products.controller.js";
 const router = Router();
 
 //import CartManager from "../dao/mongoManagers/CartManager.js";
@@ -62,7 +60,7 @@ router.post(
 
 router.delete(
   "/:cid/product/:pid",
-  deleteProductController
+  deleteProductFromCartController
   // async (req,res)=>{
   //     const cid = req.params.cid
   //     const pid = req.params.pid
