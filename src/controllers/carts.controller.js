@@ -43,7 +43,7 @@ export const getCartByIdController =  async (req, res) => {
    
 }
 
-export const addProductToController = async (req, res) => {
+export const addProductToCartController = async (req, res) => {
     try {
         const cid = req.params.cid
         const pid = req.params.pid
@@ -82,7 +82,7 @@ export const editProductQtyController = async (req,res)=>{
         const cid = req.params.cid
         const pid = req.params.pid
         const quantity = req.body.quantity
-        //console.log('aca',quantity)
+        console.log('aca',quantity)
         const editedProductQty = await editProductQtyService(cid,pid,quantity)
         res.json({mensaje: `Producto editado: ${editedProductQty}`})
     } catch (error) {

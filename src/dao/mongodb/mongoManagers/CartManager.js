@@ -3,8 +3,10 @@ import { cartsModel } from "../models/carts.model.js"
 export default class CartManager {
 
     async addCart(cart) {
+        console.log(cart)
+        let newCartFromUuser = { products: cart}
         try {
-            const newCart = await cartsModel.create(cart)
+            const newCart = await cartsModel.create(newCartFromUuser)
             return newCart
         } catch (error) {
             console.log(error)
@@ -43,15 +45,19 @@ export default class CartManager {
             if (!cart) return console.log('carrito no encontrado')
 
             //   console.log('here', cart.cart.findIndex(el => el.id == pid))//0
-
-            if (cart.cart.findIndex(el => el.id == pid) !== -1) {
-                cart.cart[cart.cart.findIndex(el => el.id == pid)].quantity += 1
+console.log('aca',cart)
+            if (cart.products.findIndex(el => el.id == pid) !== -1) {
+                console.log('en if')
+                cart.products[cart.products.findIndex(el => el.id == pid)].quantity += 1
                 console.log('nuevo', cart)
+                
             } else {
-                cart.cart.push({ id: pid, quantity: 1 })
+                console.log('en else')
+                cart.products.push({ id: pid, quantity: 1 })
+                
             }
 
-            await cart.save()
+           await cart.save()
 
             return cart
         } catch (error) {
@@ -68,10 +74,10 @@ export default class CartManager {
 
             let productIndex = cart.cart.findIndex(el => el.id == pid)
 
-            if (cart.cart[productIndex].quantity > 1) {
-                cart.cart[productIndex].quantity -= 1
+            if (cart.products[productIndex].quantity > 1) {
+                cart.products[productIndex].quantity -= 1
             } else {
-                cart.cart.splice(productIndex, 1)
+                cart.products.splice(productIndex, 1)
             }
 
             await cart.save()
@@ -87,26 +93,27 @@ export default class CartManager {
             const cart = await cartsModel.findOne({ _id: cid })
             if (!cart) return console.log('carrito no encontrado')
 
-            cart.cart = []
+            cart.products = []
             
             await cart.save()
-return cart.cart
+return cart.products
         } catch (error) {
             console.log(error)
         }
     }
 
     async editProductQty(cid, pid, quantity) {
+        console.log('llega')
         try {
             const cart = await cartsModel.findOne({ _id: cid })
             if (!cart) return console.log('carrito no encontrado')
 
-            let productIndex = cart.cart.findIndex(el => el.id === pid)
+            let productIndex = cart.products.findIndex(el => el.id === pid)
             console.log(productIndex)
-            cart.cart[productIndex].quantity = quantity
+            cart.products[productIndex].quantity = quantity
 
             await cart.save()
-            return cart.cart[productIndex]
+            return cart.products[productIndex]
 
         } catch (error) {
             console.log(error)
@@ -118,10 +125,10 @@ return cart.cart
             const cart = await cartsModel.findOne({ _id: cid })
             if (!cart) return console.log('carrito no encontrado')
 
-            cart.cart = newCart
+            cart.products = newCart
 
             await cart.save()
-            return cart.cart
+            return cart.products
 
         } catch (error) {
             console.log(error)
