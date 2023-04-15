@@ -1,9 +1,9 @@
 
 import MongoDb from './DAO/mongoManagers/UsersManager.js'
-import {usersSchema} from './mongodb/models/user.model.js'
+import {userModel} from './mongodb/models/user.model.js'
 
 
-let persistence = new MongoDb('Products', usersSchema)
+let persistence = new MongoDb('Products', userModel)
 
 export async function createUser(user) {
     return await persistence.createUser(user)
@@ -11,4 +11,8 @@ export async function createUser(user) {
 
 export async function loginUser(user) {
     return await persistence.loginUser(user)
+}
+
+export async function getUsersData(usersMail) {
+    return await persistence.getUsersData(usersMail)
 }

@@ -72,7 +72,7 @@ try {
 
     if (isPassword) {
       console.log("pasan contraseñas");
-      req.session.name = user.first_name;
+      req.session.fullName = user.full_name;
       req.session.email = user.email;
       req.session.password = user.password;
       //   if(email === 'adminCoder@mail.com' && password === '12345'){

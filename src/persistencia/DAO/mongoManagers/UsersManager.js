@@ -2,15 +2,15 @@
 import { userModel } from '../../mongodb/models/user.model.js'
 import { hashPassword, comparePasswords } from '../../../utils.js'
 import config from '../../../config.js'
-import UsersDBDTO from '../../DTO/usersDB.dto.js'
-
+// import UsersDBDTO from '../../DTO/usersDB.dto.js'
+import UsersRepository from '../../repositories/users.repositories.js'
 
 export default class UsersManager {
 
   async createUser(user) {
 console.log('aqui',user)
 
-const userFromDTO = UsersDBDTO(user)
+const userFromDTO = UsersRepository(user)
 
     const { email, password } = userFromDTO
     try {
@@ -46,5 +46,10 @@ const userFromDTO = UsersDBDTO(user)
         //si no coinciden las contraseñas o si no encuentra el usuario:
       return null
     }
+  }
+
+  async getUsersData (usersMail) {
+    const usersData = await userModel.find({email: usersMail})
+    return usersData
   }
 }

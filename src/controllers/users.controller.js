@@ -1,6 +1,7 @@
 import {
     createUserService,
-    loginUserService
+    loginUserService,
+    getUsersDataService
 } from '../services/users.services.js'
 
 
@@ -13,6 +14,16 @@ import {
         res.redirect('/api/views/login')
       }
     })
+  }
+
+  export const getUsersDataController = async (req,res) => {
+    try {
+      const usersMail = req.session.mail
+      const userData = await getUsersDataService(usersMail)
+      res.json({mensaje: userData})
+    } catch (error) {
+      console.log('error')
+    }
   }
 
   
