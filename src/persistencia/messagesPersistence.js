@@ -1,5 +1,5 @@
 
-import MongoDb from './mongodb/mongoManagers/MessageManager.js'
+import MongoDb from './DAO/mongoManagers/MessageManager.js'
 import {messagesSchema} from './mongodb/models/messages.model.js'
 
 

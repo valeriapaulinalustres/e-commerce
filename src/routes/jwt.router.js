@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { generateToken } from '../utils.js'
-import UsersManager from '../dao/mongodb/mongoManagers/UsersManager.js'
+import UsersManager from '../persistencia/DAO/mongoManagers/UsersManager.js'
 import { jwtValidation } from '../middlewares/jwt.middlewares.js'
 import passport from 'passport'
 const router = Router()

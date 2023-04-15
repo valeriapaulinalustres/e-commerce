@@ -7,7 +7,7 @@ import {
     emptyCart, 
     editProductQty, 
     editCart 
-} from '../dao/cartsPersistence.js'
+} from '../persistencia/cartsPersistence.js'
 
 export async function addCartService(newCart){
     const cart = await addCart(newCart)

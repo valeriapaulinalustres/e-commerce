@@ -1,4 +1,4 @@
-import {addMessage, getMessages} from '../dao/messagesPersistence.js'
+import {addMessage, getMessages} from '../persistencia/messagesPersistence.js'
 
 export async function addMessageService(message){
     const newMessage = await addMessage(message)

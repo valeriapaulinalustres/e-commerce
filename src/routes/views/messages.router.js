@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router()
-import MessageManager from '../../dao/mongodb/mongoManagers/MessageManager.js'
+import MessageManager from '../../persistencia/DAO/mongoManagers/MessageManager.js'
 
 const messageManager = new MessageManager()
 

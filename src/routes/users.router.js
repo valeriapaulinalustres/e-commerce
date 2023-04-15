@@ -1,6 +1,6 @@
 
 import { Router } from 'express'
-import UsersManager from '../dao/mongodb/mongoManagers/UsersManager.js'
+import UsersManager from '../persistencia/DAO/mongoManagers/UsersManager.js'
 const router = Router()
 const usersManager = new UsersManager()
 import passport from 'passport'

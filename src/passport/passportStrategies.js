@@ -1,8 +1,10 @@
 import passport from "passport";
-import { userModel } from "../../src/dao/mongodb/models/user.model.js";
+import { userModel } from "../../src/persistencia/mongodb/models/user.model.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { hashPassword, comparePasswords } from "../utils.js";
 import { Strategy as GithubStrategy } from "passport-github2";
+import UsersDBDTO from "../persistencia/DTO/usersDB.dto.js";
+import config from "../config.js";
 
 passport.use(
   "registro",
@@ -29,13 +31,15 @@ try {
 
   let userRole;
 
-  if (email === 'adminCoder@mail.com' && password === '12345') {
+  if (email === config.ADMIN_EMAIL && password === config.ADMIN_PASSWORD) {
     userRole = 'admin'
   } else {
     userRole = 'user'}
 
+const userFromDto = new UsersDBDTO(req.body)
+
   const newUser = { //todo lo que trae del form de registro más lo que yo le agrego:
-    ...req.body, 
+    ...userFromDto, 
     password: hashNewPassword, 
    // cartId: ' ', 
     role: userRole 

@@ -1,5 +1,5 @@
-import File from './fileSystem/fileManagers/ProductManager.js'
-import MongoDb from './mongodb/mongoManagers/ProductManager.js'
+import File from './DAO/fileManagers/ProductManager.js'
+import MongoDb from './DAO/mongoManagers/ProductManager.js'
 import {productsModel} from './mongodb/models/products.model.js'
 import {Command} from 'commander'
 

@@ -1,5 +1,5 @@
 
-import MongoDb from './mongodb/mongoManagers/UsersManager.js'
+import MongoDb from './DAO/mongoManagers/UsersManager.js'
 import {usersSchema} from './mongodb/models/user.model.js'
 
 

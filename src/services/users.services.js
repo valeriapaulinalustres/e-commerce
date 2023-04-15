@@ -1,7 +1,7 @@
 import {
     createUser,
     loginUser
-} from '../dao/usersPersistence.js'
+} from '../persistencia/usersPersistence.js'
 
 
 export async function createUserService(user){

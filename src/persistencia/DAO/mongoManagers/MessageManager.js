@@ -1,4 +1,4 @@
-import { messagesModel } from "../models/messages.model.js";
+import { messagesModel } from "../../mongodb/models/messages.model.js";
 
 export default class MessageManager {
     async  addMessage (message) {

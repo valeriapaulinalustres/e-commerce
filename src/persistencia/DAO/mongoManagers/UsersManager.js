@@ -1,20 +1,26 @@
 
-import { userModel } from '../models/user.model.js'
+import { userModel } from '../../mongodb/models/user.model.js'
 import { hashPassword, comparePasswords } from '../../../utils.js'
+import config from '../../../config.js'
+import UsersDBDTO from '../../DTO/usersDB.dto.js'
 
 
 export default class UsersManager {
 
   async createUser(user) {
-    const { email, password } = user
+console.log('aqui',user)
+
+const userFromDTO = UsersDBDTO(user)
+
+    const { email, password } = userFromDTO
     try {
       const existeUsuario = await userModel.find({email})
      
       if (existeUsuario.length === 0) {
         
         const hashNewPassword = await hashPassword(password)
-        let newUser = { ...user, password: hashNewPassword }
-        if (email === 'adminCoder@coder.com') {newUser = {...newUser, admin: true }}
+        let newUser = { ...userFromDTO, password: hashNewPassword }
+        if (email === config.ADMIN_EMAIL) {newUser = {...newUser, role: 'admin' }}
         await userModel.create(newUser)    
         return newUser
       } else {

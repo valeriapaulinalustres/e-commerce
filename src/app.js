@@ -15,11 +15,11 @@ import jwtRouter from './routes/jwt.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
-import './dao/mongodb/dbConfig.js'
+import './persistencia/mongodb/dbConfig.js'
 
 import mongoStore from 'connect-mongo'
 
-import MessageManager from './dao/mongodb/mongoManagers/MessageManager.js'
+import MessageManager from './persistencia/DAO/mongoManagers/MessageManager.js'
 const messageManager = new MessageManager()
 //passport
 import passport from 'passport'
