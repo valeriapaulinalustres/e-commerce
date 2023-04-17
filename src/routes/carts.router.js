@@ -9,6 +9,7 @@ import {
   addProductToCartController,
   deleteProductFromCartController,
 } from "../controllers/carts.controller.js";
+import { verificarUsuarioClient } from "../middlewares/auth.js";
 
 const router = Router();
 
@@ -48,7 +49,7 @@ router.get(
 );
 
 router.post(
-  "/:cid/product/:pid",
+  "/:cid/product/:pid", verificarUsuarioClient,
   addProductToCartController
   // async (req, res) => {
   //     const cid = req.params.cid

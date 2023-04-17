@@ -27,14 +27,16 @@ try {
     return done(null, false);
   }
 
-  const hashNewPassword = await hashPassword(password);
+ 
 
   let userRole;
 
-  if (email === config.ADMIN_EMAIL && password === config.ADMIN_PASSWORD) {
+  if (email == config.ADMIN_EMAIL) {
     userRole = 'admin'
   } else {
     userRole = 'user'}
+
+    const hashNewPassword = await hashPassword(password);
 
 const userFromDto = new UsersDBDTO(req.body)
 
@@ -75,6 +77,7 @@ try {
       req.session.fullName = user.full_name;
       req.session.email = user.email;
       req.session.password = user.password;
+      req.session.role = user.role;
       //   if(email === 'adminCoder@mail.com' && password === '12345'){
       //         req.session.isAdmin = true
       //       } else {

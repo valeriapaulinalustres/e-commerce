@@ -20,7 +20,7 @@ import {
     try {
       const usersMail = req.session.mail
       const userData = await getUsersDataService(usersMail)
-      res.json({mensaje: userData})
+      res.json({mensaje: 'hola'})
     } catch (error) {
       console.log('error')
     }

@@ -6,6 +6,8 @@ import {
     getProductsController, 
     updateProductController 
 } from "../controllers/products.controller.js";
+import {verificarUsuarioAdmin} from '../middlewares/auth.js'
+
 const router = Router()
 //import ProductManager from '../dao/mongoManagers/ProductManager.js'
 
@@ -32,7 +34,7 @@ router.get('/:pid', getProductByIdController
 // }
 )
 
-router.post('/', addProductController
+router.post('/', verificarUsuarioAdmin, addProductController
 // async (req, res) => {
 //     let newProduct = req.body
 
@@ -41,7 +43,7 @@ router.post('/', addProductController
 // }
 )
 
-router.put('/:pid', updateProductController
+router.put('/:pid', verificarUsuarioAdmin, updateProductController
 // async (req, res) => {
 //     const pid = req.params.pid
 //     const newProduct = req.body
@@ -50,7 +52,7 @@ router.put('/:pid', updateProductController
 // }
 )
 
-router.delete('/:pid', deleteProductController
+router.delete('/:pid', verificarUsuarioAdmin, deleteProductController
 // async (req, res) => {
 //     const pid = req.params.pid
 //     const deletedProduct = await productManager.deleteProduct(pid)

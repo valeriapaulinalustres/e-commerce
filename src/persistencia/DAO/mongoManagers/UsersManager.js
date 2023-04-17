@@ -10,7 +10,7 @@ export default class UsersManager {
   async createUser(user) {
 console.log('aqui',user)
 
-const userFromDTO = UsersRepository(user)
+const userFromDTO = new UsersRepository(user)
 
     const { email, password } = userFromDTO
     try {
