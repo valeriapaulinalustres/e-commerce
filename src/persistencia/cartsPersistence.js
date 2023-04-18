@@ -53,3 +53,7 @@ export async function editProductQty(cid, pid, quantity) {
 export async function editCart(cid, newCart) {
     return await persistence.editCart(cid, newCart)
 }
+
+export async function completeSale(cid){
+    return await persistence.completeSale(cid)
+}

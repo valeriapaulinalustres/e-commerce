@@ -8,6 +8,7 @@ import {
   getCartsController,
   addProductToCartController,
   deleteProductFromCartController,
+  completeSaleController
 } from "../controllers/carts.controller.js";
 import { verificarUsuarioClient } from "../middlewares/auth.js";
 
@@ -105,5 +106,9 @@ router.put(
   //     res.json({mensaje: `Carrito editado: ${editedCart}`})
   // }
 );
+
+router.post('/:cid/purchase', completeSaleController
+
+)
 
 export default router;

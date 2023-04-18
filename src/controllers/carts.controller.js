@@ -6,7 +6,9 @@ import {
     deleteProductFromCartService, 
     emptyCartService, 
     editProductQtyService, 
-    editCartService 
+    editCartService,
+    completeSaleService 
+
 } from '../services/carts.services.js'
 
 export const addCartController = async (req, res) => {
@@ -102,5 +104,19 @@ export const editCartController = async(req,res)=>{
         console.log('error');
     }
   
+}
+
+export const completeSaleController = async (req,res)=>{
+    try {
+
+            const cid= req.params.cid
+            const cartOnSale = await completeSaleService(cid)
+            res.json({mensaje: `Carrito a comprar: ${cartOnSale}`})
+
+   
+       
+    } catch (error) {
+        console.log('error')
+    }
 }
 

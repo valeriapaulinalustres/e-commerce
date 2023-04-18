@@ -19,6 +19,7 @@ Carts:
 '/api/carts/:cid/product/:pid' POST agrega un producto por id a un carrito por su id
 '/api/carts/:cid/product/:pid' DELETE elimina un producto por id de un carrito por id
 '/api/carts/:cid/product/:pid' PUT modifica un producto por id de un carrito por id
+'/api/carts/:cid/purchase' POST para completar compra de un carrito
 
 
 Users:
@@ -26,6 +27,7 @@ Users:
 '/api/users/logout' GET cierra sessión de usuarios
 '/api/users/registroGithub' GET registra usuarios por Github
 '/api/users/' GET recibe datos del usuario desde Github
+'/api/users/current' GET obtiene los datos del usuario actual
 
 
 JWT:

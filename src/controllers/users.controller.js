@@ -19,6 +19,7 @@ import {
   export const getUsersDataController = async (req,res) => {
     try {
       const usersMail = req.session.mail
+      console.log('mail de usuario',usersMail)
       const userData = await getUsersDataService(usersMail)
       res.json({mensaje: 'hola'})
     } catch (error) {

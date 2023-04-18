@@ -78,12 +78,7 @@ try {
       req.session.email = user.email;
       req.session.password = user.password;
       req.session.role = user.role;
-      //   if(email === 'adminCoder@mail.com' && password === '12345'){
-      //         req.session.isAdmin = true
-      //       } else {
-      //         req.session.isAdmin = false
-      //       }
-
+  console.log(req.session.email)
       return done(null, user);
     } else {
       console.log("contraseñas no coinciden");

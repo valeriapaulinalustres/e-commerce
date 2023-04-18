@@ -1,4 +1,5 @@
 import { cartsModel } from "../../mongodb/models/carts.model.js";
+import { productsModel } from "../../mongodb/models/products.model.js";
 
 export default class CartManager {
   async addCart(cart) {
@@ -68,7 +69,6 @@ export default class CartManager {
   }
 
   async deleteProductFromCart(cid, pid) {
-
     try {
       const cart = await cartsModel.findOne({ _id: cid });
       if (!cart) return console.log("carrito no encontrado");
@@ -107,7 +107,7 @@ export default class CartManager {
     try {
       const cart = await cartsModel.findOne({ _id: cid });
       if (!cart) return console.log("carrito no encontrado");
-console.log(cart)
+      console.log(cart);
       let productIndex = cart.products.findIndex((el) => el.id == pid);
       console.log(productIndex);
       cart.products[productIndex].quantity = quantity;
@@ -128,6 +128,26 @@ console.log(cart)
 
       await cart.save();
       return cart.products;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async completeSale(cid) {
+    try {
+      const cart = await cartsModel.findOne({ _id: cid });
+      cart.products.forEach(async (el) => {
+        const product = await productsModel.findOne({ _id: el.id });
+        console.log(product.stock, el.quantity)
+        if (el.quantity <= product.stock) {
+          product.stock = product.stock - el.quantity;
+          console.log("nuevo stock", product.stock);
+          await product.save();
+        } else {
+          console.log(`cantidad de stock insuficiente del producto ${product}`);
+        }
+      });
+      console.log(cart);
     } catch (error) {
       console.log(error);
     }
