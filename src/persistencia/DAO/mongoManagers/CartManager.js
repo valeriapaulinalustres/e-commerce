@@ -4,6 +4,7 @@ import { productsModel } from "../../mongodb/models/products.model.js";
 export default class CartManager {
   async addCart(cart) {
     console.log(cart);
+    console.log('funciona')
     let newCartFromUuser = { products: cart };
     try {
       const newCart = await cartsModel.create(newCartFromUuser);
