@@ -4,7 +4,7 @@ import { productsModel } from "../../mongodb/models/products.model.js";
 export default class CartManager {
   async addCart(cart) {
     console.log(cart);
-    console.log('funciona')
+    console.log("funciona");
     let newCartFromUuser = { products: cart };
     try {
       const newCart = await cartsModel.create(newCartFromUuser);
@@ -29,8 +29,9 @@ export default class CartManager {
     try {
       const cart = await cartsModel
         .findById(cid)
-        .populate({ path: "cart.id" })
+        .populate({ path: "products.id" })
         .lean();
+        console.log(cart)
       return cart;
     } catch (error) {
       console.log(error);
@@ -135,20 +136,32 @@ export default class CartManager {
   }
 
   async completeSale(cid) {
+    const productsWithoutEnoughStock = [];
     try {
       const cart = await cartsModel.findOne({ _id: cid });
+      console.log(cart);
       cart.products.forEach(async (el) => {
         const product = await productsModel.findOne({ _id: el.id });
-        console.log(product.stock, el.quantity)
+        console.log(product.stock, el.quantity);
         if (el.quantity <= product.stock) {
           product.stock = product.stock - el.quantity;
           console.log("nuevo stock", product.stock);
           await product.save();
+
+          let cartWithoutProduct = cart.products.filter(
+            (el2) => el.id !== el2.id
+          );
+          console.log("carrito sin producto comprado", cartWithoutProduct);
+          await cart.save();
         } else {
+          productsWithoutEnoughStock.push(el.id);
           console.log(`cantidad de stock insuficiente del producto ${product}`);
+        
         }
       });
       console.log(cart);
+      return productsWithoutEnoughStock;
+
     } catch (error) {
       console.log(error);
     }

@@ -37,8 +37,9 @@ export const getCartByIdController =  async (req, res) => {
         const cid = req.params.cid
         const cartFoundById = await getCartByIdService(cid)
         //res.json({ mensaje: "Carrito encontrado por id", carrito: cartFoundById })
-        let cart = cartFoundById.cart
-        res.render('cart', {cart})
+        let cart = cartFoundById.products
+        res.json({mensaje: cart})
+     //   res.render('cart', {cart})
     } catch (error) {
         console.log('error');
     }
