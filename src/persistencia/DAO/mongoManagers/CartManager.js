@@ -138,9 +138,9 @@ export default class CartManager {
   async completeSale(cid) {
     const productsWithoutEnoughStock = [];
     try {
-      const cart = await cartsModel.findOne({ _id: cid });
+      let cart = await cartsModel.findOne({ _id: cid });
       console.log(cart);
-      cart.products.forEach(async (el) => {
+      cart.products.forEach(async (el, index) => {
         const product = await productsModel.findOne({ _id: el.id });
         console.log(product.stock, el.quantity);
         if (el.quantity <= product.stock) {
@@ -148,10 +148,13 @@ export default class CartManager {
           console.log("nuevo stock", product.stock);
           await product.save();
 
-          let cartWithoutProduct = cart.products.filter(
-            (el2) => el.id !== el2.id
-          );
-          console.log("carrito sin producto comprado", cartWithoutProduct);
+          cart.products.splice(index, 1)
+          // let productsWithoutProduct = cart.products.filter(
+          //   (el2) => el.id !== el2.id
+          // );
+
+          // cart = {...cart, products: productsWithoutProduct}
+          console.log("Carrito actualizado", cart);
           await cart.save();
         } else {
           productsWithoutEnoughStock.push(el.id);

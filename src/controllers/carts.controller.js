@@ -112,7 +112,7 @@ export const completeSaleController = async (req,res)=>{
 
             const cid= req.params.cid
             const cartOnSale = await completeSaleService(cid)
-            res.json({mensaje: `Carrito a comprar: ${cartOnSale}`})
+            res.json({mensaje: `Carrito actualizado`})
 
    
        
