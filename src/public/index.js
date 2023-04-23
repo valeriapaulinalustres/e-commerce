@@ -128,4 +128,7 @@ async function manejarEventoChat(chat) {
 
 
 */
+function addProductToCart ( ){
+  console.log('clic')
+}
 

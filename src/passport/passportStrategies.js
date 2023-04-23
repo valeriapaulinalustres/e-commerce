@@ -78,7 +78,8 @@ try {
       req.session.email = user.email;
       req.session.password = user.password;
       req.session.role = user.role;
-  console.log(req.session.email)
+      req.cookies.user = user.email
+  console.log('viene de session', req.session)
       return done(null, user);
     } else {
       console.log("contraseñas no coinciden");

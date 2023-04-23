@@ -109,9 +109,11 @@ export const editCartController = async(req,res)=>{
 
 export const completeSaleController = async (req,res)=>{
     try {
-
+        console.log('viene de session de cart', res.session, req.cookies)
             const cid= req.params.cid
-            const cartOnSale = await completeSaleService(cid)
+            const algo = await completeSaleService(cid)
+            // algo.ticket = {...algo.ticket, purchaser: req.cookies.user.user.email}
+            console.log('del controller', algo)
             res.json({mensaje: `Carrito actualizado`})
 
    
