@@ -52,6 +52,8 @@ app.use(passport.initialize())
 // passport va a guardar la informacion de session
 app.use(passport.session())
 
+
+
 //rutas
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)

@@ -15,43 +15,42 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-try {
+      try {
+        const { first_name, last_name, age } = req.body;
+        if (!first_name || !last_name || !age) {
+          return done(null, false); //null es porque funcionó bien pero false porque no se pudo crear el usuario
+        }
 
-  const {first_name, last_name, age} = req.body
-  if (!first_name || !last_name || !age) {
-    return done(null, false) //null es porque funcionó bien pero false porque no se pudo crear el usuario
-  }
+        const user = await userModel.findOne({ email });
+        if (user) {
+          return done(null, false);
+        }
 
-  const user = await userModel.findOne({ email });
-  if (user) {
-    return done(null, false);
-  }
+        let userRole;
 
- 
+        if (email == config.ADMIN_EMAIL) {
+          userRole = "admin";
+        } else {
+          userRole = "user";
+        }
 
-  let userRole;
+        const hashNewPassword = await hashPassword(password);
 
-  if (email == config.ADMIN_EMAIL) {
-    userRole = 'admin'
-  } else {
-    userRole = 'user'}
+        const userFromDto = new UsersDBDTO(req.body);
 
-    const hashNewPassword = await hashPassword(password);
+        const newUser = {
+          //todo lo que trae del form de registro más lo que yo le agrego:
+          ...userFromDto,
+          password: hashNewPassword,
+          // cartId: ' ',
+          role: userRole,
+        };
 
-const userFromDto = new UsersDBDTO(req.body)
-
-  const newUser = { //todo lo que trae del form de registro más lo que yo le agrego:
-    ...userFromDto, 
-    password: hashNewPassword, 
-   // cartId: ' ', 
-    role: userRole 
-  };
-
-  const newuserBD = await userModel.create(newUser);
-  done(null, newuserBD);
-} catch (error) {
-  done(error)
-} 
+        const newuserBD = await userModel.create(newUser);
+        done(null, newuserBD);
+      } catch (error) {
+        done(error);
+      }
     }
   )
 );
@@ -65,35 +64,34 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-try {
-  const user = await userModel.findOne({ email });
+      try {
+        const user = await userModel.findOne({ email });
 
-  if (user) {
-    console.log(user);
-    const isPassword = await comparePasswords(password, user.password);
+        if (user) {
+          console.log(user);
+          const isPassword = await comparePasswords(password, user.password);
 
-    if (isPassword) {
-      console.log("pasan contraseñas");
-      req.session.fullName = user.full_name;
-      req.session.email = user.email;
-      req.session.password = user.password;
-      req.session.role = user.role;
-      req.cookies.user = user.email
-  console.log('viene de session', req.session)
-      return done(null, user);
-    } else {
-      console.log("contraseñas no coinciden");
-      return done(null, false);
-    }
-  } else {
-    console.log('el usuario no existe')
-    return done(null,false)//el usuario no existe
-  }
-} catch (error) {
-  done(error)
-}
-
-
+          if (isPassword) {
+            console.log("pasan contraseñas");
+            req.session.fullName = user.full_name;
+            req.session.email = user.email;
+            req.session.password = user.password;
+            req.session.role = user.role;
+            req.user = user;
+            console.log("req.user", req.user);
+            console.log("viene de session", req.session);
+            return done(null, user);
+          } else {
+            console.log("contraseñas no coinciden");
+            return done(null, false);
+          }
+        } else {
+          console.log("el usuario no existe");
+          return done(null, false); //el usuario no existe
+        }
+      } catch (error) {
+        done(error);
+      }
     }
   )
 );
