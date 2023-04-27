@@ -54,6 +54,6 @@ export async function editCart(cid, newCart) {
     return await persistence.editCart(cid, newCart)
 }
 
-export async function completeSale(cid){
-    return await persistence.completeSale(cid)
+export async function completeSale(cid, userFullName){
+    return await persistence.completeSale(cid, userFullName)
 }

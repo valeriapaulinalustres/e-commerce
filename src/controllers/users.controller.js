@@ -18,10 +18,10 @@ import {
 
   export const getUsersDataController = async (req,res) => {
     try {
-      const usersMail = req.user
-      console.log('mail de usuario',usersMail)
-      const userData = await getUsersDataService(usersMail)
-      res.json({mensaje: 'hola'})
+      const user = req.user
+      console.log('mail de usuario',user.email)
+      //const userData = await getUsersDataService(user)
+      res.json({usersMail: user.email, userFullname: user.full_name})
     } catch (error) {
       console.log('error')
     }

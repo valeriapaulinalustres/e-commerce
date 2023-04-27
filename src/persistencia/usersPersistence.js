@@ -13,6 +13,6 @@ export async function loginUser(user) {
     return await persistence.loginUser(user)
 }
 
-export async function getUsersData(usersMail) {
-    return await persistence.getUsersData(usersMail)
-}
+// export async function getUsersData(userFromSession) {
+//     return await persistence.getUsersData(userFromSession)
+// }

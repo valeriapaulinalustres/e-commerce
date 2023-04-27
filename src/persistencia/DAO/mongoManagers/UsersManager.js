@@ -8,7 +8,7 @@ import UsersRepository from '../../repositories/users.repositories.js'
 export default class UsersManager {
 
   async createUser(user) {
-    //esta ruta ya no stá en uso porque se usa la estrategia de passport
+    //esta ruta ya no stá en uso porque se usa la estrategia de passport??
 console.log('aqui',user)
 
 const userFromDTO = new UsersRepository(user)
@@ -49,8 +49,8 @@ const userFromDTO = new UsersRepository(user)
     }
   }
 
-  async getUsersData (usersMail) {
-    const usersData = await userModel.find({email: usersMail})
-    return usersData
-  }
+  // async getUsersData (user) {
+  //   const usersData = await userModel.find({email: user.email})
+  //   return usersData
+  // }
 }

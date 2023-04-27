@@ -22,8 +22,8 @@ switch (argv) {
         break;
 }
 
-export async function getProducts(limit, page, sort, category) {
-    return await persistence.getProducts(limit, page, sort, category)
+export async function getProducts(limit, page, sort, category, user) {
+    return await persistence.getProducts(limit, page, sort, category, user)
 }
 
 export async function getProductById(productoId) {

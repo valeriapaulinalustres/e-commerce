@@ -136,7 +136,7 @@ export default class CartManager {
     }
   }
 
-  async completeSale(cid) {
+  async completeSale(cid, userFulllName) {
     const productsWithoutEnoughStock = [];
     let unitPrices = [];
     let ticket;
@@ -188,7 +188,7 @@ console.log('cart',cart)
         code: `${code}`,
         purchase_datetime: new Date().toLocaleString(),
         amount: unitPrices.reduce((acc, el) => acc + el, 0),
-        purchaser: "Valeria",
+        purchaser: userFulllName,
       });
       console.log("ticket del manager", ticket);
   

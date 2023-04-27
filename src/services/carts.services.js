@@ -50,7 +50,7 @@ export async function editCartService(cid, newCart){
     return cart
 }
 
-export async function completeSaleService(cid){
-    const sale = await completeSale(cid)
+export async function completeSaleService(cid, userFulllName){
+    const sale = await completeSale(cid, userFulllName)
     return sale
 }
