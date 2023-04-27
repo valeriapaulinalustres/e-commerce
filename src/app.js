@@ -41,8 +41,12 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: new mongoStore({
-      mongoUrl: 'mongodb+srv://valeriapaulinalustres:Artemisa37@cluster0.knm2ak6.mongodb.net/ecommerce?retryWrites=true&w=majority'
+      mongoUrl: 'mongodb+srv://valeriapaulinalustres:Artemisa37@cluster0.knm2ak6.mongodb.net/ecommerce?retryWrites=true&w=majority',
+      collectionName: 'sessions'
     }),
+    cookie:{ 
+      maxAge: 1000 * 60 * 60 * 24
+    }
   })
 )
 
