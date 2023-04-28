@@ -30,3 +30,8 @@ export async function updateProductService(id, newProduct){
     const editedProduct = await updateProduct(id, newProduct)
     return editedProduct
 }
+
+export async function mockedProductsService(){
+    const products = await mockedProductsService()
+    return products
+}

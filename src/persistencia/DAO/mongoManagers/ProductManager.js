@@ -2,7 +2,7 @@ import { productsModel } from '../../mongodb/models/products.model.js'
 
 export default class ProductManager {
 
-    async getProducts(limit, page, sort, category) {
+    async getProducts(limit, page, sort, category, user) {
 
         const filter = {};
         if (category) filter.category = category;
@@ -108,4 +108,25 @@ export default class ProductManager {
             return error
         }
     }
+
+    async mockedProducts (){
+        const products = []
+            for (let i = 0; i < 10; i++) {
+             const product =  new User ({
+              title:faker.commerce.product(),
+              price: faker.commerce.price(),
+              description: faker.commerce.productDescription(),
+              category: faker.commerce.department(),
+              stock: faker.random.numeric(),
+              code: faker.random.alphaNumeric(5),
+              thumbnails:[faker.image.imageUrl(), faker.image.imageUrl()],
+              status: faker.datatype.boolean()
+            })    
+        products.push(product)
+        product.save()
+            }
+        
+           return products
+          }
+
 }

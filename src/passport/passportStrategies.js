@@ -78,8 +78,8 @@ passport.use(
             req.session.password = user.password;
             req.session.role = user.role;
             req.user = user;
-            console.log("req.user", req.user);
-            console.log("viene de session", req.session);
+            // console.log("req.user", req.user);
+            // console.log("viene de session", req.session);
             return done(null, user);
           } else {
             console.log("contraseñas no coinciden");

@@ -4,6 +4,7 @@ import {
   addProductService,
   deleteProductService,
   updateProductService,
+  mockedProductsService
 } from "../services/products.services.js";
 
 export const getProductsController = async (req, res) => {
@@ -68,4 +69,16 @@ export const deleteProductController = async (req, res) => {
   } catch (error) {
     console.log("error");
   }
+
+ 
 };
+
+export const mockedProductsController = async (req,res)=>{
+  try {
+    const products = await mockedProductsService()
+    res.json({productos: products})
+    
+  } catch (error) {
+    console.log('error')
+  }
+}

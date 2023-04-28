@@ -55,4 +55,8 @@ Real Time:
 '/api/realtimeproducts/' GET renderiza productos en tiempo real
 
 
+Mock:
+'api/products/mockingproducts' mock de productos
+
+
 

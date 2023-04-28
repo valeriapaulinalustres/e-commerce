@@ -4,9 +4,11 @@ import {
     deleteProductController, 
     getProductByIdController, 
     getProductsController, 
-    updateProductController 
+    updateProductController ,
+    mockedProductsController
 } from "../controllers/products.controller.js";
 import {verificarUsuarioAdmin} from '../middlewares/auth.js'
+import { generateProduct } from "../mocks.js";
 
 const router = Router()
 //import ProductManager from '../dao/mongoManagers/ProductManager.js'
@@ -34,7 +36,8 @@ router.get('/:pid', getProductByIdController
 // }
 )
 
-router.post('/', verificarUsuarioAdmin, addProductController
+router.post('/', //verificarUsuarioAdmin, 
+addProductController
 // async (req, res) => {
 //     let newProduct = req.body
 
@@ -58,6 +61,17 @@ router.delete('/:pid', verificarUsuarioAdmin, deleteProductController
 //     const deletedProduct = await productManager.deleteProduct(pid)
 //     res.json({ mensaje: "Producto borrado con éxito", producto: deletedProduct })
 // }
+)
+
+router.get('/mockingproducts', mockedProductsController
+// (req, res)=>{
+    // const products = []
+    // for (let i = 0; i < 20; i++) {
+    //   const product = generateProduct()
+    //   products.push(product)
+    // }
+    //res.json({ products })
+//}
 )
 
 export default router

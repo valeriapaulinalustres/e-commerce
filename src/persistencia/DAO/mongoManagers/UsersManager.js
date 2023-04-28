@@ -4,6 +4,7 @@ import { hashPassword, comparePasswords } from '../../../utils.js'
 import config from '../../../config.js'
 // import UsersDBDTO from '../../DTO/usersDB.dto.js'
 import UsersRepository from '../../repositories/users.repositories.js'
+import { faker } from '@faker-js/faker'
 
 export default class UsersManager {
 
@@ -53,4 +54,6 @@ const userFromDTO = new UsersRepository(user)
   //   const usersData = await userModel.find({email: user.email})
   //   return usersData
   // }
+
+ 
 }
