@@ -23,6 +23,13 @@ export default class ProductManager {
       //.lean() para que devuelva en json y lo muestre handlebars
       const allProductsDB = await productsModel.paginate(filter, options);
 
+      if (!allProductsDB) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
       //-----allProductsDB trae el array de productos y la info de paginación. En allProductsDB.docs está el array de productos. Esto de crear un nuevo objeto llamado products que es igual a allProductsDB.docs se hace a cambio de .loan(), porque con paginate no sirve .lean() y hay que hacer algo para que handlebars funcione.---------------------------
       let oldProducts = allProductsDB.docs;
 
@@ -58,80 +65,137 @@ export default class ProductManager {
       };
       console.log(response);
 
-      return products;
+      return { message: "Productos encontrados", products: products };
     } catch (error) {
-      console.log(error);
+      console.log("Error desde el manager", error);
       return error;
     }
   }
 
   async getProductById(productoId) {
-    if (!productoId) {
-      CustomError.createCustomError({
-        name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
-        cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
-        message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
-      });
-    }
     try {
+      if (productoId.length != 24) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
+          cause: ErrorsCause.PRODUCT_DATA_INCORRECT_ID,
+          message: ErrorsMessage.PRODUCT_DATA_INCORRECT_ID,
+        });
+        return productoId;
+      }
+
       const productIdDB = await productsModel.findById(productoId).lean();
-      if (!productoId) {
+      if (!productIdDB) {
         CustomError.createCustomError({
           name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
         });
       }
-      return productIdDB;
+      return { message: "Producto encontrado", product: productIdDB };
     } catch (error) {
-      console.log(error);
+      console.log("Error desde el manager", error);
       return error;
     }
   }
 
   async addProduct(product) {
-    if (!product) {
-      CustomError.createCustomError({
-        name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
-        cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
-        message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
-      });
-    }
     try {
+      if (
+        !product.title ||
+        !product.description ||
+        !product.price ||
+        !product.code ||
+        !product.stock ||
+        !product.status ||
+        !product.category
+      ) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
+          cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
+          message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
+        });
+        return;
+      }
+      let alreadyExists = await productsModel.find({ code: product.code });
+      if (alreadyExists.length) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE,
+          cause: ErrorsCause.PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE,
+          message: ErrorsMessage.PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE,
+        });
+        return alreadyExists;
+      }
+
       const newProduct = await productsModel.create(product);
-      return newProduct;
+
+      return { message: "Producto creado con éxito", product: newProduct };
     } catch (error) {
       console.log(error);
+      console.log(
+        "Error desde el manager",
+        error
+      );
       return error;
     }
   }
 
   async deleteProduct(id) {
-    if (!id) {
-      CustomError.createCustomError({
-        name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
-        cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
-        message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
-      });
-    }
     try {
+        if (id.length != 24) {
+            CustomError.createCustomError({
+              name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
+              cause: ErrorsCause.PRODUCT_DATA_INCORRECT_ID,
+              message: ErrorsMessage.PRODUCT_DATA_INCORRECT_ID,
+            });
+            return ;
+          }
+          
       const deletedProduct = await productsModel.findByIdAndDelete(id);
-      return deletedProduct;
+      if (deletedProduct === null) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+        });
+        return ;
+      }
+    
+      return { message: "Producto eliminado con éxito", deletedProduct };
     } catch (error) {
-      console.log(error);
+      console.log("Error desde el manager", error);
       return error;
     }
   }
 
   async updateProduct(id, newProduct) {
-    if (!id || !newProduct) {
-      CustomError.createCustomError({
-        name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
-        cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
-        message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
-      });
-    }
+ 
     try {
+        if (id.length != 24) {
+            CustomError.createCustomError({
+              name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
+              cause: ErrorsCause.PRODUCT_DATA_INCORRECT_ID,
+              message: ErrorsMessage.PRODUCT_DATA_INCORRECT_ID,
+            });
+            return 
+          }
+
+          if (
+            !newProduct.title ||
+            !newProduct.description ||
+            !newProduct.price ||
+            !newProduct.code ||
+            !newProduct.stock ||
+            !newProduct.status ||
+            !newProduct.category
+          ) {
+            CustomError.createCustomError({
+              name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
+              cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
+              message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
+            });
+            return;
+          }
+
       const updatedProduct = await productsModel.findByIdAndUpdate(
         id,
         {
@@ -140,33 +204,40 @@ export default class ProductManager {
           price: newProduct.price,
           code: newProduct.code,
           stock: newProduct.stock,
+          status: newProduct.status,
+          category: newProduct.category
         },
         { new: true }
       );
       return updatedProduct;
     } catch (error) {
-      console.log(error);
+      console.log("Error desde el manager", error);
       return error;
     }
   }
 
   async mockedProducts() {
-    const products = [];
-    for (let i = 0; i < 10; i++) {
-      const product = new User({
-        title: faker.commerce.product(),
-        price: faker.commerce.price(),
-        description: faker.commerce.productDescription(),
-        category: faker.commerce.department(),
-        stock: faker.random.numeric(),
-        code: faker.random.alphaNumeric(5),
-        thumbnails: [faker.image.imageUrl(), faker.image.imageUrl()],
-        status: faker.datatype.boolean(),
-      });
-      products.push(product);
-      product.save();
-    }
+    try {
+      const products = [];
+      for (let i = 0; i < 10; i++) {
+        const product = new User({
+          title: faker.commerce.product(),
+          price: faker.commerce.price(),
+          description: faker.commerce.productDescription(),
+          category: faker.commerce.department(),
+          stock: faker.random.numeric(),
+          code: faker.random.alphaNumeric(5),
+          thumbnails: [faker.image.imageUrl(), faker.image.imageUrl()],
+          status: faker.datatype.boolean(),
+        });
+        products.push(product);
+        product.save();
+      }
 
-    return products;
+      return products;
+    } catch (error) {
+      console.log("Error desde el manager", error);
+      return error;
+    }
   }
 }

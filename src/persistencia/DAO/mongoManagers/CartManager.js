@@ -38,7 +38,7 @@ export default class CartManager {
   }
 
   async getCartById(cid) {
-    if (!cid) {
+    if (cid.length !==24 || !cid) {
       CustomError.createCustomError({
         name: ErrorsName.CART_DATA_INCOMPLETE,
         cause: ErrorsCause.CART_DATA_INCOMPLETE,
@@ -59,7 +59,7 @@ export default class CartManager {
   }
 
   async addProductToCart(cid, pid) {
-    if (!cid || !pid) {
+    if (!cid || !pid || cid.length !== 24 || pid.length !== 24) {
       CustomError.createCustomError({
         name: ErrorsName.CART_DATA_INCOMPLETE,
         cause: ErrorsCause.CART_DATA_INCOMPLETE,
