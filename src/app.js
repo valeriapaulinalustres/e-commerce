@@ -24,6 +24,7 @@ const messageManager = new MessageManager()
 //passport
 import passport from 'passport'
 import './passport/passportStrategies.js'
+import { errorMiddleware } from './utils/errors/errorsMiddleware.js'
 
 const app = express()
 
@@ -79,6 +80,7 @@ app.engine('handlebars',handlebars.engine())
 app.set('view engine', 'handlebars')
 app.set('views',__dirname+'/views')
 
+app.use(errorMiddleware) //el middleware de errores va al final de todo
 
 const PORT = config.PORT
 

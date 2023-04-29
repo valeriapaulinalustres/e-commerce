@@ -1,11 +1,22 @@
+import CustomError from "../../../utils/errors/CustomError.js";
+import {
+  ErrorsCause,
+  ErrorsMessage,
+  ErrorsName,
+} from "../../../utils/errors/errorsEnum.js";
 import { cartsModel } from "../../mongodb/models/carts.model.js";
 import { productsModel } from "../../mongodb/models/products.model.js";
 import { ticketsModel } from "../../mongodb/models/tickets.model.js";
 
 export default class CartManager {
   async addCart(cart) {
-    console.log(cart);
-    console.log("funciona");
+    if (!cart) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
     let newCartFromUuser = { products: cart };
     try {
       const newCart = await cartsModel.create(newCartFromUuser);
@@ -27,12 +38,19 @@ export default class CartManager {
   }
 
   async getCartById(cid) {
+    if (!cid) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
     try {
       const cart = await cartsModel
         .findById(cid)
         .populate({ path: "products.id" })
         .lean();
-      console.log(cart);
+
       return cart;
     } catch (error) {
       console.log(error);
@@ -41,22 +59,28 @@ export default class CartManager {
   }
 
   async addProductToCart(cid, pid) {
+    if (!cid || !pid) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
     try {
-      //     const cart = await cartsModel.findOneAndUpdate({_id: cid}, {$push: {id: pid}},  { upsert: true })
-
-      // console.log(cart)
       const cart = await cartsModel.findOne({ _id: cid });
-      //  console.log('aca', cart)
-      if (!cart) return console.log("carrito no encontrado");
 
-      //   console.log('here', cart.cart.findIndex(el => el.id == pid))//0
-      console.log("aca", cart);
+      if (!cart) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.CART_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.CART_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
+
       if (cart.products.findIndex((el) => el.id == pid) !== -1) {
-        console.log("en if");
         cart.products[
           cart.products.findIndex((el) => el.id == pid)
         ].quantity += 1;
-        console.log("nuevo", cart);
       } else {
         //este funciona
         cart.products.push({ id: pid, quantity: 1 });
@@ -72,9 +96,22 @@ export default class CartManager {
   }
 
   async deleteProductFromCart(cid, pid) {
+    if (!cid || !pid) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
     try {
       const cart = await cartsModel.findOne({ _id: cid });
-      if (!cart) return console.log("carrito no encontrado");
+      if (!cart) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.CART_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.CART_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
 
       let productIndex = cart.products.findIndex((el) => el.id == pid);
 
@@ -92,9 +129,22 @@ export default class CartManager {
   }
 
   async emptyCart(cid) {
+    if (!cid) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
     try {
       const cart = await cartsModel.findOne({ _id: cid });
-      if (!cart) return console.log("carrito no encontrado");
+      if (!cart) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.CART_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.CART_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
 
       cart.products = [];
 
@@ -106,14 +156,24 @@ export default class CartManager {
   }
 
   async editProductQty(cid, pid, quantity) {
-    console.log("llega");
+    if (!cid || !pid || !quantity) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
     try {
       const cart = await cartsModel.findOne({ _id: cid });
-      if (!cart) return console.log("carrito no encontrado");
-      console.log(cart);
+      if (!cart) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.CART_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.CART_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
+
       let productIndex = cart.products.findIndex((el) => el.id == pid);
-      console.log(productIndex);
-      cart.products[productIndex].quantity = quantity;
 
       await cart.save();
       return cart.products[productIndex];
@@ -123,9 +183,22 @@ export default class CartManager {
   }
 
   async editCart(cid, newCart) {
+    if (!cid || !newCart) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
     try {
       const cart = await cartsModel.findOne({ _id: cid });
-      if (!cart) return console.log("carrito no encontrado");
+      if (!cart) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.CART_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.CART_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
 
       cart.products = newCart;
 
@@ -137,28 +210,38 @@ export default class CartManager {
   }
 
   async completeSale(cid, userFulllName) {
+    if (!cid || !userFulllName) {
+      CustomError.createCustomError({
+        name: ErrorsName.CART_DATA_INCOMPLETE,
+        cause: ErrorsCause.CART_DATA_INCOMPLETE,
+        message: ErrorsMessage.CART_DATA_INCOMPLETE,
+      });
+    }
+
     const productsWithoutEnoughStock = [];
     let unitPrices = [];
     let ticket;
     let product;
     let cart;
     let el;
-    let newProductsInCart = []
+    let newProductsInCart = [];
     try {
-       cart = await cartsModel.findOne({ _id: cid });
-console.log('cart',cart)
-      let iterations =cart.products.length
-     
+      cart = await cartsModel.findOne({ _id: cid });
+      if (!cart) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.CART_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.CART_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
+      let iterations = cart.products.length;
+
       for (let index = 0; index < iterations; index++) {
-     
-        console.log('cart dentro del for', cart)
         el = cart.products[index];
-        console.log('el',el)
-        console.log("entra al for", index + 1);
+
         product = await productsModel.findOne({ _id: el.id });
 
         if (el.quantity <= product.stock) {
-          console.log("pasa x if", index + 1);
           //modifica el stock de productos
           product.stock = product.stock - el.quantity;
 
@@ -168,18 +251,16 @@ console.log('cart',cart)
 
           await product.save();
           //modifica el carrito
-         // cart.products.splice(index, 1);
-
+          // cart.products.splice(index, 1);
         } else {
-          newProductsInCart.push(el)
+          newProductsInCart.push(el);
           productsWithoutEnoughStock.push(el.id);
           console.log(`cantidad de stock insuficiente del producto ${product}`);
         }
       }
 
-      cart.products = newProductsInCart
-      console.log('cart al final', cart)
-    
+      cart.products = newProductsInCart;
+
       await cart.save();
       const tickets = await ticketsModel.find();
 
@@ -191,7 +272,6 @@ console.log('cart',cart)
         purchaser: userFulllName,
       });
       console.log("ticket del manager", ticket);
-  
 
       return { ticket, productsWithoutEnoughStock };
     } catch (error) {
