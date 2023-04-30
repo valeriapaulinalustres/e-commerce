@@ -20,7 +20,7 @@ export default class CartManager {
           });
           return;
         }
-  
+
         if (cart[i].id.length != 24) {
           CustomError.createCustomError({
             name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
@@ -30,22 +30,22 @@ export default class CartManager {
           return;
         }
 
-        let exitsProduct = await productsModel.findById(cart[i].id)
-  
+        let exitsProduct = await productsModel.findById(cart[i].id);
+
         if (exitsProduct === null) {
           CustomError.createCustomError({
             name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
             cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
             message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           });
-          return ;
+          return;
         }
       }
-     
+
       let newCartFromUuser = { products: cart };
 
       const newCart = await cartsModel.create(newCartFromUuser);
-      return {message:'Carrito creado con éxito', cart: newCart};
+      return { message: "Carrito creado con éxito", cart: newCart };
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;
@@ -70,7 +70,7 @@ export default class CartManager {
           cause: ErrorsCause.CART_DATA_INCORRECT_ID,
           message: ErrorsMessage.CART_DATA_INCORRECT_ID,
         });
-        return ;
+        return;
       }
 
       const existCart = await cartsModel.findById(cid);
@@ -108,7 +108,7 @@ export default class CartManager {
       }
 
       const cart = await cartsModel.findOne({ _id: cid });
-const existsProduct = await productsModel.findById(pid)
+      const existsProduct = await productsModel.findById(pid);
       if (!cart) {
         CustomError.createCustomError({
           name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
@@ -164,7 +164,7 @@ const existsProduct = await productsModel.findById(pid)
         });
         return;
       }
-const existsProduct = await productsModel.findById(pid)
+      const existsProduct = await productsModel.findById(pid);
       if (!existsProduct) {
         CustomError.createCustomError({
           name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
@@ -183,7 +183,7 @@ const existsProduct = await productsModel.findById(pid)
       }
 
       await cart.save();
-      return {message: 'Product deleted from cart successfully', cart};
+      return { message: "Product deleted from cart successfully", cart };
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;
@@ -214,7 +214,7 @@ const existsProduct = await productsModel.findById(pid)
       cart.products = [];
 
       await cart.save();
-      return {message: 'Cart emptied successfully', cart};
+      return { message: "Cart emptied successfully", cart };
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;
@@ -251,7 +251,7 @@ const existsProduct = await productsModel.findById(pid)
         return;
       }
 
-      const existsProduct = await productsModel.findById(pid)
+      const existsProduct = await productsModel.findById(pid);
       if (!existsProduct) {
         CustomError.createCustomError({
           name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
@@ -263,10 +263,10 @@ const existsProduct = await productsModel.findById(pid)
 
       let productIndex = cart.products.findIndex((el) => el.id == pid);
 
-cart.products[productIndex].quantity = quantity
+      cart.products[productIndex].quantity = quantity;
 
       await cart.save();
-      return {message:'Quantity edited successfuly', product: cart};
+      return { message: "Quantity edited successfuly", product: cart };
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;
@@ -274,14 +274,6 @@ cart.products[productIndex].quantity = quantity
   }
 
   async editCart(cid, newCart) {
-    if (!newCart) {
-      CustomError.createCustomError({
-        name: ErrorsName.CART_DATA_INCOMPLETE,
-        cause: ErrorsCause.CART_DATA_INCOMPLETE,
-        message: ErrorsMessage.CART_DATA_INCOMPLETE,
-      });
-      return;
-    }
     try {
       if (cid.length != 24) {
         CustomError.createCustomError({
@@ -291,6 +283,23 @@ cart.products[productIndex].quantity = quantity
         });
         return;
       }
+      if (!newCart.quantity) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_INCOMPLETE,
+          cause: ErrorsCause.CART_DATA_INCOMPLETE,
+          message: ErrorsMessage.CART_DATA_INCOMPLETE,
+        });
+        return;
+      }
+      if (newCart.id.length != 24) {
+        CustomError.createCustomError({
+          name: ErrorsName.CART_DATA_INCORRECT_ID,
+          cause: ErrorsCause.CART_DATA_INCORRECT_ID,
+          message: ErrorsMessage.CART_DATA_INCORRECT_ID,
+        });
+        return;
+      }
+
       const cart = await cartsModel.findOne({ _id: cid });
       if (!cart) {
         CustomError.createCustomError({
@@ -301,10 +310,20 @@ cart.products[productIndex].quantity = quantity
         return;
       }
 
+      const existsProduct = await productsModel.findById(newCart.id);
+      if (!existsProduct) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+        });
+        return;
+      }
+
       cart.products = newCart;
 
       await cart.save();
-      return cart.products;
+      return { message: "Cart updated successfully", cart };
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;
@@ -319,6 +338,7 @@ cart.products[productIndex].quantity = quantity
     let cart;
     let el;
     let newProductsInCart = [];
+
     try {
       if (cid.length != 24) {
         CustomError.createCustomError({
@@ -331,13 +351,14 @@ cart.products[productIndex].quantity = quantity
 
       if (!userFulllName) {
         CustomError.createCustomError({
-          name: ErrorsName.CART_DATA_INCOMPLETE,
-          cause: ErrorsCause.CART_DATA_INCOMPLETE,
-          message: ErrorsMessage.CART_DATA_INCOMPLETE,
+          name: ErrorsName.USER_DATA_INCOMPLETE,
+          cause: ErrorsCause.USER_DATA_INCOMPLETE,
+          message: ErrorsMessage.USER_DATA_INCOMPLETE,
         });
         return;
       }
       cart = await cartsModel.findOne({ _id: cid });
+     
       if (!cart) {
         CustomError.createCustomError({
           name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
@@ -362,30 +383,41 @@ cart.products[productIndex].quantity = quantity
           unitPrices = [...unitPrices, subtotal];
 
           await product.save();
-          //modifica el carrito
-          // cart.products.splice(index, 1);
         } else {
           newProductsInCart.push(el);
           productsWithoutEnoughStock.push(el.id);
-          console.log(`cantidad de stock insuficiente del producto ${product}`);
         }
       }
 
       cart.products = newProductsInCart;
 
       await cart.save();
-      const tickets = await ticketsModel.find();
 
-      let code = parseInt(tickets[tickets.length - 1].code) + 1;
-      ticket = await ticketsModel.create({
-        code: `${code}`,
-        purchase_datetime: new Date().toLocaleString(),
-        amount: unitPrices.reduce((acc, el) => acc + el, 0),
-        purchaser: userFulllName,
-      });
-      console.log("ticket del manager", ticket);
 
-      return { ticket, productsWithoutEnoughStock };
+
+if(unitPrices.length > 0 ) {
+  const tickets = await ticketsModel.find();
+
+  let code = parseInt(tickets[tickets.length - 1].code) + 1;
+  ticket = await ticketsModel.create({
+    code: `${code}`,
+    purchase_datetime: new Date().toLocaleString(),
+    amount: unitPrices.reduce((acc, el) => acc + el, 0),
+    purchaser: userFulllName,
+  });
+
+
+  return {
+    message: "Compra realizada con éxito",
+    ticket,
+    new_cart: cart,
+    products_not_bought: productsWithoutEnoughStock,
+  };
+} else {
+  return {message: 'No se pudo realizar la compra porque la cantidad de productos supera el stock.'}
+}
+
+     
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;

@@ -18,6 +18,7 @@ export const ErrorsName = {
 
     PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE: 'Error products',
 
+    PRODUCT_DATA_NOT_ENOUGH_STOCK:'Error products'
 
   }
   
@@ -38,8 +39,9 @@ export const ErrorsName = {
     USER_DATA_INCORRECT_ID: 'Request failed. ID must have 24 characters.',
     CART_DATA_INCORRECT_ID: 'Request failed. ID must have 24 characters.',
   
-    PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE: 'Request failed. This product already exists in database. Please change the product code.'
+    PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE: 'Request failed. This product already exists in database. Please change the product code.',
   
+    PRODUCT_DATA_NOT_ENOUGH_STOCK: 'Request failed. This product has not enough stock.'
   }
   
   export const ErrorsCause = {
@@ -59,8 +61,9 @@ export const ErrorsName = {
     USER_DATA_INCORRECT_ID: 'Request failed. Invalid ID',
     CART_DATA_INCORRECT_ID: 'Request failed. Invalid ID',
   
-    PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE: 'Request failed. Product code already exists in database.'
+    PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE: 'Request failed. Product code already exists in database.',
   
+    PRODUCT_DATA_NOT_ENOUGH_STOCK: 'Request failed. Not enough product\'s stock.'
   }
 
   //en rutas:
