@@ -358,7 +358,7 @@ export default class CartManager {
         return;
       }
       cart = await cartsModel.findOne({ _id: cid });
-     
+
       if (!cart) {
         CustomError.createCustomError({
           name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
@@ -393,31 +393,29 @@ export default class CartManager {
 
       await cart.save();
 
+      if (unitPrices.length > 0) {
+        const tickets = await ticketsModel.find();
 
+        let code = parseInt(tickets[tickets.length - 1].code) + 1;
+        ticket = await ticketsModel.create({
+          code: `${code}`,
+          purchase_datetime: new Date().toLocaleString(),
+          amount: unitPrices.reduce((acc, el) => acc + el, 0),
+          purchaser: userFulllName,
+        });
 
-if(unitPrices.length > 0 ) {
-  const tickets = await ticketsModel.find();
-
-  let code = parseInt(tickets[tickets.length - 1].code) + 1;
-  ticket = await ticketsModel.create({
-    code: `${code}`,
-    purchase_datetime: new Date().toLocaleString(),
-    amount: unitPrices.reduce((acc, el) => acc + el, 0),
-    purchaser: userFulllName,
-  });
-
-
-  return {
-    message: "Compra realizada con éxito",
-    ticket,
-    new_cart: cart,
-    products_not_bought: productsWithoutEnoughStock,
-  };
-} else {
-  return {message: 'No se pudo realizar la compra porque la cantidad de productos supera el stock.'}
-}
-
-     
+        return {
+          message: "Compra realizada con éxito",
+          ticket,
+          new_cart: cart,
+          products_not_bought: productsWithoutEnoughStock,
+        };
+      } else {
+        return {
+          message:
+            "No se pudo realizar la compra porque la cantidad de productos supera el stock.",
+        };
+      }
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;

@@ -42,3 +42,7 @@ export async function updateProduct(id, product) {
     return await persistence.updateProduct(id, product)
 }
 
+export async function mockedProducts() {
+    return await persistence.mockedProducts()
+}
+

@@ -5,6 +5,7 @@ import {
   ErrorsName,
 } from "../../../utils/errors/errorsEnum.js";
 import { productsModel } from "../../mongodb/models/products.model.js";
+import { faker } from "@faker-js/faker";
 
 export default class ProductManager {
   async getProducts(limit, page, sort, category, user) {
@@ -219,8 +220,10 @@ export default class ProductManager {
   async mockedProducts() {
     try {
       const products = [];
-      for (let i = 0; i < 10; i++) {
-        const product = new User({
+      for (let i = 0; i < 4; i++) {
+       const product = await productsModel.create({
+
+         
           title: faker.commerce.product(),
           price: faker.commerce.price(),
           description: faker.commerce.productDescription(),
@@ -230,11 +233,12 @@ export default class ProductManager {
           thumbnails: [faker.image.imageUrl(), faker.image.imageUrl()],
           status: faker.datatype.boolean(),
         });
-        products.push(product);
-        product.save();
+        
+         products.push(product);
+        // product.save();
       }
-
-      return products;
+console.log(products)
+      return {message: 'Productos creados con éxito', products };
     } catch (error) {
       console.log("Error desde el manager", error);
       return error;

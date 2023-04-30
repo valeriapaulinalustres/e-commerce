@@ -68,18 +68,16 @@ passport.use(
         const user = await userModel.findOne({ email });
 
         if (user) {
-          console.log(user);
+         
           const isPassword = await comparePasswords(password, user.password);
 
           if (isPassword) {
-            console.log("pasan contraseñas");
+            console.log("Login realizado con éxito");
             req.session.fullName = user.full_name;
             req.session.email = user.email;
             req.session.password = user.password;
             req.session.role = user.role;
             req.user = user;
-            // console.log("req.user", req.user);
-            // console.log("viene de session", req.session);
             return done(null, user);
           } else {
             console.log("contraseñas no coinciden");

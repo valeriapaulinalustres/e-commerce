@@ -82,10 +82,11 @@ export const deleteProductController = async (req, res) => {
 };
 
 export const mockedProductsController = async (req, res) => {
+
   try {
     const products = await mockedProductsService();
-    res.json({ productos: products });
+    res.json({ response: products });
   } catch (error) {
-    console.log("error");
+    console.log("Error desde el controller: ", error);
   }
 };

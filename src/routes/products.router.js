@@ -29,6 +29,10 @@ router.get('/', getProductsController
 // }
 )
 
+router.get('/mockingproducts', mockedProductsController
+
+)
+
 router.get('/:pid', getProductByIdController
 // async (req, res) => {
 //     const product = await productManager.getProductById(req.params.pid)
@@ -63,15 +67,6 @@ router.delete('/:pid', verificarUsuarioAdmin, deleteProductController
 // }
 )
 
-router.get('/mockingproducts', mockedProductsController
-// (req, res)=>{
-    // const products = []
-    // for (let i = 0; i < 20; i++) {
-    //   const product = generateProduct()
-    //   products.push(product)
-    // }
-    //res.json({ products })
-//}
-)
+
 
 export default router
