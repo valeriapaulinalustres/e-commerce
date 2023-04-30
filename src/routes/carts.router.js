@@ -83,7 +83,7 @@ router.delete(
 );
 
 router.put(
-  "/:cid/product/:pid",
+  "/:cid/product/:pid/:qty",
   editProductQtyController
   // async (req,res)=>{
   //     const cid = req.params.cid
