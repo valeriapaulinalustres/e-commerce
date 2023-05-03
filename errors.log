@@ -1,0 +1,50 @@
+{
+  message: 'Method: GET - URL: /api/products - date: Wed May 03 2023 07:17:27 GMT-0300 (hora estándar de Argentina)',
+  level: 'info',
+  timestamp: '2023-05-03T10:17:27.027Z'
+}
+{
+  message: 'Productos mostrados con éxito',
+  level: 'info',
+  timestamp: '2023-05-03T10:17:28.227Z'
+}
+{
+  message: 'warn',
+  level: 'warn',
+  timestamp: '2023-05-03T10:17:28.228Z'
+}
+{
+  message: 'error',
+  level: 'error',
+  timestamp: '2023-05-03T10:17:28.229Z'
+}
+{
+  message: 'Method: GET - URL: /api/loggerTest - date: Wed May 03 2023 07:31:04 GMT-0300 (hora estándar de Argentina)',
+  level: 'info',
+  timestamp: '2023-05-03T10:31:04.509Z'
+}
+{
+  message: 'Method: GET - URL: /api/loggerTest - date: Wed May 03 2023 07:38:38 GMT-0300 (hora estándar de Argentina)',
+  level: 'info',
+  timestamp: '2023-05-03T10:38:38.503Z'
+}
+{
+  message: 'fatal',
+  level: 'fatal',
+  timestamp: '2023-05-03T10:38:42.501Z'
+}
+{
+  message: 'error',
+  level: 'error',
+  timestamp: '2023-05-03T10:38:42.503Z'
+}
+{
+  message: 'warn',
+  level: 'warn',
+  timestamp: '2023-05-03T10:38:42.504Z'
+}
+{
+  message: 'info',
+  level: 'info',
+  timestamp: '2023-05-03T10:38:42.504Z'
+}

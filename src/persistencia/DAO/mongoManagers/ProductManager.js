@@ -1,9 +1,11 @@
+
 import CustomError from "../../../utils/errors/CustomError.js";
 import {
   ErrorsCause,
   ErrorsMessage,
   ErrorsName,
 } from "../../../utils/errors/errorsEnum.js";
+import logger from "../../../utils/winston.js";
 import { productsModel } from "../../mongodb/models/products.model.js";
 import { faker } from "@faker-js/faker";
 
@@ -64,8 +66,11 @@ export default class ProductManager {
           ? `https://localhost8080/api/products?page=${allProductsDB.nextPage}`
           : null,
       };
-      console.log(response);
+     
 
+      logger.info('Productos mostrados con éxito')//(JSON.stringify(response))
+      logger.warn('warn')
+      logger.error('error')
       return { message: "Productos encontrados", products: products };
     } catch (error) {
       console.log("Error desde el manager", error);
@@ -237,7 +242,7 @@ export default class ProductManager {
          products.push(product);
         // product.save();
       }
-console.log(products)
+
       return {message: 'Productos creados con éxito', products };
     } catch (error) {
       console.log("Error desde el manager", error);

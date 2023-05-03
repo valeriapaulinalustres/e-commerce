@@ -12,6 +12,7 @@ import chatRouter from './routes/views/messages.router.js'
 import usersRouter from './routes/users.router.js'
 import usersViewRouter from './routes/views/usersView.router.js'
 import jwtRouter from './routes/jwt.router.js'
+import loggerTestRouter from './routes/loggerTest.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import {Server} from 'socket.io'
@@ -25,6 +26,7 @@ const messageManager = new MessageManager()
 import passport from 'passport'
 import './passport/passportStrategies.js'
 import { errorMiddleware } from './utils/errors/errorsMiddleware.js'
+import { createLog } from './middlewares/winston.middleware.js'
 
 const app = express()
 
@@ -33,6 +35,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 //cookie parser (para guardar id de session)
 app.use(cookieParser())
+//logger
+app.use(createLog)
 
 
 // Session con Mongo
@@ -67,6 +71,7 @@ app.use('/api/chat', chatRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/views', usersViewRouter )
 app.use('/api/jwt',jwtRouter)
+app.use('/api/loggerTest', loggerTestRouter)
 
 //console.log(__dirname)
 
