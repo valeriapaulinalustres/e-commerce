@@ -1,50 +1,36 @@
+
 {
-  message: 'Method: GET - URL: /api/products - date: Wed May 03 2023 07:17:27 GMT-0300 (hora estándar de Argentina)',
+  message: 'Method: GET - URL: /api/products - date: Wed May 03 2023 17:23:31 GMT-0300 (hora estándar de Argentina)',
   level: 'info',
-  timestamp: '2023-05-03T10:17:27.027Z'
+  timestamp: '2023-05-03T20:23:31.259Z'
 }
 {
-  message: 'Productos mostrados con éxito',
+  message: 'Productos encontrados con éxito',
   level: 'info',
-  timestamp: '2023-05-03T10:17:28.227Z'
+  timestamp: '2023-05-03T20:23:31.803Z'
 }
 {
-  message: 'warn',
-  level: 'warn',
-  timestamp: '2023-05-03T10:17:28.228Z'
-}
-{
-  message: 'error',
-  level: 'error',
-  timestamp: '2023-05-03T10:17:28.229Z'
-}
-{
-  message: 'Method: GET - URL: /api/loggerTest - date: Wed May 03 2023 07:31:04 GMT-0300 (hora estándar de Argentina)',
+  message: 'Method: GET - URL: /api/loggerTest - date: Wed May 03 2023 17:24:41 GMT-0300 (hora estándar de Argentina)',
   level: 'info',
-  timestamp: '2023-05-03T10:31:04.509Z'
-}
-{
-  message: 'Method: GET - URL: /api/loggerTest - date: Wed May 03 2023 07:38:38 GMT-0300 (hora estándar de Argentina)',
-  level: 'info',
-  timestamp: '2023-05-03T10:38:38.503Z'
+  timestamp: '2023-05-03T20:24:41.757Z'
 }
 {
   message: 'fatal',
   level: 'fatal',
-  timestamp: '2023-05-03T10:38:42.501Z'
+  timestamp: '2023-05-03T20:24:42.105Z'
 }
 {
   message: 'error',
   level: 'error',
-  timestamp: '2023-05-03T10:38:42.503Z'
+  timestamp: '2023-05-03T20:24:42.106Z'
 }
 {
   message: 'warn',
   level: 'warn',
-  timestamp: '2023-05-03T10:38:42.504Z'
+  timestamp: '2023-05-03T20:24:42.108Z'
 }
 {
   message: 'info',
   level: 'info',
-  timestamp: '2023-05-03T10:38:42.504Z'
+  timestamp: '2023-05-03T20:24:42.108Z'
 }

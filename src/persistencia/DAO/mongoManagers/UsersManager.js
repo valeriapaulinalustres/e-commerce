@@ -10,6 +10,7 @@ import {
   ErrorsMessage,
   ErrorsName,
 } from "../../../utils/errors/errorsEnum.js";
+import logger from "../../../utils/winston.js";
 
 export default class UsersManager {
   async createUser(user) {
@@ -40,7 +41,7 @@ export default class UsersManager {
         return null;
       }
     } catch (error) {
-      console.log(error);
+      logger.error('Error', error);
       throw new Error(error);
     }
   }

@@ -32,6 +32,7 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
         });
+        logger.info('No hay productos en la base de datos')
       }
       //-----allProductsDB trae el array de productos y la info de paginación. En allProductsDB.docs está el array de productos. Esto de crear un nuevo objeto llamado products que es igual a allProductsDB.docs se hace a cambio de .loan(), porque con paginate no sirve .lean() y hay que hacer algo para que handlebars funcione.---------------------------
       let oldProducts = allProductsDB.docs;
@@ -68,12 +69,11 @@ export default class ProductManager {
       };
      
 
-      logger.info('Productos mostrados con éxito')//(JSON.stringify(response))
-      logger.warn('warn')
-      logger.error('error')
+      logger.info('Productos encontrados con éxito')//(JSON.stringify(response))
+    
       return { message: "Productos encontrados", products: products };
     } catch (error) {
-      console.log("Error desde el manager", error);
+      logger.error("Error desde el manager", error);
       return error;
     }
   }
@@ -96,10 +96,11 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
         });
+        logger.warn('No existe el producto en la base de datos')
       }
       return { message: "Producto encontrado", product: productIdDB };
     } catch (error) {
-      console.log("Error desde el manager", error);
+      logger.error("Error desde el manager", error);
       return error;
     }
   }
@@ -120,6 +121,7 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
           message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
         });
+        logger.warn('Datos del producto incompletos')
         return;
       }
       let alreadyExists = await productsModel.find({ code: product.code });
@@ -129,15 +131,16 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE,
         });
+        logger.warn('El producto a crear ya existe en la base de datos')
         return alreadyExists;
       }
 
       const newProduct = await productsModel.create(product);
-
+logger.info('Producto creado con éxito')
       return { message: "Producto creado con éxito", product: newProduct };
     } catch (error) {
-      console.log(error);
-      console.log(
+     
+      logger.error(
         "Error desde el manager",
         error
       );
@@ -163,12 +166,13 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
         });
+        logger.warn('Producto no encontrado en la base de datos')
         return ;
       }
-    
+    logger.info('Producto eliminado con éxito')
       return { message: "Producto eliminado con éxito", deletedProduct };
     } catch (error) {
-      console.log("Error desde el manager", error);
+      logger.error("Error desde el manager", error);
       return error;
     }
   }
@@ -199,6 +203,7 @@ export default class ProductManager {
               cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
               message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
             });
+            logger.warn('Faltan datos del producto')
             return;
           }
 
@@ -215,9 +220,10 @@ export default class ProductManager {
         },
         { new: true }
       );
+      logger.info('Producto actualizado con éxito')
       return updatedProduct;
     } catch (error) {
-      console.log("Error desde el manager", error);
+      logger.error("Error desde el manager", error);
       return error;
     }
   }
@@ -242,10 +248,10 @@ export default class ProductManager {
          products.push(product);
         // product.save();
       }
-
+logger.info('Productos falsos creados con éxito')
       return {message: 'Productos creados con éxito', products };
     } catch (error) {
-      console.log("Error desde el manager", error);
+      logger.error("Error desde el manager", error);
       return error;
     }
   }
