@@ -29,7 +29,7 @@ Users:
 '/api/users/' GET recibe datos del usuario desde Github
 '/api/users/current' GET obtiene los datos del usuario actual
 '/api/users/forgot-password' POST envía mail para recuperar contraseña
-'/api/users/create-new-password' POST envía el nuevo password al back
+'/api/users/create-new-password/:user/:token' POST envía el nuevo password al back
 
 
 JWT:
@@ -51,7 +51,7 @@ Views:
 '/api/views/errorLogin' GET renderiza error en el login
 '/api/views/errorRegistro' GET renderiza error en el registro
 '/api/views/forgot-password' GET renderiza el ingreso de mail para recuperar contraseña
-'/api/views/resetpassword' GET renderiza input para ingresar nuevo password
+'/api/views/resetpassword/:user/:token' GET renderiza input para ingresar nuevo password
 
 Real Time:
 
