@@ -4,7 +4,7 @@ import UsersManager from '../persistencia/DAO/mongoManagers/UsersManager.js'
 const router = Router()
 const usersManager = new UsersManager()
 import passport from 'passport'
-import {getUsersDataController} from '../controllers/users.controller.js'
+import {getUsersDataController, forgotPasswordController, createNewPasswordController} from '../controllers/users.controller.js'
 
 
 //-------Registro sin passport-----
@@ -92,5 +92,12 @@ router.get('/github', passport.authenticate('github'),(req,res)=>{
 
 //--- obtener datos del usuario ---
 router.get('/current', getUsersDataController)
+
+
+//---recuperar contraseña ---
+router.post('/forgot-password', forgotPasswordController)
+
+//---Crear nueva contraseña--
+router.post('/create-new-password', createNewPasswordController)
 
   export default router

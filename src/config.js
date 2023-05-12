@@ -7,5 +7,6 @@ export default {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     GMAIL_PASSWORD: process.env.GMAIL_PASSWORD,
     GMAIL_USER: process.env.GMAIL_USER, 
-    NODE_ENV: process.env.NODE_ENV
+    NODE_ENV: process.env.NODE_ENV,
+    EMAIL_PORT: process.env.EMAIL_PORT
 }

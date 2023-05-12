@@ -18,5 +18,15 @@ router.get('/errorLogin',(req,res)=>{
     res.render('errorLogin')
 })
 
+router.get('/forgot-password', (req,res)=>{
+    res.render('forgotPassword')
+})
+
+//---reset password---
+router.get('/resetpassword/:user/:token', (req,res) => {
+    const user = req.params.user
+    const token = req.params.token
+    res.render('resetPassword', {user,token})
+})
 
 export default router

@@ -11,6 +11,9 @@ import {
   ErrorsName,
 } from "../../../utils/errors/errorsEnum.js";
 import logger from "../../../utils/winston.js";
+import jwt from "jsonwebtoken";
+import nodemailer from 'nodemailer';
+
 
 export default class UsersManager {
   async createUser(user) {
@@ -41,7 +44,7 @@ export default class UsersManager {
         return null;
       }
     } catch (error) {
-      logger.error('Error', error);
+      logger.error("Error", error);
       throw new Error(error);
     }
   }
@@ -78,4 +81,56 @@ export default class UsersManager {
   //   const usersData = await userModel.find({email: user.email})
   //   return usersData
   // }
+
+  async forgotPassword(email) {
+    try {
+      let user = await userModel.find({ email });
+
+      if (!user) {
+        return CustomError.createCustomError({
+          name: ErrorsName.USER_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.USER_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.USER_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
+
+      const token = jwt.sign({ id: user._id }, "nuevaContraseña", { expiresIn: "1h" });
+
+
+await userModel.findByIdAndUpdate(
+  { _id: user[0]._id },
+  { tokenResetPassword: token })
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: `${config.GMAIL_USER}`,
+    pass: `${config.GMAIL_PASSWORD}`
+  }
+
+})
+const emailPort = config.EMAIL_PORT || 8080
+
+const mailOptions = {
+  from: 'valeriapaulinalustres@gmail.com',
+  to: `${user[0].email}`,
+  subject: 'Enlace para recuperar su cuenta de Los Lupinos',
+ // text: `${emailPort}/resetpassword/${user[0]._id}/${token}`,
+  html: `<a href='http://localhost:${emailPort}/api/views/resetpassword/${user[0]._id}/${token}'><button>Recuperar contraseña</button></a>`
+}
+
+transporter.sendMail(mailOptions, (err, response)=>{
+  if (err) {
+    logger.error("Error al enviar el mail", err);
+  } else {
+    logger.info('Respuesta del mail', response)
+    response.status(200).json('El email para la recuperación ha sido enviado')
+  }
+})
+
+      return user;
+    } catch (error) {
+      logger.error("Error", error);
+    }
+  }
 }

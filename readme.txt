@@ -28,6 +28,8 @@ Users:
 '/api/users/registroGithub' GET registra usuarios por Github
 '/api/users/' GET recibe datos del usuario desde Github
 '/api/users/current' GET obtiene los datos del usuario actual
+'/api/users/forgot-password' POST envía mail para recuperar contraseña
+'/api/users/create-new-password' POST envía el nuevo password al back
 
 
 JWT:
@@ -48,7 +50,8 @@ Views:
 '/api/views/registro' GET renderiza registro
 '/api/views/errorLogin' GET renderiza error en el login
 '/api/views/errorRegistro' GET renderiza error en el registro
-
+'/api/views/forgot-password' GET renderiza el ingreso de mail para recuperar contraseña
+'/api/views/resetpassword' GET renderiza input para ingresar nuevo password
 
 Real Time:
 
@@ -60,3 +63,4 @@ Mock:
 
 
 
+https://www.linkedin.com/pulse/recuperar-cuenta-restaurando-contrase%C3%B1a-password-con-y-miguel-%C3%A1ngel/?originalSubdomain=es

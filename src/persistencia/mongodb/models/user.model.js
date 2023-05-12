@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const usersSchema = new mongoose.Schema({
-
   role: {
     type: String,
     default: "user",
@@ -15,9 +14,9 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  full_name:{
-    type:String
-},
+  full_name: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,
@@ -31,14 +30,15 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cartId:{
-              type: mongoose.Schema.Types.ObjectId,
-              ref: 'Carts',        
-          },
-
-  required:false
-  
-
+  cartId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Carts",
+    required: false,
+  },
+  tokenResetPassword: {
+    type: String,
+    required: false,
+  },
 });
 
 export const userModel = mongoose.model("Users", usersSchema);

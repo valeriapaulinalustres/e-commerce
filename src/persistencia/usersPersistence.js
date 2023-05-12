@@ -16,3 +16,7 @@ export async function loginUser(user) {
 // export async function getUsersData(userFromSession) {
 //     return await persistence.getUsersData(userFromSession)
 // }
+
+export async function forgotPassword(mail) {
+    return await persistence.forgotPassword(mail)
+}
