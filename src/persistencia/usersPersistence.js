@@ -20,3 +20,7 @@ export async function loginUser(user) {
 export async function forgotPassword(mail) {
     return await persistence.forgotPassword(mail)
 }
+
+export async function createNewPassword (password, userId, token) {
+    return await persistence.createNewPassword(password, userId, token)
+}

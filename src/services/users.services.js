@@ -2,7 +2,8 @@ import {
     createUser,
     loginUser,
    // getUsersData,
-   forgotPassword
+   forgotPassword,
+   createNewPassword
 } from '../persistencia/usersPersistence.js'
 import UsersRepository from '../persistencia/repositories/users.repositories.js'
 
@@ -26,5 +27,10 @@ export async function getUsersDataService(userFromSession){
 
 export async function forgotPasswordService(mail){
     const user = await forgotPassword(mail)
+    return user
+}
+
+export async function createNewPasswordServices(password, userId, token){
+    const user = await createNewPassword(password, userId, token)
     return user
 }

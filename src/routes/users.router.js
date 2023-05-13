@@ -59,7 +59,7 @@ router.post(
     '/login',
     passport.authenticate('login', {
       failureRedirect: '/api/views/errorLogin',
-     // successRedirect: '/api/products',
+      successRedirect: '/api/products',
       passReqToCallback: true,
     })
   )
@@ -98,6 +98,6 @@ router.get('/current', getUsersDataController)
 router.post('/forgot-password', forgotPasswordController)
 
 //---Crear nueva contraseña--
-router.post('/create-new-password', createNewPasswordController)
+router.post('/create-new-password/:userId/:token', createNewPasswordController)
 
   export default router
