@@ -30,16 +30,16 @@ export async function getProductById(productoId) {
     return await persistence.getProductById(productoId)
 }
 
-export async function addProduct(product) {
-    return await persistence.addProduct(product)
+export async function addProduct(product, owner) {
+    return await persistence.addProduct(product, owner)
 }
 
-export async function deleteProduct(id) {
-    return await persistence.deleteProduct(id)
+export async function deleteProduct(id, owner) {
+    return await persistence.deleteProduct(id, owner)
 }
 
-export async function updateProduct(id, product) {
-    return await persistence.updateProduct(id, product)
+export async function updateProduct(id, product, owner) {
+    return await persistence.updateProduct(id, product, owner)
 }
 
 export async function mockedProducts() {

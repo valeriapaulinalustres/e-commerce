@@ -34,8 +34,8 @@ export async function getCartById(cid) {
     return await persistence.getCartById(cid)
 }
 
-export async function addProductToCart(cid, pid) {
-    return await persistence.addProductToCart(cid, pid)
+export async function addProductToCart(cid, pid,owner) {
+    return await persistence.addProductToCart(cid, pid,owner)
 }
 
 export async function deleteProductFromCart(cid, pid) {

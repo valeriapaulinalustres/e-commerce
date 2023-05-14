@@ -45,7 +45,8 @@ export const addProductToCartController = async (req, res) => {
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
-    const addedProduct = await addProductToCartService(cid, pid);
+    const owner = req.user;
+    const addedProduct = await addProductToCartService(cid, pid, owner);
     res.json({
       message: addedProduct,
     });

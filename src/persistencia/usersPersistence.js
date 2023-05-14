@@ -24,3 +24,7 @@ export async function forgotPassword(mail) {
 export async function createNewPassword (password, userId, token) {
     return await persistence.createNewPassword(password, userId, token)
 }
+
+export async function changeRol (userId) {
+    return await persistence.changeRol(userId)
+}

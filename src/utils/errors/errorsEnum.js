@@ -20,7 +20,9 @@ export const ErrorsName = {
 
     PRODUCT_DATA_NOT_ENOUGH_STOCK:'Error products',
 
-    USER_DATA_INCORRECT_TOKEN: 'Error user'
+    USER_DATA_INCORRECT_TOKEN: 'Error user',
+
+    USER_DATA_NOT_ALLOWED: 'Error user'
 
   }
   
@@ -45,7 +47,9 @@ export const ErrorsName = {
   
     PRODUCT_DATA_NOT_ENOUGH_STOCK: 'Request failed. This product has not enough stock.',
 
-    USER_DATA_INCORRECT_TOKEN: 'Request failed. Incorrect or expired token'
+    USER_DATA_INCORRECT_TOKEN: 'Request failed. Incorrect or expired token',
+
+    USER_DATA_NOT_ALLOWED: 'Request failed. You do not have permissions for this operation.'
   }
   
   export const ErrorsCause = {
@@ -69,7 +73,9 @@ export const ErrorsName = {
   
     PRODUCT_DATA_NOT_ENOUGH_STOCK: 'Request failed. Not enough product\'s stock.',
 
-    USER_DATA_INCORRECT_TOKEN: 'Request failed. Expired token'
+    USER_DATA_INCORRECT_TOKEN: 'Request failed. Expired token',
+
+    USER_DATA_NOT_ALLOWED: 'Request failed. Missing permissions.'
   }
 
   //en rutas:

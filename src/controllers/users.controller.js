@@ -4,6 +4,7 @@ import {
   getUsersDataService,
   forgotPasswordService,
   createNewPasswordServices,
+  changeRolServices
 } from "../services/users.services.js";
 
 export const logoutController = (req, res) => {
@@ -66,3 +67,16 @@ export const createNewPasswordController = async (req, res) => {
     console.log("error");
   }
 };
+
+export const changeRolController = async (req,res) => {
+  const userId = req.params.uid
+try {
+  const user = await changeRolServices(userId)
+  console.log(user)
+  res.json({ message: 'Role update successfully' });
+} catch (error) {
+  console.log("error");
+}
+
+  
+}

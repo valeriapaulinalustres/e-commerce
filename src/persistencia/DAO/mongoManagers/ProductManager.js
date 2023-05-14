@@ -1,4 +1,3 @@
-
 import CustomError from "../../../utils/errors/CustomError.js";
 import {
   ErrorsCause,
@@ -32,7 +31,7 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
         });
-        logger.info('No hay productos en la base de datos')
+        logger.info("No hay productos en la base de datos");
       }
       //-----allProductsDB trae el array de productos y la info de paginación. En allProductsDB.docs está el array de productos. Esto de crear un nuevo objeto llamado products que es igual a allProductsDB.docs se hace a cambio de .loan(), porque con paginate no sirve .lean() y hay que hacer algo para que handlebars funcione.---------------------------
       let oldProducts = allProductsDB.docs;
@@ -67,10 +66,9 @@ export default class ProductManager {
           ? `https://localhost8080/api/products?page=${allProductsDB.nextPage}`
           : null,
       };
-     
 
-      logger.info('Productos encontrados con éxito')//(JSON.stringify(response))
-    
+      logger.info("Productos encontrados con éxito"); //(JSON.stringify(response))
+
       return { message: "Productos encontrados", products: products };
     } catch (error) {
       logger.error("Error desde el manager", error);
@@ -96,7 +94,7 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
         });
-        logger.warn('No existe el producto en la base de datos')
+        logger.warn("No existe el producto en la base de datos");
       }
       return { message: "Producto encontrado", product: productIdDB };
     } catch (error) {
@@ -105,7 +103,7 @@ export default class ProductManager {
     }
   }
 
-  async addProduct(product) {
+  async addProduct(product, owner) {
     try {
       if (
         !product.title ||
@@ -121,7 +119,7 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
           message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
         });
-        logger.warn('Datos del producto incompletos')
+        logger.warn("Datos del producto incompletos");
         return;
       }
       let alreadyExists = await productsModel.find({ code: product.code });
@@ -131,34 +129,46 @@ export default class ProductManager {
           cause: ErrorsCause.PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_CODE_ALREADY_EXISTS_IN_DATABASE,
         });
-        logger.warn('El producto a crear ya existe en la base de datos')
+        logger.warn("El producto a crear ya existe en la base de datos");
         return alreadyExists;
       }
 
-      const newProduct = await productsModel.create(product);
-logger.info('Producto creado con éxito')
+      product.owner = owner.email;
+
+      let newProduct = await productsModel.create(product);
+
+      logger.info("Producto creado con éxito");
       return { message: "Producto creado con éxito", product: newProduct };
     } catch (error) {
-     
-      logger.error(
-        "Error desde el manager",
-        error
-      );
+      logger.error("Error desde el manager", error);
       return error;
     }
   }
 
-  async deleteProduct(id) {
+  async deleteProduct(id, owner) {
     try {
-        if (id.length != 24) {
-            CustomError.createCustomError({
-              name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
-              cause: ErrorsCause.PRODUCT_DATA_INCORRECT_ID,
-              message: ErrorsMessage.PRODUCT_DATA_INCORRECT_ID,
-            });
-            return ;
-          }
-          
+      if (id.length != 24) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
+          cause: ErrorsCause.PRODUCT_DATA_INCORRECT_ID,
+          message: ErrorsMessage.PRODUCT_DATA_INCORRECT_ID,
+        });
+        return;
+      }
+
+      let product = await productsModel.find({ _id: id });
+
+      if (owner.role === "premium") {
+        if (product[0].owner !== owner.email) {
+          CustomError.createCustomError({
+            name: ErrorsName.USER_DATA_NOT_ALLOWED,
+            cause: ErrorsCause.USER_DATA_NOT_ALLOWED,
+            message: ErrorsMessage.USER_DATA_NOT_ALLOWED,
+          });
+          return;
+        }
+      }
+
       const deletedProduct = await productsModel.findByIdAndDelete(id);
       if (deletedProduct === null) {
         CustomError.createCustomError({
@@ -166,10 +176,11 @@ logger.info('Producto creado con éxito')
           cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
           message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
         });
-        logger.warn('Producto no encontrado en la base de datos')
-        return ;
+        logger.warn("Producto no encontrado en la base de datos");
+        return;
       }
-    logger.info('Producto eliminado con éxito')
+
+      logger.info("Producto eliminado con éxito");
       return { message: "Producto eliminado con éxito", deletedProduct };
     } catch (error) {
       logger.error("Error desde el manager", error);
@@ -177,35 +188,50 @@ logger.info('Producto creado con éxito')
     }
   }
 
-  async updateProduct(id, newProduct) {
- 
+  async updateProduct(id, newProduct, owner) {
     try {
-        if (id.length != 24) {
-            CustomError.createCustomError({
-              name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
-              cause: ErrorsCause.PRODUCT_DATA_INCORRECT_ID,
-              message: ErrorsMessage.PRODUCT_DATA_INCORRECT_ID,
-            });
-            return 
-          }
+      if (id.length != 24) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_INCORRECT_ID,
+          cause: ErrorsCause.PRODUCT_DATA_INCORRECT_ID,
+          message: ErrorsMessage.PRODUCT_DATA_INCORRECT_ID,
+        });
+        return;
+      }
 
-          if (
-            !newProduct.title ||
-            !newProduct.description ||
-            !newProduct.price ||
-            !newProduct.code ||
-            !newProduct.stock ||
-            !newProduct.status ||
-            !newProduct.category
-          ) {
-            CustomError.createCustomError({
-              name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
-              cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
-              message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
-            });
-            logger.warn('Faltan datos del producto')
-            return;
-          }
+      if (
+        !newProduct.title ||
+        !newProduct.description ||
+        !newProduct.price ||
+        !newProduct.code ||
+        !newProduct.stock ||
+        !newProduct.status ||
+        !newProduct.category
+      ) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
+          cause: ErrorsCause.PRODUCT_DATA_INCOMPLETE,
+          message: ErrorsMessage.PRODUCT_DATA_INCOMPLETE,
+        });
+        logger.warn("Faltan datos del producto");
+        return;
+      }
+
+      let product = await productsModel.find({ _id: id });
+
+
+      if (owner.role === "premium") {
+        if (product[0].owner !== owner.email) {
+          CustomError.createCustomError({
+            name: ErrorsName.USER_DATA_NOT_ALLOWED,
+            cause: ErrorsCause.USER_DATA_NOT_ALLOWED,
+            message: ErrorsMessage.USER_DATA_NOT_ALLOWED,
+          });
+          return;
+        }
+      }
+
+
 
       const updatedProduct = await productsModel.findByIdAndUpdate(
         id,
@@ -216,11 +242,11 @@ logger.info('Producto creado con éxito')
           code: newProduct.code,
           stock: newProduct.stock,
           status: newProduct.status,
-          category: newProduct.category
+          category: newProduct.category,
         },
         { new: true }
       );
-      logger.info('Producto actualizado con éxito')
+      logger.info("Producto actualizado con éxito");
       return updatedProduct;
     } catch (error) {
       logger.error("Error desde el manager", error);
@@ -232,9 +258,7 @@ logger.info('Producto creado con éxito')
     try {
       const products = [];
       for (let i = 0; i < 4; i++) {
-       const product = await productsModel.create({
-
-         
+        const product = await productsModel.create({
           title: faker.commerce.product(),
           price: faker.commerce.price(),
           description: faker.commerce.productDescription(),
@@ -244,12 +268,12 @@ logger.info('Producto creado con éxito')
           thumbnails: [faker.image.imageUrl(), faker.image.imageUrl()],
           status: faker.datatype.boolean(),
         });
-        
-         products.push(product);
+
+        products.push(product);
         // product.save();
       }
-logger.info('Productos falsos creados con éxito')
-      return {message: 'Productos creados con éxito', products };
+      logger.info("Productos falsos creados con éxito");
+      return { message: "Productos creados con éxito", products };
     } catch (error) {
       logger.error("Error desde el manager", error);
       return error;

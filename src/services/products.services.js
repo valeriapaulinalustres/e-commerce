@@ -17,18 +17,18 @@ export async function getProductByIdService(id){
     return product
 }
 
-export async function addProductService(product){
-    const newProduct = await addProduct(product)
+export async function addProductService(product, owner){
+    const newProduct = await addProduct(product, owner)
     return newProduct
 }
 
-export async function deleteProductService(id){
-    const deletedProduct = await deleteProduct(id)
+export async function deleteProductService(id,owner){
+    const deletedProduct = await deleteProduct(id,owner)
     return deletedProduct
 }
 
-export async function updateProductService(id, newProduct){
-    const editedProduct = await updateProduct(id, newProduct)
+export async function updateProductService(id, newProduct, owner){
+    const editedProduct = await updateProduct(id, newProduct, owner)
     return editedProduct
 }
 

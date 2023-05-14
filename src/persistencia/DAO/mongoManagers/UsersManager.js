@@ -136,41 +136,70 @@ export default class UsersManager {
     }
   }
 
+  async createNewPassword(newPassword, userId, token) {
+    console.log("desde el manager", userId, "token", token);
+    try {
+      const user = await userModel.find({ _id: userId });
 
-  async createNewPassword (newPassword, userId, token){
-    console.log('desde el manager', userId, 'token', token)
-try {
+      if (!user) {
+        return CustomError.createCustomError({
+          name: ErrorsName.USER_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.USER_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.USER_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
 
-  const user = await userModel.find({_id: userId})
+      if (user[0].tokenResetPassword !== token) {
+        return CustomError.createCustomError({
+          name: ErrorsName.USER_DATA_INCORRECT_TOKEN,
+          cause: ErrorsCause.USER_DATA_INCORRECT_TOKEN,
+          message: ErrorsMessage.USER_DATA_INCORRECT_TOKEN,
+        });
+      }
 
-  if (!user) {
-    return CustomError.createCustomError({
-      name: ErrorsName.USER_DATA_NOT_FOUND_IN_DATABASE,
-      cause: ErrorsCause.USER_DATA_NOT_FOUND_IN_DATABASE,
-      message: ErrorsMessage.USER_DATA_NOT_FOUND_IN_DATABASE,
-    });
+      const hashNewPasswordUpdated = await hashPassword(newPassword);
+      await userModel.findByIdAndUpdate(
+        { _id: userId },
+        { password: hashNewPasswordUpdated }
+      );
+
+      const userUpdated = await userModel.find({ _id: userId });
+
+      return userUpdated;
+    } catch (error) {
+      logger.error("Error", error);
+    }
   }
 
-  if(user[0].tokenResetPassword !== token) {
-    return CustomError.createCustomError({
-      name: ErrorsName.USER_DATA_INCORRECT_TOKEN,
-      cause: ErrorsCause.USER_DATA_INCORRECT_TOKEN,
-      message: ErrorsMessage.USER_DATA_INCORRECT_TOKEN,
-    });
-  
-  }
+  async changeRol(userId) {
+    try {
+      const user = await userModel.find({ _id: userId });
 
-  const hashNewPasswordUpdated = await hashPassword(newPassword);
-  await userModel.findByIdAndUpdate(
-    { _id: userId },
-    { password: hashNewPasswordUpdated }
-  );
+      if (!user) {
+        return CustomError.createCustomError({
+          name: ErrorsName.USER_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.USER_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.USER_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
 
-  const userUpdated = await userModel.find({_id: userId})
 
-  return userUpdated
-} catch (error) {
-  logger.error("Error", error);
-}
+      if (user[0].role === "admin") {
+        await userModel.findByIdAndUpdate(
+          { _id: userId },
+          { role: 'premium' }
+        );
+       
+      } else if (user[0].role === "premium") {
+        await userModel.findByIdAndUpdate(
+          { _id: userId },
+          { role: 'admin' }
+        );
+      }
+      logger.info('Rol cambiado con éxito')
+      return user
+    } catch (error) {
+      logger.error("Error", error);
+    }
   }
 }

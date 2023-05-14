@@ -7,7 +7,7 @@ import {
     updateProductController ,
     mockedProductsController
 } from "../controllers/products.controller.js";
-import {verificarUsuarioAdmin} from '../middlewares/auth.js'
+import {verificarUsuarioAdmin, verificarUsuarioPremium, verificarUsuarioPremiumOAdmin} from '../middlewares/auth.js'
 import { generateProduct } from "../mocks.js";
 
 const router = Router()
@@ -40,7 +40,7 @@ router.get('/:pid', getProductByIdController
 // }
 )
 
-router.post('/', //verificarUsuarioAdmin, 
+router.post('/', verificarUsuarioPremiumOAdmin,
 addProductController
 // async (req, res) => {
 //     let newProduct = req.body
@@ -50,7 +50,7 @@ addProductController
 // }
 )
 
-router.put('/:pid', verificarUsuarioAdmin, updateProductController
+router.put('/:pid', verificarUsuarioPremiumOAdmin, updateProductController
 // async (req, res) => {
 //     const pid = req.params.pid
 //     const newProduct = req.body
@@ -59,7 +59,7 @@ router.put('/:pid', verificarUsuarioAdmin, updateProductController
 // }
 )
 
-router.delete('/:pid', verificarUsuarioAdmin, deleteProductController
+router.delete('/:pid', verificarUsuarioPremiumOAdmin, deleteProductController
 // async (req, res) => {
 //     const pid = req.params.pid
 //     const deletedProduct = await productManager.deleteProduct(pid)

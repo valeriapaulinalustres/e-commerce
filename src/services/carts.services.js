@@ -25,8 +25,8 @@ export async function getCartByIdService(cid){
     return cart
 }
 
-export async function addProductToCartService(cid, pid){
-    const editedCart = await addProductToCart(cid, pid)
+export async function addProductToCartService(cid, pid, owner){
+    const editedCart = await addProductToCart(cid, pid, owner)
     return editedCart
 }
 
