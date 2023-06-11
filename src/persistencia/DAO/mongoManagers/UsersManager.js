@@ -1,5 +1,5 @@
 import { userModel } from "../../mongodb/models/user.model.js";
-import { hashPassword, comparePasswords } from "../../../utils.js";
+import { hashPassword, comparePasswords, generateToken } from "../../../utils.js";
 import config from "../../../config.js";
 // import UsersDBDTO from '../../DTO/usersDB.dto.js'
 import UsersRepository from "../../repositories/users.repositories.js";
@@ -49,6 +49,7 @@ export default class UsersManager {
   }
 
   async loginUser(user) {
+    //esta ruta ya no está en uso porque se usa la estrategia de passport??
     if (!user) {
       CustomError.createCustomError({
         name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
@@ -68,6 +69,13 @@ export default class UsersManager {
     if (usuario) {
       const isPassword = await comparePasswords(password, usuario[0].password);
       if (isPassword) {
+
+//----- Autenticación de usuarios ---
+const token = generateToken(user)
+console.log('token generado con éxito', token)
+ res.cookie('token', token, { httpOnly: true }).json({ token })
+
+
         return usuario;
       }
     } else {
@@ -183,23 +191,124 @@ export default class UsersManager {
         });
       }
 
+      let newUser;
 
-      if (user[0].role === "admin") {
-        await userModel.findByIdAndUpdate(
+      if (user[0].role === "admin" && user[0].documents.length >0) {
+        newUser = await userModel.findByIdAndUpdate(
           { _id: userId },
           { role: 'premium' }
         );
-       
-      } else if (user[0].role === "premium") {
-        await userModel.findByIdAndUpdate(
-          { _id: userId },
-          { role: 'admin' }
-        );
+        logger.info('Rol cambiado con éxito')
+      } else {
+        logger.error('El usuario no ha cargado documentación. No puede cambiar a premium.')
       }
-      logger.info('Rol cambiado con éxito')
-      return user
+
+     
+      return newUser
     } catch (error) {
       logger.error("Error", error);
     }
   }
+
+async getUserDataFromMail (email) {
+  console.log('mail que llega',email)
+  try {
+    const user = await userModel.find({ email: email.mail });
+console.log('user delmanager', user)
+    if (!user) {
+      return CustomError.createCustomError({
+        name: ErrorsName.USER_DATA_NOT_FOUND_IN_DATABASE,
+        cause: ErrorsCause.USER_DATA_NOT_FOUND_IN_DATABASE,
+        message: ErrorsMessage.USER_DATA_NOT_FOUND_IN_DATABASE,
+      });
+    }
+    return user[0]
+  } catch (error) {
+    logger.error("Error", error);
+  }
 }
+
+async addCartToUser (uid, cid){
+  console.log(uid,cid)
+  try {
+   const userWithCart = await userModel.findByIdAndUpdate(  
+      uid,
+      {
+        cartId: cid,
+    
+      },
+      { new: true })
+      return userWithCart
+  } catch (error) {
+    logger.error("Error", error);
+  }
+}
+
+async uploadFiles (uid, docs) {
+  console.log(uid)
+  console.log(docs)
+
+ try {
+   const updatedUser = await userModel.findByIdAndUpdate( 
+    uid,
+    {
+    documents: docs
+    } ,
+    { new: true }
+    
+    );
+
+  
+     return updatedUser;
+  
+   
+ } catch (error) {
+   logger.error("Error", error);
+   throw new Error(error);
+ }
+
+}
+
+
+async  login (user, time) {
+try {
+  const updatedUser = await userModel.findByIdAndUpdate( 
+    user._id,
+    {
+      lastConnection: time
+    } ,
+    { new: true }
+    
+    );
+  
+     return updatedUser;  
+} catch (error) {
+  logger.error("Error", error);
+  throw new Error(error);
+}
+}
+
+async  logout (user, time) {
+  console.log('user del manager logout', user)
+  logger.info('del manager logout user y time', user, time)
+try {
+  const updatedUser = await userModel.findByIdAndUpdate( 
+    user._id,
+    {
+      lastConnection: time
+    } ,
+    { new: true }
+    
+    );
+console.log('del manager updatedUser', updatedUser)
+  
+     return updatedUser;  
+} catch (error) {
+  logger.error("Error", error);
+  throw new Error(error);
+}
+}
+
+}
+
+

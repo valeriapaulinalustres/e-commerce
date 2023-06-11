@@ -24,7 +24,7 @@ export const getProductsController = async (req, res) => {
   }
 
   try {
-    let userName = req.user.first_name;
+   // let userName = req.user.first_name;
     let user = req.user;
     let products = await getProductsService(limit, page, sort, category, user); //category en la url va sin comillas
 
@@ -47,10 +47,13 @@ export const getProductByIdController = async (req, res) => {
 };
 
 export const addProductController = async (req, res) => {
+  
   try {
-    let newProduct = req.body;
-    let owner = req.user
-    const newProductCreated = await addProductService(newProduct, owner);
+ 
+    let product = req.body.newProduct;
+    let owner = req.body.owner
+ 
+    const newProductCreated = await addProductService(product, owner);
     res.json({ response: newProductCreated });
   } catch (error) {
     console.log("Error desde el controller: ", error);
@@ -60,11 +63,11 @@ export const addProductController = async (req, res) => {
 export const updateProductController = async (req, res) => {
   try {
     const pid = req.params.pid;
-    const newProduct = req.body;
-    const owner = req.user;
-    const updatedProduct = await updateProductService(pid, newProduct,owner);
+    const updatedProduct = req.body.updatedProduct;
+    const owner = req.body.owner;
+    const updatedProductFromDb = await updateProductService(pid, updatedProduct,owner);
     res.json({
-      reponse: updatedProduct,
+      response: updatedProductFromDb,
     });
   } catch (error) {
     console.log("Error desde el controller: ", error);
@@ -72,9 +75,10 @@ export const updateProductController = async (req, res) => {
 };
 
 export const deleteProductController = async (req, res) => {
+
   try {
     const pid = req.params.pid;
-    let owner = req.user;
+    let owner = req.body.owner;
     const deletedProduct = await deleteProductService(pid, owner);
     res.json({
       response: deletedProduct,

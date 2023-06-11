@@ -8,6 +8,7 @@ import {
   editProductQtyService,
   editCartService,
   completeSaleService,
+  eraseProductFromCartService
 } from "../services/carts.services.js";
 
 export const addCartController = async (req, res) => {
@@ -45,10 +46,12 @@ export const addProductToCartController = async (req, res) => {
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
-    const owner = req.user;
+    const owner = req.body.user;
     const addedProduct = await addProductToCartService(cid, pid, owner);
     res.json({
-      message: addedProduct,
+      message: 'Product added successfully',
+      product: addedProduct,
+      status: 'success'
     });
   } catch (error) {
     console.log("Error desde el controller: ", error);
@@ -72,7 +75,7 @@ export const emptyCartController = async (req, res) => {
   try {
     const cid = req.params.cid;
     const emptyCart = await emptyCartService(cid);
-    res.json({ message: emptyCart });
+    res.json({ message: 'Cart emptied successfully', cart: emptyCart, status: 'success' });
   } catch (error) {
     console.log("Error desde el controller: ", error);
   }
@@ -109,6 +112,21 @@ export const completeSaleController = async (req, res) => {
     // algo.ticket = {...algo.ticket, purchaser: req.cookies.user.user.email}
 
     res.json({ message: resultCart });
+  } catch (error) {
+    console.log("Error desde el controller: ", error);
+  }
+};
+
+
+export const eraseProductFromCartController = async (req, res) => {
+  try {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+
+    const deletedProduct = await eraseProductFromCartService(cid, pid);
+    res.json({
+      message: deletedProduct,
+    });
   } catch (error) {
     console.log("Error desde el controller: ", error);
   }

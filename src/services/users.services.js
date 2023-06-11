@@ -4,7 +4,12 @@ import {
    // getUsersData,
    forgotPassword,
    createNewPassword,
-   changeRol
+   changeRol,
+   getUserDataFromMail,
+   addCartToUser,
+   uploadFiles,
+   login,
+   logout
 } from '../persistencia/usersPersistence.js'
 import UsersRepository from '../persistencia/repositories/users.repositories.js'
 
@@ -26,6 +31,12 @@ export async function getUsersDataService(userFromSession){
     return userFromSession
 }
 
+export async function getUserDataFromMailService(email){
+    const user = await getUserDataFromMail(email)
+    return user
+
+}
+
 export async function forgotPasswordService(mail){
     const user = await forgotPassword(mail)
     return user
@@ -41,3 +52,24 @@ export async function changeRolServices(userId){
     return user
 }
 
+export async function addCartToUserService(uid, cid) {
+    const user = await addCartToUser(uid, cid)
+    return user
+}
+
+
+export async function uploadFilesService(uid, docs) {
+    const user = await uploadFiles(uid, docs)
+    return user
+}
+
+export async function loginService(user, time) {
+    const response = await login(user, time)
+    return response
+}
+
+
+export async function logoutService(user, time) {
+    const response = await logout(user, time)
+    return response
+}

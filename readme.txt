@@ -30,7 +30,7 @@ Users:
 '/api/users/current' GET obtiene los datos del usuario actual
 '/api/users/forgot-password' POST envía mail para recuperar contraseña
 '/api/users/create-new-password/:user/:token' POST envía el nuevo password al back
-
+'/api/user/add-cart-to-user' PUT agrega un carrito a un usuario
 
 JWT:
 
@@ -62,5 +62,7 @@ Mock:
 'api/products/mockingproducts' mock de productos
 
 
+Deploy Fullstack:
+https://ll-e-commerce-nrxo.vercel.app/
 
 https://www.linkedin.com/pulse/recuperar-cuenta-restaurando-contrase%C3%B1a-password-con-y-miguel-%C3%A1ngel/?originalSubdomain=es

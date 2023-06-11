@@ -1,0 +1,62 @@
+paths:
+  /api/products:
+    get:
+      description: Get all products
+      tags: 
+        - Products
+      responses: 
+        "200":
+          description: All products
+          content: 
+            application/json:
+              schemas: 
+                type: Array
+                items: 
+                  $ref: '#/components/schemas/Product'
+
+  /api/products/{pid}:
+    get:
+      summary: Get a product by id
+      tags: 
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        description: product identifier  
+      responses: 
+        "200":
+          description: Success
+          content: 
+            application/json:
+              schemas: 
+                type: Object
+                items: 
+                  $ref: '#/components/schemas/Product'
+
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id: 
+          type: string
+        title: 
+          type: string
+        description: 
+          type: string
+        price: 
+          type: number
+        thumbnails: 
+          type: string
+        code: 
+          type: string
+        stock: 
+          type: number
+        status: 
+          type: boolean
+        category: 
+          type: string
+        owner: 
+          type: string

@@ -8,7 +8,7 @@ export function jwtValidation(req, res, next) {
   if (verifiedUser) {
     req.user = verifiedUser.user
     console.log(verifiedUser)
-  res.cookie('user', verifiedUser)
+  res.cookie('user', verifiedUser).json({user: verifiedUser})
     next()
   } else {
     res.json({ message: 'Authentication error' })

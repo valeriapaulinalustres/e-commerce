@@ -57,3 +57,7 @@ export async function editCart(cid, newCart) {
 export async function completeSale(cid, userFullName){
     return await persistence.completeSale(cid, userFullName)
 }
+
+export async function eraseProductFromCart(cid, pid) {
+    return await persistence.eraseProductFromCart(cid, pid)
+}

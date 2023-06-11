@@ -9,6 +9,7 @@ import {
 } from "../controllers/products.controller.js";
 import {verificarUsuarioAdmin, verificarUsuarioPremium, verificarUsuarioPremiumOAdmin} from '../middlewares/auth.js'
 import { generateProduct } from "../mocks.js";
+import { jwtValidation } from '../middlewares/jwt.middlewares.js'
 
 const router = Router()
 //import ProductManager from '../dao/mongoManagers/ProductManager.js'
@@ -18,7 +19,7 @@ const router = Router()
 //const productManager = new ProductManager()
 
 
-router.get('/', getProductsController
+router.get('/',  getProductsController
 // async (req, res) => {
 //     const { limit = 10, page = 1, sort, category } = req.query
 
@@ -40,7 +41,7 @@ router.get('/:pid', getProductByIdController
 // }
 )
 
-router.post('/', verificarUsuarioPremiumOAdmin,
+router.post('/', //verificarUsuarioPremiumOAdmin,
 addProductController
 // async (req, res) => {
 //     let newProduct = req.body
@@ -50,7 +51,8 @@ addProductController
 // }
 )
 
-router.put('/:pid', verificarUsuarioPremiumOAdmin, updateProductController
+router.put('/:pid', //verificarUsuarioPremiumOAdmin, 
+updateProductController
 // async (req, res) => {
 //     const pid = req.params.pid
 //     const newProduct = req.body
@@ -59,7 +61,9 @@ router.put('/:pid', verificarUsuarioPremiumOAdmin, updateProductController
 // }
 )
 
-router.delete('/:pid', verificarUsuarioPremiumOAdmin, deleteProductController
+router.delete('/:pid', 
+//verificarUsuarioPremiumOAdmin, 
+deleteProductController
 // async (req, res) => {
 //     const pid = req.params.pid
 //     const deletedProduct = await productManager.deleteProduct(pid)

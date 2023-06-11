@@ -7,7 +7,8 @@ import {
     emptyCart, 
     editProductQty, 
     editCart,
-    completeSale 
+    completeSale ,
+    eraseProductFromCart
 } from '../persistencia/cartsPersistence.js'
 
 export async function addCartService(newCart){
@@ -53,4 +54,9 @@ export async function editCartService(cid, newCart){
 export async function completeSaleService(cid, userFulllName){
     const sale = await completeSale(cid, userFulllName)
     return sale
+}
+
+export async function eraseProductFromCartService(cid, pid){
+    const cart = await eraseProductFromCart(cid, pid)
+    return cart
 }

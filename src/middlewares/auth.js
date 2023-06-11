@@ -1,7 +1,8 @@
 import logger from "../utils/winston.js"
 
 export const verificarUsuarioPremiumOAdmin = (req,res,next)=>{
-   
+    
+   console.log(req.user, req.sessionID, req.session.user,res.cookie.user, req._passport.session.user)
     if(req.user?.role === 'premium' || req.user?.role === 'admin'){
         next()
     } else {

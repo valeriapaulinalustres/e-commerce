@@ -1,0 +1,16 @@
+POST, PUT y DELETE requests examples
+
+Carts:
+
+
+'/api/carts/' POST: agrega un nuevo carrito
+[{"id":"id de un producto","quantity":"cantidad del producto"}]
+
+Ex: [{"id":"644d350fb601022b0bb37caf","quantity":"9"}]
+
+'/api/carts/:cid' DELETE vacía un carrito por id
+'/api/carts/:cid' PUT edita un carrit por id
+'/api/carts/:cid/product/:pid' POST agrega un producto por id a un carrito por su id
+'/api/carts/:cid/product/:pid' DELETE elimina un producto por id de un carrito por id
+'/api/carts/:cid/product/:pid' PUT modifica un producto por id de un carrito por id
+'/api/carts/:cid/purchase' POST para completar compra de un carrito

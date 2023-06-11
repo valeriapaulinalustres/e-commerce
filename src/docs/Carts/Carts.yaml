@@ -1,0 +1,87 @@
+paths:
+  /api/carts:
+    get:
+      description: Get all carts
+      tags: 
+        - Carts
+      responses: 
+        "200":
+          description: Get all carts
+          content: 
+            application/json:
+              schemas: 
+                type: Array
+                items: 
+                  $ref: '#/components/schemas/Cart'
+
+  /api/carts/{cid}:
+    get:
+      summary: Get a cart by id
+      tags: 
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        description: cart identifier  
+      responses: 
+        "200":
+          description: Success
+          content: 
+            application/json:
+              schemas: 
+                type: Object
+                items: 
+                  $ref: '#/components/schemas/Cart'
+
+
+  /api/carts/{cid}/products/{pid}:
+    get:
+      summary: Get a product by id from a cart by id
+      tags: 
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        description: cart identifier  
+      - name: pid
+        in: path
+        description: product identifier    
+      responses: 
+        "200":
+          description: Success
+          content: 
+            application/json:
+              schemas: 
+                type: Object
+                items: 
+                  $ref: '#/components/schemas/Cart'
+
+
+  /api/carts/{cid}/purchase:
+    get:
+      summary: Buy a cart
+      tags: 
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        description: cart identifier    
+      responses: 
+        "200":
+          description: Success
+          content: 
+            application/json:
+              schemas: 
+                type: Object
+                items: 
+                  $ref: '#/components/schemas/Cart'
+
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        products: 
+          type: array
+       

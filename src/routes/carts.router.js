@@ -8,9 +8,11 @@ import {
   getCartsController,
   addProductToCartController,
   deleteProductFromCartController,
-  completeSaleController
+  completeSaleController,
+  eraseProductFromCartController
 } from "../controllers/carts.controller.js";
 import { verificarUsuarioClient } from "../middlewares/auth.js";
+import { jwtValidation } from '../middlewares/jwt.middlewares.js'
 
 const router = Router();
 
@@ -106,6 +108,8 @@ router.put(
   //     res.json({mensaje: `Carrito editado: ${editedCart}`})
   // }
 );
+
+router.delete("/:cid/product/:pid/erase", eraseProductFromCartController)
 
 router.post('/:cid/purchase', completeSaleController
 
