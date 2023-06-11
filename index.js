@@ -99,7 +99,7 @@ app.set('views',__dirname+'/views')
 
 app.use(errorMiddleware) //el middleware de errores va al final de todo
 
-const PORT = config.PORT
+const PORT = config.PORT || 8080
 
 const httpServer = app.listen(PORT, () => {
   console.log('Servidor escuchando en el puerto 8080');
