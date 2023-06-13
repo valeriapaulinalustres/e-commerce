@@ -3,7 +3,7 @@ import MongoDb from './DAO/mongoManagers/UsersManager.js'
 import {userModel} from './mongodb/models/user.model.js'
 
 
-let persistence = new MongoDb('Products', userModel)
+let persistence = new MongoDb('Users', userModel)
 
 
 export async function getUsers() {
