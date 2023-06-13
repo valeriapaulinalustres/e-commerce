@@ -31,7 +31,7 @@ export const getProductsController = async (req, res) => {
     res.json({ response: products }); //esta se usará con el front de React
     //res.render("products", { products, userName });
   } catch (error) {
-    console.log('error')
+    console.log('error', error)
    // logger.error('Error del controller', error)
   }
 };
