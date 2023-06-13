@@ -10,6 +10,7 @@ import {
   completeSaleService,
   eraseProductFromCartService
 } from "../services/carts.services.js";
+import logger from "../utils/winston.js";
 
 export const addCartController = async (req, res) => {
   try {
