@@ -24,6 +24,7 @@ export default class ProductManager {
     try {
       //.lean() para que devuelva en json y lo muestre handlebars
       const allProductsDB = await productsModel.paginate(filter, options);
+console.log(allProductsDB)
 
       if (!allProductsDB) {
         CustomError.createCustomError({
