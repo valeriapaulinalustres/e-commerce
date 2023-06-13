@@ -13,7 +13,7 @@ const URI = config.MONGOURL
 //     }
 // })
 try{
-   await mongoose.connect(URI)
+    mongoose.connect(URI)
     console.log('Conectado a la base de datos')
 } catch (error) {
 console.log('error')
