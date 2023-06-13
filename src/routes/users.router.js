@@ -14,12 +14,16 @@ import {
   loginSuccessController,
   loginController,
   logoutController,
+  getUsersController,
+  deleteUsersController
 } from "../controllers/users.controller.js";
 import { generateToken } from "../utils.js";
 import logger from "../utils/winston.js";
 import { upload } from "../middlewares/multer.js";
 
 const CLIENT_URL = "https://localhost:3000/";
+
+router.get('/', getUsersController)
 
 // *** Registro con Passport ***
 router.post(
@@ -108,6 +112,9 @@ const cpUpload = upload.fields([
   { name: "document", maxCount: 3 },
 ]);
 router.post("/:uid/documents", cpUpload, uploadFilesController);
+
+// --- Elimina usuarios sin conexión de los últimos 2 días ---
+router.delete('/', deleteUsersController)
 
 export default router;
 

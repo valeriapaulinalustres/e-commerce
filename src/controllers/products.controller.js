@@ -31,7 +31,7 @@ export const getProductsController = async (req, res) => {
     res.json({ response: products }); //esta se usará con el front de React
     //res.render("products", { products, userName });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -41,7 +41,7 @@ export const getProductByIdController = async (req, res) => {
     const product = await getProductByIdService(id);
     res.json({ response: product });
   } catch (error) {
-    console.log("Error desde el controller", error);
+    logger.error('Error del controller', error)
     return error;
   }
 };
@@ -56,7 +56,7 @@ export const addProductController = async (req, res) => {
     const newProductCreated = await addProductService(product, owner);
     res.json({ response: newProductCreated });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -70,7 +70,7 @@ export const updateProductController = async (req, res) => {
       response: updatedProductFromDb,
     });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -84,7 +84,7 @@ export const deleteProductController = async (req, res) => {
       response: deletedProduct,
     });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -94,6 +94,6 @@ export const mockedProductsController = async (req, res) => {
     const products = await mockedProductsService();
     res.json({ response: products });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };

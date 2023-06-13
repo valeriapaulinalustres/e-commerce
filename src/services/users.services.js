@@ -9,10 +9,25 @@ import {
    addCartToUser,
    uploadFiles,
    login,
-   logout
+   logout,
+   getUsers,
+   deleteUsers
 } from '../persistencia/usersPersistence.js'
 import UsersRepository from '../persistencia/repositories/users.repositories.js'
+import UsersRespDTO from '../persistencia/DTO/usersResp.dto.js'
 
+
+
+export async function getUsersService(){
+    const users = await getUsers()
+    let usersToSend = []
+
+    for (let i = 0; i < users.length; i++) {
+        const userToSend = new UsersRespDTO(users[i])
+        usersToSend.push(userToSend)
+    }
+    return usersToSend
+}
 
 export async function createUserService(user){
     const newUser = await createUser(user)
@@ -72,4 +87,11 @@ export async function loginService(user, time) {
 export async function logoutService(user, time) {
     const response = await logout(user, time)
     return response
+}
+
+export async function deleteUsersService() {
+   
+    const users = await deleteUsers()
+
+    return users
 }

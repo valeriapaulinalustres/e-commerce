@@ -8,7 +8,9 @@ import {
   getUserDataFromMailService,
   addCartToUserService,
   uploadFilesService,
-  logoutService
+  logoutService,
+  getUsersService,
+  deleteUsersService
 } from "../services/users.services.js";
 
 import { generateToken } from "../utils.js";
@@ -17,16 +19,14 @@ import UsersManager from "../persistencia/DAO/mongoManagers/UsersManager.js";
 const usersManager = new UsersManager();
 
 
-// export const logoutController = (req, res) => {
-//   req.session.destroy((error) => {
-//     if (error) {
-//       console.log(error);
-//       res.json({ message: error });
-//     } else {
-//       res.redirect("/api/views/login");
-//     }
-//   });
-// };
+export const getUsersController = async (req,res) =>{
+  try {
+    const response = await getUsersService()
+    res.json({message: 'Users got successfully', users: response})
+  } catch (error) {
+    logger.error('Error del controller', error)
+  }
+}
 
 export const getUsersDataController = async (req, res) => {
   try {
@@ -37,7 +37,7 @@ export const getUsersDataController = async (req, res) => {
     //const userData = await getUsersDataService(user)
     res.json({ usersMail: user.email, userFullname: user.full_name, user, existUser: true });
   } catch (error) {
-    console.log("error");
+    logger.error('Error del controller', error)
   }
 };
 
@@ -47,7 +47,7 @@ export const getUserDataFromMailController = async (req, res) => {
     const response = await getUserDataFromMailService(email)
     res.json({user: response})
   } catch (error) {
-    console.log('error');
+    logger.error('Error del controller', error)
   }
 }
 
@@ -62,7 +62,7 @@ export const forgotPasswordController = async (req, res) => {
       res.send({ mensaje: "email enviado con éxito", user });
     }
   } catch (error) {
-    console.log("error");
+    logger.error('Error del controller', error)
   }
 };
 
@@ -86,7 +86,7 @@ export const createNewPasswordController = async (req, res) => {
     console.log(user);
     res.json({ message: 'Password update successfully', user });
   } catch (error) {
-    console.log("error");
+    logger.error('Error del controller', error)
   }
 };
 
@@ -102,7 +102,7 @@ res.json({message: 'Could not change rol. User must upload documentation.'})
   }
  
 } catch (error) {
-  console.log("error");
+  logger.error('Error del controller', error)
 }
 
   
@@ -117,7 +117,7 @@ try {
   console.log(user)
   res.json({ message: 'User update successfully' });
 } catch (error) {
-  console.log("error");
+  logger.error('Error del controller', error)
 }
 
   
@@ -150,7 +150,7 @@ try {
   console.log(user)
   res.json({ message: 'Documents uploaded successfully' });
 } catch (error) {
-  console.log("error");
+  logger.error('Error del controller', error)
 }}
 
 
@@ -175,7 +175,7 @@ try {
         .send(req.session.sessionID);
       // res.json({existUser: true, message:'Login realizado con éxito', user:req.user})
 } catch (error) {
-  console.log("error del loginSuccessController", error);
+  logger.error('Error del controller', error)
 }
 }
 
@@ -190,7 +190,7 @@ try {
  
 // } //le manda a la ruta success el usuario
 } catch (error) {
- console.log('error ruta loginController', error) 
+  logger.error('Error del controller', error)
 }
 }
 
@@ -198,7 +198,7 @@ export const logoutController = async (req, res) =>{
 
     req.session.destroy(async (error) => {
       if (error) {
-        console.log(error);
+        logger.error('Error del controller', error)
         res.json({ success: false, message: "Error en el logout" });
       } else {
         //res.redirect('api/views/login')
@@ -212,5 +212,13 @@ export const logoutController = async (req, res) =>{
 
 
 
+export const deleteUsersController = async (req, res) =>{
+  try {
+    const response = await deleteUsersService()
+    res.json({message: response})
+  } catch (error) {
+    logger.error('Error del controller', error)
+  }
+}
 
 

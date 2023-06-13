@@ -47,6 +47,7 @@ passport.use(
           password: hashNewPassword,
           // cartId: ' ',
           role: userRole,
+          lastConnection: "0"//sirve para poder borrar los que se registraron y nunca se logearon, ruta api/users/ método delete
         };
 
         const newuserBD = await userModel.create(newUser);

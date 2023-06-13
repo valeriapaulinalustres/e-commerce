@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon ./index.js",
+   
     "test": "mocha -t 10000 test/products.router.test.js"
   },
   "keywords": [],

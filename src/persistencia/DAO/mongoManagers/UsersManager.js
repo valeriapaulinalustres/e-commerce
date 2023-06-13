@@ -15,6 +15,30 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
 export default class UsersManager {
+
+  async getUsers (){
+    try {
+      const users = await userModel.find()
+
+      if (!users) {
+        CustomError.createCustomError({
+          name: ErrorsName.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          cause: ErrorsCause.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+          message: ErrorsMessage.PRODUCT_DATA_NOT_FOUND_IN_DATABASE,
+        });
+      }
+
+
+    return users
+    } catch (error) {
+      logger.error("Error", error);
+      throw new Error(error);
+    }
+  
+
+  
+  }
+
   async createUser(user) {
     //esta ruta ya no está en uso porque se usa la estrategia de passport??
     if (!user) {
@@ -307,6 +331,44 @@ console.log('del manager updatedUser', updatedUser)
   logger.error("Error", error);
   throw new Error(error);
 }
+}
+
+async deleteUsers (){
+try {
+
+  const users = await userModel.find({})
+  
+
+const now = Date.parse(new Date());
+const fortyEightHsInMs = 172800000;
+let lastTimeMs;
+
+for (let i = 0; i < users.length; i++) {
+
+if(users[i].lastConnection !== "0") {
+let lastTime = users[i].lastConnection
+lastTimeMs = Date.parse(lastTime)
+
+if (now - lastTimeMs > fortyEightHsInMs) {
+info.logger(`Usuario no vigente, se elimina: ${users[i].email}`)
+await userModel.deleteOne({email: users[i].email})
+
+} else { logger.info(`Usuario vigentes: ${users[i].email}`)}
+
+} else { 
+logger.info(`Usuario registrado, nunca loggeado. Se elimina: ${users[i].email}`)
+ await userModel.deleteOne({email: users[i].email})
+
+}
+}
+
+const newUsers = await userModel.find()
+
+  return newUsers
+} catch (error) {
+  logger.error("Error", error);
+  throw new Error(error);
+}  
 }
 
 }

@@ -5,6 +5,11 @@ import {userModel} from './mongodb/models/user.model.js'
 
 let persistence = new MongoDb('Products', userModel)
 
+
+export async function getUsers() {
+    return await persistence.getUsers()
+}
+
 export async function createUser(user) {
     return await persistence.createUser(user)
 }
@@ -47,5 +52,9 @@ export async function login(user, time) {
 
 export async function logout(user, time) {
     return await persistence.logout(user, time)
+}
+
+export async function deleteUsers(user, time) {
+    return await persistence.deleteUsers(user, time)
 }
 

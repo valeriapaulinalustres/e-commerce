@@ -17,7 +17,7 @@ export const addCartController = async (req, res) => {
     const addedCart = await addCartService(cart);
     res.json({ message: addedCart });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -26,7 +26,7 @@ export const getCartsController = async (req, res) => {
     const carts = await getCartsService();
     res.json({ message: carts });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -38,7 +38,7 @@ export const getCartByIdController = async (req, res) => {
     res.json({ message: cartFoundById});
     //   res.render('cart', {cart})
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -54,7 +54,7 @@ export const addProductToCartController = async (req, res) => {
       status: 'success'
     });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -67,7 +67,7 @@ export const deleteProductFromCartController = async (req, res) => {
       message: deletedProduct,
     });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -77,7 +77,7 @@ export const emptyCartController = async (req, res) => {
     const emptyCart = await emptyCartService(cid);
     res.json({ message: 'Cart emptied successfully', cart: emptyCart, status: 'success' });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -89,7 +89,7 @@ export const editProductQtyController = async (req, res) => {
     const editedProductQty = await editProductQtyService(cid, pid, quantity);
     res.json({ message: editedProductQty });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -100,7 +100,7 @@ export const editCartController = async (req, res) => {
     const editedCart = await editCartService(cid, newCart);
     res.json({ message: editedCart });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -113,7 +113,7 @@ export const completeSaleController = async (req, res) => {
 
     res.json({ message: resultCart });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
 
@@ -128,6 +128,6 @@ export const eraseProductFromCartController = async (req, res) => {
       message: deletedProduct,
     });
   } catch (error) {
-    console.log("Error desde el controller: ", error);
+    logger.error('Error del controller', error)
   }
 };
