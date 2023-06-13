@@ -12,6 +12,7 @@ import {
   ErrorsMessage,
   ErrorsName,
 } from "../utils/errors/errorsEnum.js";
+import logger from "../utils/winston.js";
 
 export const getProductsController = async (req, res) => {
   const { limit = 10, page = 1, sort, category } = req.query;
