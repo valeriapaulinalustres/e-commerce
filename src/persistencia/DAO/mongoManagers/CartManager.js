@@ -58,7 +58,7 @@ export default class CartManager {
 
   async getCarts() {
     try {
-      const carts = await cartsModel.find().lean();
+      const carts = await cartsModel.find()//.lean();
       logger.info('Carritos obtenidos con éxito')
       return carts;
     } catch (error) {
