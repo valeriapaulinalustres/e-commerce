@@ -9,7 +9,9 @@ program.parse();
 
 let persistence;
 
-let argv = program.args[0]
+//let argv = program.args[0]
+
+let argv = 'mongo'
 
 switch (argv) {
     case 'fs':
