@@ -342,6 +342,8 @@ try {
 const now = Date.parse(new Date());
 const fortyEightHsInMs = 172800000;
 let lastTimeMs;
+const deletedDisconnected = []
+const deletedNotLogged = []
 
 for (let i = 0; i < users.length; i++) {
 
@@ -351,20 +353,90 @@ lastTimeMs = Date.parse(lastTime)
 
 if (now - lastTimeMs > fortyEightHsInMs) {
 info.logger(`Usuario no vigente, se elimina: ${users[i].email}`)
+deletedDisconnected.push( users[i].email)
 await userModel.deleteOne({email: users[i].email})
+
+
+//Para enviar el mail al usuario eliminado
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: `${config.GMAIL_USER}`,
+    pass: `${config.GMAIL_PASSWORD}`,
+  },
+});
+const emailPort = config.EMAIL_PORT || 8080;
+
+const mailOptions = {
+  from: "valeriapaulinalustres@gmail.com",
+  to: `${users[i].email}`,
+  subject: "Eliminación de cuenta por inactividad",
+   text: 'Su cuenta ha sido eliminada por inactividad. Para volver a registrarse, por favor siga el enlace:',
+  html: `<a href='https://ll-ecommerce-p4ro.vercel.app/api/regitro'><button>Registrarse</button></a>`,
+};
+
+transporter.sendMail(mailOptions, (err, response) => {
+  if (err) {
+    logger.error("Error al enviar el mail", err);
+  } else {
+    logger.info("Respuesta del mail", response);
+    response
+      .status(200)
+      .json("El email que informa al usuario que ha sido eliminado ha sido enviado");
+  }
+});
+
+
 
 } else { logger.info(`Usuario vigentes: ${users[i].email}`)}
 
 } else { 
 logger.info(`Usuario registrado, nunca loggeado. Se elimina: ${users[i].email}`)
+deletedNotLogged.push(users[i].email)
  await userModel.deleteOne({email: users[i].email})
+
+//Para enviar el mail al usuario eliminado
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: `${config.GMAIL_USER}`,
+    pass: `${config.GMAIL_PASSWORD}`,
+  },
+});
+const emailPort = config.EMAIL_PORT || 8080;
+
+const mailOptions = {
+  from: "valeriapaulinalustres@gmail.com",
+  to: `${users[i].email}`,
+  subject: "Eliminación de cuenta por nunca haber ingresado",
+   text: 'Su cuenta ha sido eliminada por haberse registrado pero no haber ingresado. Para volver a registrarse, por favor siga el enlace:',
+  html: `<a href='https://ll-ecommerce-p4ro.vercel.app/api/regitro'><button>Registrarse</button></a>`,
+};
+
+transporter.sendMail(mailOptions, (err, response) => {
+  if (err) {
+    logger.error("Error al enviar el mail", err);
+  } else {
+    logger.info("Respuesta del mail", response);
+    response
+      .status(200)
+      .json("El email que informa al usuario que ha sido eliminado ha sido enviado");
+  }
+});
+
+
+
+
+
 
 }
 }
 
 const newUsers = await userModel.find()
 
-  return newUsers
+
+
+  return {message:'Users deleted successfully', deletedDisconnected, deletedNotLogged, remainUsers: newUsers}
 } catch (error) {
   logger.error("Error", error);
   throw new Error(error);

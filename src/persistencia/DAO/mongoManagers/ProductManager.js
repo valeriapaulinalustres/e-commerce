@@ -184,6 +184,38 @@ logger.info(allProductsDB)
         return;
       }
 
+
+//Para enviar el mail al usuario avisando que el producto fue eliminado eliminado
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: `${config.GMAIL_USER}`,
+    pass: `${config.GMAIL_PASSWORD}`,
+  },
+});
+const emailPort = config.EMAIL_PORT || 8080;
+
+const mailOptions = {
+  from: "valeriapaulinalustres@gmail.com",
+  to: `${owner.email}`,
+  subject: "Eliminación de producto",
+   text: `El producto eliminado es ${deletedProduct[0].title}`,
+ // html: `<a href='https://ll-ecommerce-p4ro.vercel.app/api/regitro'><button>Recuperar contraseña</button></a>`,
+};
+
+transporter.sendMail(mailOptions, (err, response) => {
+  if (err) {
+    logger.error("Error al enviar el mail", err);
+  } else {
+    logger.info("Respuesta del mail", response);
+    response
+      .status(200)
+      .json("El email que informa al usuario que ha sido eliminado ha sido enviado");
+  }
+});
+
+
+
       logger.info("Producto eliminado con éxito");
       return { message: "Producto eliminado con éxito", deletedProduct, status: 'success' };
     } catch (error) {
