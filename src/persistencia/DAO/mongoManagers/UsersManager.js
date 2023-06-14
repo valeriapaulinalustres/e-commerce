@@ -326,7 +326,7 @@ try {
     );
 console.log('del manager updatedUser', updatedUser)
   
-     return updatedUser;  
+     return updatedUser.lastConnection;  
 } catch (error) {
   logger.error("Error", error);
   throw new Error(error);
