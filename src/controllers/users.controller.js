@@ -197,6 +197,7 @@ try {
 
 //Para probar esta ruta en postman hacer primero el login!! Anda bien!!
 export const logoutController = async (req, res) =>{
+  const user = req.user 
     req.session.destroy(async (error) => {
       if (error) {
         logger.error('Error del controller', error)
@@ -204,7 +205,7 @@ export const logoutController = async (req, res) =>{
       } else {
         //res.redirect('api/views/login')
         const time = new Date();
-        const response = await logoutService(req.user, time)
+        const response = await logoutService(user, time)
         res.json({ success: true, message: `Logout realizado con éxito el ${response}` });
       }
     });

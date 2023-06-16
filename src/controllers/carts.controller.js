@@ -106,12 +106,13 @@ export const editCartController = async (req, res) => {
 };
 
 export const completeSaleController = async (req, res) => {
+  console.log('del controller, user', req['user']);
   try {
-    const buyer = req.user;
+    const buyer = req.user || req.body.user;
+    console.log(buyer)
     const cid = req.params.cid;
     const resultCart = await completeSaleService(cid, buyer.full_name);
-    // algo.ticket = {...algo.ticket, purchaser: req.cookies.user.user.email}
-
+   
     res.json({ message: resultCart });
   } catch (error) {
     logger.error('Error del controller', error)

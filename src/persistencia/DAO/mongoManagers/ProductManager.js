@@ -1,3 +1,4 @@
+
 import CustomError from "../../../utils/errors/CustomError.js";
 import {
   ErrorsCause,
@@ -7,6 +8,8 @@ import {
 import logger from "../../../utils/winston.js";
 import { productsModel } from "../../mongodb/models/products.model.js";
 import { faker } from "@faker-js/faker";
+import nodemailer from "nodemailer";
+import config from "../../../config.js";
 
 export default class ProductManager {
   async getProducts(limit, page, sort, category, user) {
@@ -199,7 +202,7 @@ const mailOptions = {
   from: "valeriapaulinalustres@gmail.com",
   to: `${owner.email}`,
   subject: "Eliminación de producto",
-   text: `El producto eliminado es ${deletedProduct[0].title}`,
+   text: `El producto eliminado es ${deletedProduct.title}`,
  // html: `<a href='https://ll-ecommerce-p4ro.vercel.app/api/regitro'><button>Recuperar contraseña</button></a>`,
 };
 
