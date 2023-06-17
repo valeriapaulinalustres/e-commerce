@@ -116,7 +116,6 @@ logger.info(allProductsDB)
         !product.price ||
         !product.code ||
         !product.stock ||
-        !product.status ||
         !product.category ||
         !product.thumbnails
       ) {

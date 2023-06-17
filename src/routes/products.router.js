@@ -41,7 +41,7 @@ router.get('/:pid', getProductByIdController
 // }
 )
 
-router.post('/', //verificarUsuarioPremiumOAdmin,
+router.post('/', verificarUsuarioPremiumOAdmin,
 addProductController
 // async (req, res) => {
 //     let newProduct = req.body
@@ -62,7 +62,7 @@ updateProductController
 )
 
 router.delete('/:pid', 
-//verificarUsuarioPremiumOAdmin, 
+verificarUsuarioPremiumOAdmin, 
 deleteProductController
 // async (req, res) => {
 //     const pid = req.params.pid
