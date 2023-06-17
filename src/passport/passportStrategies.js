@@ -110,9 +110,9 @@ passport.use(
 passport.use(
   new GithubStrategy(
     {
-      clientID: config.CLIENT_ID_GITHUB,
-      clientSecret: config.CLIENT_SECRET_GITHUB,
-      callbackURL: "http://localhost:8080/api/users/github/callback",
+      clientID: "Iv1.672fec06309dff3d",// config.CLIENT_ID_GITHUB, con el config no funciona 
+      clientSecret: "3ba2e70390df01fa7eb49cef3fbbe434b07ffefc", //config.CLIENT_SECRET_GITHUB, con el config no funciona
+      callbackURL: "http://localhost:8080/api/users/github",
     },
     async function (accessToken, refreshToken, profile, done) {
       const user = await userModel.findOne({ email: profile._json.email });
@@ -132,15 +132,15 @@ passport.use(
         done(null, user);
       }
 
-      done(null, user);
+    
     }
   )
 );
 
 // *** Google Strategy ***
 passport.use('google', new GoogleStrategy({
-  clientID: config.CLIENT_ID_GOOGLE,
-  clientSecret: config.CLIENT_SECRET_GOOGLE,
+  clientID: '569130855734-ak7t8k24icf4qdj27ecmphvhhb9carm2.apps.googleusercontent.com', //config.CLIENT_ID_GOOGLE,
+  clientSecret: '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', //config.CLIENT_SECRET_GOOGLE,
   callbackURL: "http://localhost:8080/api/users/google"
 },
 async function(accessToken, refreshToken, profile, done) {
@@ -159,10 +159,9 @@ async function(accessToken, refreshToken, profile, done) {
     const userDB = await userModel.create(newUser);
     done(null, userDB);
   } else {
-    done(null, user);
+   return done(null, user);
   }
 
-  done(null, user);
 }
 ));
 

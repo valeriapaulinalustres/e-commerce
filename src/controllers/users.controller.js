@@ -197,7 +197,7 @@ try {
 
 //Para probar esta ruta en postman hacer primero el login!! Anda bien!!
 export const logoutController = async (req, res) =>{
-  const user = req.user 
+  const user = req.user || req.body.user
     req.session.destroy(async (error) => {
       if (error) {
         logger.error('Error del controller', error)

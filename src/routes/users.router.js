@@ -62,7 +62,7 @@ router.get("/login/error", async (req, res) => {
 });
 
 // *** Logout ***
-router.get("/logout", logoutController);
+router.post("/logout", logoutController);
 
 // *** Registro con Github ***
 router.get(
@@ -70,7 +70,7 @@ router.get(
   passport.authenticate("github", { scope: ["user:email"] })
 );
 
-router.get("/github/callback", passport.authenticate("github"), (req, res) => {
+router.get("/github", passport.authenticate("github"), (req, res) => {
   req.session.email = req.user.email;
   console.log(req.user);
   res.redirect(`http://localhost:3000`);
