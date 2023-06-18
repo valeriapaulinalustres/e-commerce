@@ -22,7 +22,7 @@ import {
 import { generateToken } from "../utils.js";
 import logger from "../utils/winston.js";
 import { upload } from "../middlewares/multer.js";
-import FRONT_URL from '../utils/mainRoute.js'
+import {FRONT_URL} from '../utils/mainRoute.js'
 
 
 
