@@ -52,7 +52,7 @@ router.get(
 );
 
 router.post(
-  "/:cid/product/:pid", //verificarUsuarioClient,
+  "/:cid/product/:pid", verificarUsuarioClient,
   addProductToCartController
   // async (req, res) => {
   //     const cid = req.params.cid

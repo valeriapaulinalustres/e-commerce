@@ -109,6 +109,7 @@ export default class CartManager {
   }
 
   async addProductToCart(cid, pid, owner) {
+    console.log('hoy aca',cid, pid, owner)
     try {
       if (cid.length != 24 || pid.length != 24) {
         CustomError.createCustomError({
@@ -165,10 +166,10 @@ export default class CartManager {
       await cart.save();
 
       logger.info("Producto agregado al carrito con éxito");
-      return cart;
+      return {message: "Producto agregado al carrito con éxito", cart, status: 'success'};
     } catch (error) {
       logger.error("Error desde el manager", error);
-      return error;
+      return {message: error, status: 'error'};
     }
   }
 

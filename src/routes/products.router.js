@@ -51,7 +51,7 @@ addProductController
 // }
 )
 
-router.put('/:pid', //verificarUsuarioPremiumOAdmin, 
+router.put('/:pid', verificarUsuarioPremiumOAdmin, 
 updateProductController
 // async (req, res) => {
 //     const pid = req.params.pid

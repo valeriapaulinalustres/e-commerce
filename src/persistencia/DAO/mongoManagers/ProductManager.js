@@ -248,7 +248,6 @@ transporter.sendMail(mailOptions, (err, response) => {
         !newProduct.price ||
         !newProduct.code ||
         !newProduct.stock ||
-        !newProduct.status ||
         !newProduct.category 
       ) {
         CustomError.createCustomError({

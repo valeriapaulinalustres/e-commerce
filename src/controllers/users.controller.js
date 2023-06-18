@@ -10,7 +10,9 @@ import {
   uploadFilesService,
   logoutService,
   getUsersService,
-  deleteUsersService
+  deleteUsersService,
+  deleteUserService,
+  changeRolByAdminService
 } from "../services/users.services.js";
 
 import { generateToken } from "../utils.js";
@@ -115,7 +117,7 @@ export const addCartToUserController = async (req,res) => {
 try {
   const user = await addCartToUserService(userId, cartId)
   console.log(user)
-  res.json({ message: 'User update successfully' });
+  res.json({ message: 'User update successfully', user });
 } catch (error) {
   logger.error('Error del controller', error)
 }
@@ -217,6 +219,30 @@ export const logoutController = async (req, res) =>{
 export const deleteUsersController = async (req, res) =>{
   try {
     const response = await deleteUsersService()
+    res.json({message: response})
+  } catch (error) {
+    logger.error('Error del controller', error)
+  }
+}
+
+export const deleteUserController = async (req,res) =>{
+  const email = req.body.email
+  try {
+   const response = await deleteUserService(email) 
+   console.log(response)
+   res.json({message: response})
+  } catch (error) {
+    logger.error('Error del controller', error)
+  }
+}
+
+export const changeRolByAdminController = async (req, res) =>{
+  const email = req.body.email
+  const newRol = req.body.newRol
+
+  try {
+    const response = await changeRolByAdminService(email, newRol) 
+    console.log(response)
     res.json({message: response})
   } catch (error) {
     logger.error('Error del controller', error)

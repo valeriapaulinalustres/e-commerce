@@ -50,9 +50,7 @@ export const addProductToCartController = async (req, res) => {
     const owner = req.body.user;
     const addedProduct = await addProductToCartService(cid, pid, owner);
     res.json({
-      message: 'Product added successfully',
-      product: addedProduct,
-      status: 'success'
+      message: addedProduct,
     });
   } catch (error) {
     logger.error('Error del controller', error)

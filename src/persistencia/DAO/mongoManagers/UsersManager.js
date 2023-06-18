@@ -253,7 +253,7 @@ console.log('user delmanager', user)
 }
 
 async addCartToUser (uid, cid){
-  console.log(uid,cid)
+  console.log('desde el user manager',uid,cid)
   try {
    const userWithCart = await userModel.findByIdAndUpdate(  
       uid,
@@ -442,6 +442,37 @@ const newUsers = await userModel.find()
   throw new Error(error);
 }  
 }
+
+async deleteUser (email){
+  try {
+    const user = await userModel.find({email})
+   
+   await userModel.findByIdAndDelete(user[0]._id)
+
+   return ({message: 'User deleted successfully', status: 'success', deletedUser: user[0]})
+  } catch (error) {
+    logger.error("Error", error);
+    throw new Error(error);
+  }
+}
+
+async changeRolByAdmin (email, newRol){
+  try {
+    const user = await userModel.find({email})
+   
+   const updatedUser = await userModel.findByIdAndUpdate(
+    { _id: user[0]._id },
+    { role: newRol }
+   )
+
+   return ({message: 'User role updated successfully', status: 'success'})
+  } catch (error) {
+    logger.error("Error", error);
+    throw new Error(error);
+  }
+}
+
+
 
 }
 

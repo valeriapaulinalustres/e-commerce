@@ -58,3 +58,11 @@ export async function deleteUsers(user, time) {
     return await persistence.deleteUsers(user, time)
 }
 
+export async function deleteUser(email) {
+    return await persistence.deleteUser(email)
+}
+
+export async function changeRolByAdmin(email, newRol) {
+    return await persistence.changeRolByAdmin(email, newRol)
+}
+

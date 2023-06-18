@@ -11,7 +11,9 @@ import {
    login,
    logout,
    getUsers,
-   deleteUsers
+   deleteUsers,
+   deleteUser,
+   changeRolByAdmin
 } from '../persistencia/usersPersistence.js'
 import UsersRepository from '../persistencia/repositories/users.repositories.js'
 import UsersRespDTO from '../persistencia/DTO/usersResp.dto.js'
@@ -94,4 +96,20 @@ export async function deleteUsersService() {
     const users = await deleteUsers()
 
     return users
+}
+
+
+export async function deleteUserService(email) {
+   
+    const response = await deleteUser(email)
+
+    return response
+}
+
+
+export async function changeRolByAdminService(email, newRol) {
+   
+    const response = await changeRolByAdmin(email, newRol)
+
+    return response
 }

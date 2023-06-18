@@ -15,7 +15,9 @@ import {
   loginController,
   logoutController,
   getUsersController,
-  deleteUsersController
+  deleteUsersController,
+  deleteUserController,
+  changeRolByAdminController
 } from "../controllers/users.controller.js";
 import { generateToken } from "../utils.js";
 import logger from "../utils/winston.js";
@@ -115,6 +117,12 @@ router.post("/:uid/documents", cpUpload, uploadFilesController);
 
 // --- Elimina usuarios sin conexión de los últimos 2 días ---
 router.delete('/', deleteUsersController)
+
+// --- Elimina un usuario ---
+router.delete('/delete-user', deleteUserController)
+
+// --- Cambia el rol de un usuario ---
+router.put('/change-rol', changeRolByAdminController)
 
 export default router;
 
