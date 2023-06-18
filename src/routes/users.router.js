@@ -22,8 +22,9 @@ import {
 import { generateToken } from "../utils.js";
 import logger from "../utils/winston.js";
 import { upload } from "../middlewares/multer.js";
+import FRONT_URL from '../utils/mainRoute.js'
 
-const CLIENT_URL = "https://localhost:3000/";
+
 
 router.get('/', getUsersController)
 
@@ -75,7 +76,7 @@ router.get(
 router.get("/github", passport.authenticate("github"), (req, res) => {
   req.session.email = req.user.email;
   console.log(req.user);
-  res.redirect(`http://localhost:3000`);
+  res.redirect(FRONT_URL);
 });
 
 // *** Registro con Google ***
@@ -88,7 +89,7 @@ router.get("/google", passport.authenticate("google"), function (req, res) {
   req.session.email = req.user.email;
   console.log(req.user);
   // Successful authentication, redirect home.
-  res.redirect("http://localhost:3000");
+  res.redirect(FRONT_URL);
 });
 
 //--- obtener datos del usuario ---
