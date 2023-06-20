@@ -1,12 +1,8 @@
 import { Router } from "express";
 import { loggerTestController } from "../controllers/loggerTest.controller.js";
 
-const router = Router()
+const router = Router();
 
+router.get("/", loggerTestController);
 
-router.get('/', 
-loggerTestController
-
-)
-
-export default router
+export default router;

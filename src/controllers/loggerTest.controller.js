@@ -1,7 +1,7 @@
 import logger from "../utils/winston.js";
 
 export const loggerTestController = (req, res) => {
-try {
+  try {
     logger.fatal("fatal");
     logger.error("error");
     logger.warn("warn");
@@ -9,11 +9,8 @@ try {
     logger.http("http");
     logger.debug("debug");
 
-    res.json({message: 'Test realizado'})
-} catch (error) {
-    logger.error(error)
-}
- 
-
- 
+    res.json({ message: "Test realizado" });
+  } catch (error) {
+    logger.error(error);
+  }
 };

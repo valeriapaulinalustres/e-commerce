@@ -1,7 +1,4 @@
 import { Router } from "express";
-import UsersManager from "../persistencia/DAO/mongoManagers/UsersManager.js";
-const router = Router();
-const usersManager = new UsersManager();
 import passport from "passport";
 import {
   getUsersDataController,
@@ -17,18 +14,17 @@ import {
   getUsersController,
   deleteUsersController,
   deleteUserController,
-  changeRolByAdminController
+  changeRolByAdminController,
 } from "../controllers/users.controller.js";
-import { generateToken } from "../utils.js";
 import logger from "../utils/winston.js";
 import { upload } from "../middlewares/multer.js";
-import {FRONT_URL} from '../utils/mainRoute.js'
+import { FRONT_URL } from "../utils/mainRoute.js";
 
+const router = Router();
 
+router.get("/", getUsersController);
 
-router.get('/', getUsersController)
-
-// *** Registro con Passport ***
+// --- Registro con Passport ---
 router.post(
   "/registro",
   passport.authenticate("registro", {
@@ -46,7 +42,7 @@ router.get("/registro/error", (req, res) => {
   res.json({ success: false, message: "Registro incorrecto" });
 });
 
-// *** Login con Passport ***
+// --- Login con Passport ---
 router.post(
   "/login",
   passport.authenticate("login", {
@@ -64,10 +60,10 @@ router.get("/login/error", async (req, res) => {
   res.json({ existUser: false, message: "Usuario o contraseña incorrectos" });
 });
 
-// *** Logout ***
+// --- Logout ---
 router.post("/logout", logoutController);
 
-// *** Registro con Github ***
+// --- Registro con Github ---
 router.get(
   "/registroGithub",
   passport.authenticate("github", { scope: ["user:email"] })
@@ -75,11 +71,10 @@ router.get(
 
 router.get("/github", passport.authenticate("github"), (req, res) => {
   req.session.email = req.user.email;
-  console.log(req.user);
   res.redirect(FRONT_URL);
 });
 
-// *** Registro con Google ***
+// --- Registro con Google ---
 router.get(
   "/registroGoogle",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -87,28 +82,28 @@ router.get(
 
 router.get("/google", passport.authenticate("google"), function (req, res) {
   req.session.email = req.user.email;
-  console.log(req.user);
   // Successful authentication, redirect home.
   res.redirect(FRONT_URL);
 });
 
-//--- obtener datos del usuario ---
+// --- Trae datos del usuario ---
 router.get("/current", getUsersDataController);
 
 router.post("/current", getUserDataFromMailController);
 
-//---recuperar contraseña ---
+//--- Recupera contraseña ---
 router.post("/forgot-password", forgotPasswordController);
 
-//---Crear nueva contraseña--
+//--- Crea nueva contraseña--
 router.post("/create-new-password/:userId/:token", createNewPasswordController);
 
+// --- Cambia el rol del usuario
 router.put("/premium/:uid", changeRolController);
 
-// --- Agregar el id del carrito a su usuario ---
+// --- Agrega el id del carrito a su usuario ---
 router.put("/add-cart-to-user", addCartToUserController);
 
-// --- Cargar documentos ---
+// --- Carga documentos ---
 const cpUpload = upload.fields([
   { name: "profile", maxCount: 1 },
   { name: "product", maxCount: 3 },
@@ -117,13 +112,13 @@ const cpUpload = upload.fields([
 router.post("/:uid/documents", cpUpload, uploadFilesController);
 
 // --- Elimina usuarios sin conexión de los últimos 2 días ---
-router.delete('/', deleteUsersController)
+router.delete("/", deleteUsersController);
 
 // --- Elimina un usuario ---
-router.delete('/delete-user', deleteUserController)
+router.delete("/delete-user", deleteUserController);
 
 // --- Cambia el rol de un usuario ---
-router.put('/change-rol', changeRolByAdminController)
+router.put("/change-rol", changeRolByAdminController);
 
 export default router;
 

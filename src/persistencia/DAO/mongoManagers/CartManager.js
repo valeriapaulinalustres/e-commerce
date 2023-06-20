@@ -79,7 +79,6 @@ export default class CartManager {
           cause: ErrorsCause.CART_DATA_INCORRECT_ID,
           message: ErrorsMessage.CART_DATA_INCORRECT_ID,
         });
-
         return;
       }
 
@@ -109,7 +108,6 @@ export default class CartManager {
   }
 
   async addProductToCart(cid, pid, owner) {
-    console.log('hoy aca',cid, pid, owner)
     try {
       if (cid.length != 24 || pid.length != 24) {
         CustomError.createCustomError({
@@ -166,10 +164,14 @@ export default class CartManager {
       await cart.save();
 
       logger.info("Producto agregado al carrito con éxito");
-      return {message: "Producto agregado al carrito con éxito", cart, status: 'success'};
+      return {
+        message: "Producto agregado al carrito con éxito",
+        cart,
+        status: "success",
+      };
     } catch (error) {
       logger.error("Error desde el manager", error);
-      return {message: error, status: 'error'};
+      return { message: error, status: "error" };
     }
   }
 
@@ -493,7 +495,6 @@ export default class CartManager {
       }
 
       let cart = await cartsModel.findOne({ _id: cid });
-      console.log(cart);
       if (!cart) {
         CustomError.createCustomError({
           name: ErrorsName.CART_DATA_NOT_FOUND_IN_DATABASE,
@@ -519,7 +520,6 @@ export default class CartManager {
 
       cart.products = newCart;
 
-      console.log("nuevo cart", cart);
       await cart.save();
 
       logger.info("Producto eliminado del carrito con éxito");

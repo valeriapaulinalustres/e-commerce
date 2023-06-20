@@ -9,20 +9,16 @@ import {
   addProductToCartController,
   deleteProductFromCartController,
   completeSaleController,
-  eraseProductFromCartController
+  eraseProductFromCartController,
 } from "../controllers/carts.controller.js";
 import { verificarUsuarioClient } from "../middlewares/auth.js";
-import { jwtValidation } from '../middlewares/jwt.middlewares.js'
 
 const router = Router();
 
+//const cartManager = new CartManager()  -- Lo comentado queda de ejemplo para hacer rutas sin capas
 
-
-//const cartManager = new CartManager()
-
-router.post(
-  "/",
-  addCartController
+// --- Crea un carrito para un usuario ---
+router.post("/", addCartController
   // async (req, res) => {
   //     const cart = req.body
   //     const addedCart = await cartManager.addCart(cart)
@@ -30,89 +26,31 @@ router.post(
   // }
 );
 
-router.get(
-  "/",
-  getCartsController
-  // async (req,res)=>{
-  //     const carts = await cartManager.getCarts()
-  //     res.json({mensaje: 'carritos encontrados', carritos: carts})
-  // }
-);
+// --- Trae carritos ---
+router.get("/", getCartsController);
 
-router.get(
-  "/:cid",
-  getCartByIdController
-  // async (req, res) => {
-  //     const cid = req.params.cid
-  //     const cartFoundById = await cartManager.getCartById(cid)
-  //     //res.json({ mensaje: "Carrito encontrado por id", carrito: cartFoundById })
-  //     let cart = cartFoundById.cart
-  //     res.render('cart', {cart})
-  // }
-);
+// --- Trae un carrito por id ---
+router.get("/:cid", getCartByIdController);
 
-router.post(
-  "/:cid/product/:pid", verificarUsuarioClient,
-  addProductToCartController
-  // async (req, res) => {
-  //     const cid = req.params.cid
-  //     const pid = req.params.pid
-  //     const addedProduct = await cartManager.addProductToCart(cid, pid)
-  //     res.json({ mensaje: `Producto agregado a carrito ${cid}`, carrito: addedProduct })
-  // }
-);
+// --- Agrega producto al carrito ---
+router.post("/:cid/product/:pid", verificarUsuarioClient, addProductToCartController);
 
-router.delete(
-  "/:cid/product/:pid",
-  deleteProductFromCartController
-  // async (req,res)=>{
-  //     const cid = req.params.cid
-  //     const pid = req.params.pid
-  //     const deletedProduct = await cartManager.deleteProductFromCart(cid, pid)
-  //     res.json({ mensaje: `Producto eliminado del carrito ${cid}`, carrito: deletedProduct })
+// --- Borra una unidad de un producto del carrito ---
+router.delete("/:cid/product/:pid", deleteProductFromCartController);
 
-  // }
-);
+// --- Elimina el carrito ---
+router.delete("/:cid", emptyCartController);
 
-router.delete(
-  "/:cid",
-  emptyCartController
-  // async(req,res)=>{
-  //     const cid = req.params.cid
-  //     const emptyCart = await cartManager.emptyCart(cid)
-  //     res.json({ mensaje: `Carrito ${cid} vaciado` })
-  // }
-);
+// --- Edita cantidad de productos de un carrito
+router.put("/:cid/product/:pid/:qty", editProductQtyController);
 
-router.put(
-  "/:cid/product/:pid/:qty",
-  editProductQtyController
-  // async (req,res)=>{
-  //     const cid = req.params.cid
-  //     const pid = req.params.pid
-  //     const quantity = req.body.quantity
-  //     //console.log('aca',quantity)
-  //     const editedProductQty = await cartManager.editProductQty(cid,pid,quantity)
-  //     res.json({mensaje: `Producto editado: ${editedProductQty}`})
-  // }
-);
+// --- Edita carrito ---
+router.put("/:cid", editCartController);
 
-router.put(
-  "/:cid",
-  editCartController
-  // async(req,res)=>{
-  //     const cid = req.params.cid
-  //     const newCart = req.body.cart
-  //     console.log(newCart)
-  //     const editedCart = await cartManager.editCart(cid, newCart)
-  //     res.json({mensaje: `Carrito editado: ${editedCart}`})
-  // }
-);
+// --- Elimina un producto del carrito ---
+router.delete("/:cid/product/:pid/erase", eraseProductFromCartController);
 
-router.delete("/:cid/product/:pid/erase", eraseProductFromCartController)
-
-router.post('/:cid/purchase', completeSaleController
-
-)
+// --- Completa la compra ---
+router.post("/:cid/purchase", completeSaleController);
 
 export default router;

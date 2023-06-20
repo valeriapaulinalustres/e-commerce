@@ -62,7 +62,7 @@
 .registro-container{
     display: flex;
     flex-direction: row;
-    justify-content: ;
+    justify-content: center;
     align-items: center;
 }
 

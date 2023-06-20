@@ -1,4 +1,3 @@
-
 import CustomError from "../../../utils/errors/CustomError.js";
 import {
   ErrorsCause,
@@ -27,7 +26,7 @@ export default class ProductManager {
     try {
       //.lean() para que devuelva en json y lo muestre handlebars
       const allProductsDB = await productsModel.paginate(filter, options);
-logger.info(allProductsDB)
+      logger.info(allProductsDB);
 
       if (!allProductsDB) {
         CustomError.createCustomError({
@@ -50,11 +49,11 @@ logger.info(allProductsDB)
           code: el.code,
           stock: el.stock,
           status: el.status,
-          id: el._id
+          id: el._id,
         };
       });
 
-      //-------------------------fin artilugio para que funcione handlebars--------------------
+      //---fin herramienta para que funcione handlebars---
 
       const response = {
         status: "success",
@@ -72,9 +71,9 @@ logger.info(allProductsDB)
           : null,
       };
 
-      logger.info("Productos encontrados con éxito"); //(JSON.stringify(response))
+      logger.info("Productos encontrados con éxito");
 
-      return { message: "Productos encontrados", products: products };
+      return { message: "Productos encontrados", products: products, totalPages: response.totalPages };
     } catch (error) {
       logger.error("Error desde el manager", error);
       return error;
@@ -151,7 +150,6 @@ logger.info(allProductsDB)
   }
 
   async deleteProduct(id, owner) {
-    console.log(owner)
     try {
       if (id.length != 24) {
         CustomError.createCustomError({
@@ -186,40 +184,42 @@ logger.info(allProductsDB)
         return;
       }
 
+      //Para enviar el mail al usuario avisando que el producto fue eliminado eliminado
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: `${config.GMAIL_USER}`,
+          pass: `${config.GMAIL_PASSWORD}`,
+        },
+      });
+      const emailPort = config.EMAIL_PORT || 8080;
 
-//Para enviar el mail al usuario avisando que el producto fue eliminado eliminado
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: `${config.GMAIL_USER}`,
-    pass: `${config.GMAIL_PASSWORD}`,
-  },
-});
-const emailPort = config.EMAIL_PORT || 8080;
+      const mailOptions = {
+        from: "valeriapaulinalustres@gmail.com",
+        to: `${owner.email}`,
+        subject: "Eliminación de producto",
+        text: `El producto eliminado es ${deletedProduct.title}`,
+        };
 
-const mailOptions = {
-  from: "valeriapaulinalustres@gmail.com",
-  to: `${owner.email}`,
-  subject: "Eliminación de producto",
-   text: `El producto eliminado es ${deletedProduct.title}`,
- // html: `<a href='https://ll-ecommerce-p4ro.vercel.app/api/regitro'><button>Recuperar contraseña</button></a>`,
-};
-
-transporter.sendMail(mailOptions, (err, response) => {
-  if (err) {
-    logger.error("Error al enviar el mail", err);
-  } else {
-    logger.info("Respuesta del mail", response);
-    response
-      .status(200)
-      .json("El email que informa al usuario que ha sido eliminado ha sido enviado");
-  }
-});
-
-
+      transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+          logger.error("Error al enviar el mail", err);
+        } else {
+          logger.info("Respuesta del mail", response);
+          response
+            .status(200)
+            .json(
+              "El email que informa al usuario que ha sido eliminado ha sido enviado"
+            );
+        }
+      });
 
       logger.info("Producto eliminado con éxito");
-      return { message: "Producto eliminado con éxito", deletedProduct, status: 'success' };
+      return {
+        message: "Producto eliminado con éxito",
+        deletedProduct,
+        status: "success",
+      };
     } catch (error) {
       logger.error("Error desde el manager", error);
       return error;
@@ -227,11 +227,6 @@ transporter.sendMail(mailOptions, (err, response) => {
   }
 
   async updateProduct(id, newProduct, owner) {
-   console.log('desde el manager', 'id',id, 'pr', newProduct, 'o', owner)
-
-// let owner = own.owner
-// let newProduct = product.updatedProduct
-
     try {
       if (id.length != 24) {
         CustomError.createCustomError({
@@ -248,7 +243,7 @@ transporter.sendMail(mailOptions, (err, response) => {
         !newProduct.price ||
         !newProduct.code ||
         !newProduct.stock ||
-        !newProduct.category 
+        !newProduct.category
       ) {
         CustomError.createCustomError({
           name: ErrorsName.PRODUCT_DATA_INCOMPLETE,
@@ -260,9 +255,6 @@ transporter.sendMail(mailOptions, (err, response) => {
       }
 
       let product = await productsModel.find({ _id: id });
-console.log(product) //array, lo trae bien
-//console.log('owner', owner.role)
-
       if (owner.role === "premium") {
         if (product[0].owner !== owner.email) {
           CustomError.createCustomError({
@@ -273,8 +265,6 @@ console.log(product) //array, lo trae bien
           return;
         }
       }
-
-
 
       const updatedProduct = await productsModel.findByIdAndUpdate(
         id,
@@ -290,8 +280,11 @@ console.log(product) //array, lo trae bien
         { new: true }
       );
       logger.info("Producto actualizado con éxito");
-      console.log(updatedProduct)
-      return { message: "Producto actualizado con éxito", updatedProduct, status: 'success' };
+      return {
+        message: "Producto actualizado con éxito",
+        updatedProduct,
+        status: "success",
+      };
     } catch (error) {
       logger.error("Error desde el manager", error);
       return error;
@@ -314,7 +307,6 @@ console.log(product) //array, lo trae bien
         });
 
         products.push(product);
-        // product.save();
       }
       logger.info("Productos falsos creados con éxito");
       return { message: "Productos creados con éxito", products };

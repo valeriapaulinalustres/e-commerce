@@ -5,9 +5,9 @@ import { hashPassword, comparePasswords, generateToken } from "../utils.js";
 import { Strategy as GithubStrategy } from "passport-github2";
 import UsersDBDTO from "../persistencia/DTO/usersDB.dto.js";
 import config from "../config.js";
-import {Strategy as GoogleStrategy} from 'passport-google-oauth20'
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { loginService } from "../services/users.services.js";
-
+import logger from "../utils/winston.js";
 
 // *** Passport Registro ***
 passport.use(
@@ -19,7 +19,6 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      console.log(req.body);
       try {
         const { first_name, last_name, age } = req.body;
         if (!first_name || !last_name || !age) {
@@ -47,7 +46,7 @@ passport.use(
           password: hashNewPassword,
           // cartId: ' ',
           role: userRole,
-          lastConnection: "0"//sirve para poder borrar los que se registraron y nunca se logearon, ruta api/users/ método delete
+          lastConnection: "0", //sirve para poder borrar los que se registraron y nunca se logearon, ruta api/users/ método delete
         };
 
         const newuserBD = await userModel.create(newUser);
@@ -71,32 +70,25 @@ passport.use(
     async (req, email, password, done) => {
       try {
         const user = await userModel.findOne({ email });
-        //acá si no existe el usuario tirar error
         if (user) {
           const isPassword = await comparePasswords(password, user.password);
 
           if (isPassword) {
-            console.log("Login realizado con éxito");
-
-            // req.session.fullName = user.full_name;
-            // req.session.email = user.email;
-            // req.session.password = user.password;
-            // req.session.role = user.role;
-            req.user = user; //funciona
+            logger.info("Login realizado con éxito");
+            req.user = user; 
             req.session.user = user;
-
-            req.session.save()
+            req.session.save();
             //actualiza fecha y hora de login
             const time = new Date();
-            const response = await loginService(req.user, time)
+            const response = await loginService(req.user, time);
 
             return done(null, response); //el primer null se refiere al error, lo segundo a si encontró usuario
           } else {
-            console.log("contraseñas no coinciden");
+            logger.error("contraseñas no coinciden");
             return done(null, false);
           }
         } else {
-          console.log("el usuario no existe");
+          logger.error("el usuario no existe");
           return done(null, false); //el usuario no existe
         }
       } catch (error) {
@@ -110,7 +102,7 @@ passport.use(
 passport.use(
   new GithubStrategy(
     {
-      clientID: "Iv1.672fec06309dff3d",// config.CLIENT_ID_GITHUB, con el config no funciona 
+      clientID: "Iv1.672fec06309dff3d", // config.CLIENT_ID_GITHUB, con el config no funciona
       clientSecret: "3ba2e70390df01fa7eb49cef3fbbe434b07ffefc", //config.CLIENT_SECRET_GITHUB, con el config no funciona
       callbackURL: "http://localhost:8080/api/users/github",
     },
@@ -131,39 +123,39 @@ passport.use(
       } else {
         done(null, user);
       }
-
-    
     }
   )
 );
 
 // *** Google Strategy ***
-passport.use('google', new GoogleStrategy({
-  clientID: '569130855734-ak7t8k24icf4qdj27ecmphvhhb9carm2.apps.googleusercontent.com', //config.CLIENT_ID_GOOGLE,
-  clientSecret: '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', //config.CLIENT_SECRET_GOOGLE,
-  callbackURL: "http://localhost:8080/api/users/google"
-},
-async function(accessToken, refreshToken, profile, done) {
-
-  const user = await userModel.findOne({ email: profile._json.email });
-  if (!user) {
-    console.log(profile);
-    const newUser = {
-      first_name: profile._json.given_name,
-      last_name: profile._json.family_name || " ",
-      email: profile._json.email,
-      password: " ",
-      age: 0,
-    
-    };
-    const userDB = await userModel.create(newUser);
-    done(null, userDB);
-  } else {
-   return done(null, user);
-  }
-
-}
-));
+passport.use(
+  "google",
+  new GoogleStrategy(
+    {
+      clientID:
+        "569130855734-ak7t8k24icf4qdj27ecmphvhhb9carm2.apps.googleusercontent.com", //config.CLIENT_ID_GOOGLE,
+      clientSecret: "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", //config.CLIENT_SECRET_GOOGLE,
+      callbackURL: "http://localhost:8080/api/users/google",
+    },
+    async function (accessToken, refreshToken, profile, done) {
+      const user = await userModel.findOne({ email: profile._json.email });
+      if (!user) {
+        console.log(profile);
+        const newUser = {
+          first_name: profile._json.given_name,
+          last_name: profile._json.family_name || " ",
+          email: profile._json.email,
+          password: " ",
+          age: 0,
+        };
+        const userDB = await userModel.create(newUser);
+        done(null, userDB);
+      } else {
+        return done(null, user);
+      }
+    }
+  )
+);
 
 passport.serializeUser((user, done) => {
   //serialize sirve para guardar la info de usuario en una cookie

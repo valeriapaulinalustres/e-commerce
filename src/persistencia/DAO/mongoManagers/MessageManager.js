@@ -1,3 +1,4 @@
+import logger from "../../../utils/winston.js";
 import { messagesModel } from "../../mongodb/models/messages.model.js";
 
 export default class MessageManager {
@@ -6,7 +7,7 @@ export default class MessageManager {
             const newMessage = await messagesModel.create(message) 
             return newMessage
         } catch (error) {
-            console.log(error)
+            logger.error("error", error)
             return error
         }
     }
@@ -16,7 +17,7 @@ export default class MessageManager {
             const messages = await messagesModel.find().lean()
             return messages
         } catch (error) {
-            console.log(error)
+            logger.error('error', error)
             return error
         }
     }
