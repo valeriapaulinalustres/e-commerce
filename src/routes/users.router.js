@@ -72,12 +72,13 @@ router.get(
 router.get("/github", passport.authenticate("github"), (req, res) => {
   // req.session.email = req.user.email;
   // res.redirect(FRONT_URL);
+  const user = JSON.stringify(req.user)
   res.status(200).send(`
   <!DOCTYPE html>
   <html lang="en">
   <body></body>
   <script>
-  window.opener.postMessage(${{email: req.user.email, full_name: req.user.full_name, role: req.user.role }}, "https://ll-ecommerce-p4ro.vercel.app/")
+  window.opener.postMessage(${{email: user.email, full_name: user.full_name, role: user.role }}, "https://ll-ecommerce-p4ro.vercel.app/")
   </script>
   </html>
   `)
