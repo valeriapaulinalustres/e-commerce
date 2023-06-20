@@ -104,7 +104,7 @@ passport.use(
     {
       clientID: "Iv1.672fec06309dff3d", // config.CLIENT_ID_GITHUB, con el config no funciona
       clientSecret: "3ba2e70390df01fa7eb49cef3fbbe434b07ffefc", //config.CLIENT_SECRET_GITHUB, con el config no funciona
-      callbackURL: "http://localhost:8080/api/users/github",
+      callbackURL: "https://e-commerce-production-8113.up.railway.app/api/users/github",
     },
     async function (accessToken, refreshToken, profile, done) {
       const user = await userModel.findOne({ email: profile._json.email });

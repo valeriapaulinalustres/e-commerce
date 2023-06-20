@@ -3,3 +3,4 @@ export const FRONT_URL = 'https://ll-ecommerce-p4ro.vercel.app/' //esta sirve pa
 
 
 //userManager 154 dejo fijo en vercel
+//passportStrategies 107 dejo fijo en railway 
