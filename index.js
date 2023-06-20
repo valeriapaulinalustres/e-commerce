@@ -24,13 +24,20 @@ import { createLog } from "./src/middlewares/winston.middleware.js";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSetup } from "./src/swaggerSpecs.js";
+import { FRONT_URL } from "./src/utils/mainRoute.js";
 
 const app = express();
 const messageManager = new MessageManager();
 
 // MIDDLEWARES
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+  {
+    origin: FRONT_URL,
+    methods: "GET, POST, PUT, DELETE",
+    credentials: true
+  }
+));
 app.use(express.urlencoded({ extended: true }));
 //cookie parser (para guardar id de session)
 app.use(cookieParser());
