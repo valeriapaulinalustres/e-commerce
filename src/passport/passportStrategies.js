@@ -159,7 +159,7 @@ passport.use(
 
 passport.serializeUser((user, done) => {
   //serialize sirve para guardar la info de usuario en una cookie
-  console.log(user);
+  console.log('desde el serialize user',user);
   done(null, user._id); //esto sirve para que cada vez que se ejecute el done, se guarde el user id en una cookie.Se recupera con req['user']
 });
 
