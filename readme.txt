@@ -1,3 +1,5 @@
+
+
 Rutas:
 
 Products:
@@ -61,8 +63,3 @@ Real Time:
 Mock:
 'api/products/mockingproducts' mock de productos
 
-
-Deploy Fullstack:
-https://ll-e-commerce-nrxo.vercel.app/
-
-https://www.linkedin.com/pulse/recuperar-cuenta-restaurando-contrase%C3%B1a-password-con-y-miguel-%C3%A1ngel/?originalSubdomain=es
