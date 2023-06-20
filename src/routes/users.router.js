@@ -71,7 +71,7 @@ router.get(
 
 router.get("/github", passport.authenticate("github"), (req, res) => {
   req.session.email = req.user.email;
-  res.redirect(FRONT_URL).json({user: req.user});
+  res.redirect(FRONT_URL);
   // const user = JSON.stringify(req.user)
   // res.status(200).send(`
   // <!DOCTYPE html>
