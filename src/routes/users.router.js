@@ -19,6 +19,7 @@ import {
 import logger from "../utils/winston.js";
 import { upload } from "../middlewares/multer.js";
 import { FRONT_URL } from "../utils/mainRoute.js";
+import '../passport/passportStrategies.js'
 
 const router = Router();
 
@@ -66,16 +67,18 @@ router.post("/logout", logoutController);
 // --- Registro con Github ---
 router.get(
   "/registroGithub",
-  passport.authenticate("github", { scope: ["user:email"] })
+  passport.authenticate("github", { scope: ["user:email"], session: false })
 );
 
-router.get("/github", passport.authenticate("github",
+router.get("/github", passport.authenticate("github", 
+{ scope: ["user:email"], session: false }
 ),
 (req, res) => {
   //   req.session.email = req.user.email;
   //  res.redirect(FRONT_URL);
-  res.status(200).json(req.user)
   console.log('del userRouter', req.user)
+  res.status(200).json(req.user)
+
     //const user = JSON.stringify(req.user)
     // res.status(200).send(`
     // <!DOCTYPE html>

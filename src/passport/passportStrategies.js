@@ -99,7 +99,7 @@ passport.use(
 );
 
 // *** Github Strategy ***
-passport.use(
+passport.use("github",
   new GithubStrategy(
     {
       clientID: "Iv1.672fec06309dff3d", // config.CLIENT_ID_GITHUB, con el config no funciona
@@ -125,6 +125,7 @@ passport.use(
       //   console.log('del passport', user)
       //   done(null, user);
       // }
+      console.log('del passport profile', profile)
       done(null,profile)
     }
   
