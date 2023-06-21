@@ -119,9 +119,9 @@ passport.use(
           cartId: 0,
         };
         const userDB = await userModel.create(newUser);
-        done(null, userDB);
+       return  done(null, userDB);
       } else {
-        done(null, user);
+       return  done(null, user);
       }
     }
   )
