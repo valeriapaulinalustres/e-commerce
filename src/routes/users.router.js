@@ -70,23 +70,25 @@ router.get(
 );
 
 router.get("/github", passport.authenticate("github",
+),
 (req, res) => {
-//   req.session.email = req.user.email;
-//  res.redirect(FRONT_URL);
-res.status(200).json(req.user)
-console.log('del userRouter', req.user)
-  //const user = JSON.stringify(req.user)
-  // res.status(200).send(`
-  // <!DOCTYPE html>
-  // <html lang="en">
-  // <body></body>
-  // <script>
-  // window.opener.postMessage(${user}, "https://ll-ecommerce-p4ro.vercel.app");
-  //  localStorage.setItem("User", ${user})
-  // </script>
-  // </html>
-  // `)
-}));
+  //   req.session.email = req.user.email;
+  //  res.redirect(FRONT_URL);
+  res.status(200).json(req.user)
+  console.log('del userRouter', req.user)
+    //const user = JSON.stringify(req.user)
+    // res.status(200).send(`
+    // <!DOCTYPE html>
+    // <html lang="en">
+    // <body></body>
+    // <script>
+    // window.opener.postMessage(${user}, "https://ll-ecommerce-p4ro.vercel.app");
+    //  localStorage.setItem("User", ${user})
+    // </script>
+    // </html>
+    // `)
+  }
+);
 
 // --- Registro con Google ---
 router.get(
