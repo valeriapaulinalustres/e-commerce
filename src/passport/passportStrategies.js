@@ -107,30 +107,27 @@ passport.use(
       callbackURL: "https://e-commerce-production-8113.up.railway.app/api/users/github",
     },
     async function (accessToken, refreshToken, profile, done) {
-      const user = await userModel.findOne({ email: profile._json.email });
-      if (!user) {
-        console.log(profile);
-        const newUser = {
-          first_name: profile._json.name.split(" ")[0],
-          last_name: profile._json.name.split(" ")[1] || " ",
-          email: profile._json.email,
-          password: " ",
-          age: 0,
-          cartId: 0,
-        };
-        const userDB = await userModel.create(newUser);
+      // const user = await userModel.findOne({ email: profile._json.email });
+      // if (!user) {
+      //   console.log(profile);
+      //   const newUser = {
+      //     first_name: profile._json.name.split(" ")[0],
+      //     last_name: profile._json.name.split(" ")[1] || " ",
+      //     email: profile._json.email,
+      //     password: " ",
+      //     age: 0,
+      //     cartId: 0,
+      //   };
+      //   const userDB = await userModel.create(newUser);
         
-       return  done(null, userDB);
-      } else {
-        console.log('del passport', user)
-       return  done(null, user);
-      }
+      //   done(null, userDB);
+      // } else {
+      //   console.log('del passport', user)
+      //   done(null, user);
+      // }
+      done(null,profile)
     }
-    // function(accessToken, refreshToken, profile, done) {
-    //   User.findOrCreate({ githubId: profile.id }, function (err, user) {
-    //     return done(err, user);
-    //   });
-    // }
+  
   )
 );
 
