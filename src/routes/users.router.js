@@ -80,7 +80,8 @@ console.log('del userRouter', req.user)
   <html lang="en">
   <body></body>
   <script>
-  window.opener.postMessage(${user}, "https://ll-ecommerce-p4ro.vercel.app")
+  window.opener.postMessage(${user}, "https://ll-ecommerce-p4ro.vercel.app");
+   localStorage.setItem("User", ${user})
   </script>
   </html>
   `)
