@@ -78,7 +78,7 @@ router.get("/github", passport.authenticate("github",
   //  res.redirect(FRONT_URL);
 
 
-  // console.log('del userRouter', req.user)
+   console.log('del userRouter', req.user)
   // res.status(200).json(req.user)
 
     const user = JSON.stringify(req.user)
