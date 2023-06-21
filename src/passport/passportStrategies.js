@@ -119,13 +119,39 @@ passport.use(
           cartId: 0,
         };
         const userDB = await userModel.create(newUser);
+        
        return  done(null, userDB);
       } else {
+        console.log('del passport', user)
        return  done(null, user);
       }
     }
+    // function(accessToken, refreshToken, profile, done) {
+    //   User.findOrCreate({ githubId: profile.id }, function (err, user) {
+    //     return done(err, user);
+    //   });
+    // }
   )
 );
+
+// async function (accessToken, refreshToken, profile, done) {
+//   const user = await userModel.findOne({ email: profile._json.email });
+//   if (!user) {
+//     console.log(profile);
+//     const newUser = {
+//       first_name: profile._json.name.split(" ")[0],
+//       last_name: profile._json.name.split(" ")[1] || " ",
+//       email: profile._json.email,
+//       password: " ",
+//       age: 0,
+//       cartId: 0,
+//     };
+//     const userDB = await userModel.create(newUser);
+//    return  done(null, userDB);
+//   } else {
+//    return  done(null, user);
+//   }
+// }
 
 // *** Google Strategy ***
 passport.use(
