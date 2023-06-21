@@ -107,26 +107,26 @@ passport.use("github",
       callbackURL: "https://e-commerce-production-8113.up.railway.app/api/users/github",
     },
     async function (accessToken, refreshToken, profile, done) {
-      // const user = await userModel.findOne({ email: profile._json.email });
-      // if (!user) {
-      //   console.log(profile);
-      //   const newUser = {
-      //     first_name: profile._json.name.split(" ")[0],
-      //     last_name: profile._json.name.split(" ")[1] || " ",
-      //     email: profile._json.email,
-      //     password: " ",
-      //     age: 0,
-      //     cartId: 0,
-      //   };
-      //   const userDB = await userModel.create(newUser);
+      const user = await userModel.findOne({ email: profile._json.email });
+      if (!user) {
+        console.log(profile);
+        const newUser = {
+          first_name: profile._json.name.split(" ")[0],
+          last_name: profile._json.name.split(" ")[1] || " ",
+          email: profile._json.email,
+          password: " ",
+          age: 0,
+          cartId: 0,
+        };
+        const userDB = await userModel.create(newUser);
         
-      //   done(null, userDB);
-      // } else {
-      //   console.log('del passport', user)
-      //   done(null, user);
-      // }
-      console.log('del passport profile', profile)
-      done(null,profile)
+        done(null, userDB);
+      } else {
+        console.log('del passport', user)
+        done(null, user);
+      }
+      // console.log('del passport profile', profile)
+      // done(null,profile)
     }
   
   )
