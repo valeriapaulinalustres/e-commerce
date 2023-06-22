@@ -1,13 +1,19 @@
-<h1>Centro de mensajes</h1>
+<h1 class="subtitle">Centro de mensajes</h1>
+<div class="msgContainer">
+
+<div id="chat">
+</div>
+
 <h2>Ingresar Mensaje</h2>
 <form id="formularioChat">
     <input type="text" name="alias" id="alias" placeholder="Escribe tu nombre" required>
     <input type="text" name="message" id="message" placeholder="Escribe tu mensaje" required>
-    <input type="submit" value="Enviar">
+    <input type="submit" value="Enviar" class="button">
 </form>
 
-<div id="chat">
+
 </div>
+
 
 
 {{!-- el chat se encuentra en public/hbs/chat porque fectch no funcionaba de otra forma --}}

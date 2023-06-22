@@ -5,7 +5,7 @@ import { verificarUsuarioClient } from "../../middlewares/auth.js";
 
 const messageManager = new MessageManager();
 
-router.get("/", verificarUsuarioClient, async (req, res) => {
+router.get("/", async (req, res) => {
   let chat = await messageManager.getMessages();
   res.render("chat", { chat });
 });
