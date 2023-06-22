@@ -17,7 +17,7 @@ const router = Router();
 
 //const cartManager = new CartManager()  -- Lo comentado queda de ejemplo para hacer rutas sin capas
 
-// --- Crea un carrito para un usuario ---
+// --- Crea un carrito para un usuario --- Queda comentada para recordar cómo se hacía una ruta sin capas
 router.post("/", addCartController
   // async (req, res) => {
   //     const cart = req.body

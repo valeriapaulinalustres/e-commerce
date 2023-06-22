@@ -96,13 +96,16 @@ router.get("/github", passport.authenticate("github",
 // --- Registro con Google ---
 router.get(
   "/registroGoogle",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"], session: false  })
 );
 
-router.get("/google", passport.authenticate("google"), function (req, res) {
+router.get("/google", passport.authenticate("google",{ scope: ["user:email"], session: false }), 
+function (req, res) {
   req.session.email = req.user.email;
+  console.log('del userRouter', req.user)
+  res.status(200).json(req.user)
   // Successful authentication, redirect home.
-  res.redirect(FRONT_URL);
+  //res.redirect(FRONT_URL);
 });
 
 // --- Trae datos del usuario ---
